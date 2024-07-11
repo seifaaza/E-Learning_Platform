@@ -86,7 +86,7 @@ export default function Home() {
       key={index}
       className="sm:w-1/2 bg-slate-900 p-3 sm:p-4 lg:p-5 xl:p-6 rounded-lg"
     >
-      <div className="flex items-center gap-2 xl:gap-3 mb-2">
+      <div className="flex items-center gap-2 xl:gap-3 mb-[6px] md:mb-2">
         <svg
           className="w-5 md:w-6 xl:w-8 h-5 md:h-6 xl:h-8 text-white"
           fill="currentColor"
@@ -95,12 +95,14 @@ export default function Home() {
         >
           {feature.icon}
         </svg>
-        <h3 className="text-lg md:text-xl font-bold text-white capitalize">
+        <h3 className=" text-lg md:text-xl font-bold text-white capitalize">
           {" "}
           {feature.title}
         </h3>
       </div>
-      <p className="text-gray-200 text-left">{feature.description}</p>
+      <p className="text-sm md:text-base text-gray-200 text-left">
+        {feature.description}
+      </p>
     </div>
   ));
 
@@ -146,13 +148,13 @@ export default function Home() {
   return (
     <div className="h-[calc(100vh-61px)] bg-black relative isolate overflow-hidden">
       {backgroundShapes}
-      <section className=" h-full flex justify-center items-center relative">
+      <section className="pt-10 lg:pt-0 h-full flex md:justify-center items-center relative">
         <div className="container mx-auto px-4 lg:px-10 xl:px-20 flex flex-col lg:flex-row justify-center xl:justify-between items-center gap-8 sm:gap-10 lg:gap-20">
           {content}
           <img
             src="/character.svg"
             alt="character"
-            className="w-56 sm:w-72 md:w-80 lg:w-[22rem] xl:w-[27rem]"
+            className="w-52 sm:w-72 md:w-80 lg:w-[22rem] xl:w-[27rem]"
           />
 
           {characterShapes}

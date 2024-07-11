@@ -15,11 +15,11 @@ const Lesson: React.FC<LessonProps> = ({ params }) => {
   console.log(params.lessonId);
 
   return (
-    <section className="container xl:px-8 py-12 flex flex-col gap-6 lg:gap-10 lg:flex-row lg:justify-between">
+    <section className="container px-3 xl:px-8 py-12 flex flex-col gap-6 lg:gap-10 lg:flex-row lg:justify-between">
       <div className="w-full">
         <VideoPlayer />
         <div className="xl:ml-6 mt-4 xl:mt-8 flex items-center gap-4">
-          <Alert className="flex items-center bg-transparent !border-gray-800 text-gray-200 w-fit">
+          <Alert className=" flex items-center bg-transparent !border-gray-800 text-gray-200 w-fit">
             <BsGlobe className="h-[.9rem] md:h-4 !text-gray-300" />
             <p className="capitalize !leading-[1.2rem] text-sm md:text-base">
               English
@@ -48,7 +48,7 @@ const Lesson: React.FC<LessonProps> = ({ params }) => {
           <h3 className="text-lg text-white capitalize font-medium">
             Description:
           </h3>
-          <p className="font-light text-sm text-gray-300">
+          <p className="font-light text-sm text-gray-300 leading-[1.6]">
             Flowbite helps you connect with friends and communities of people
             who share your interests. Connecting with your friends and family,
             Flowbite helps you connect with friends and communities of people

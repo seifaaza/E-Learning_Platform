@@ -23,7 +23,7 @@ import { Button } from "./button";
 import { Separator } from "@/components/ui/separator";
 
 export default function Navbar() {
-  const isAuth = false;
+  const isAuth = true;
   const profileContent = (
     <SheetHeader className="mb-8">
       <BsPersonCircle className="text-white mx-auto text-7xl md:text-8xl lg:text-9xl opacity-40 my-3 mt-6" />
@@ -76,7 +76,7 @@ export default function Navbar() {
     </div>
   );
   const navbarContent = (
-    <div className="flex justify-center items-center gap-2 ">
+    <div className="bg-black flex justify-center items-center gap-2 ">
       <Link href="/lessons">
         <Button
           variant="link"
