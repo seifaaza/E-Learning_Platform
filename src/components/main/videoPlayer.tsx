@@ -1,10 +1,14 @@
 "use client";
+import React, { useRef, useEffect } from "react";
 
-import { useRef, useEffect } from "react";
+interface VideoPlayerProps {
+  videoSrc: string;
+  pausedTime: number;
+}
 
-const VideoPlayer: React.FC = () => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoSrc, pausedTime }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const startTime = 5; // Specify the start time in seconds
+  const startTime = pausedTime;
 
   useEffect(() => {
     if (videoRef.current) {
@@ -13,12 +17,9 @@ const VideoPlayer: React.FC = () => {
   }, [startTime]);
 
   return (
-    <div className="w-full xl:w-11/12 mx-auto rounded-lg overflow-hidden">
+    <div className="w-full xl:w-11/12 rounded-lg overflow-hidden">
       <video ref={videoRef} controls className="w-full">
-        <source
-          src="https://www.w3schools.com/html/mov_bbb.mp4"
-          type="video/mp4"
-        />
+        <source src={videoSrc} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>

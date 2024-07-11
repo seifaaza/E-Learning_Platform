@@ -24,7 +24,7 @@ const WatchingItem: React.FC<WatchingItemProps> = ({ params }) => {
       <div className="mt-6 flex flex-col gap-6 lg:gap-4 xl:gap-0 lg:flex-row lg:justify-between">
         <ItemContent
           videoSrc="https://www.w3schools.com/html/mov_bbb.mp4"
-          pausedTime={0}
+          pausedTime={5}
           language="english"
           date="April 2015"
           title="Watching Item with Language"

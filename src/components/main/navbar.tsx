@@ -17,10 +17,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import SignUp from "@/app/auth/SignUp";
-import SignIn from "@/app/auth/SignIn";
-import { Button } from "./button";
+
+import { Button } from "../ui/button";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
+import SignIn from "@/components/main/auth/signIn";
+import SignUp from "@/components/main/auth/signUp";
 
 export default function Navbar() {
   const isAuth = true;
@@ -76,7 +78,7 @@ export default function Navbar() {
     </div>
   );
   const navbarContent = (
-    <div className="bg-black flex justify-center items-center gap-2 ">
+    <div className=" flex justify-center items-center gap-2 ">
       <Link href="/lessons">
         <Button
           variant="link"
@@ -97,10 +99,10 @@ export default function Navbar() {
     </div>
   );
   return (
-    <header className=" border-b-[1px] !border-gray-800 sticky top-0 z-10">
+    <header className="bg-black border-b-[1px] !border-gray-800 sticky top-0 z-10">
       <nav className=" container px-4 lg:px-6 py-2.5 flex justify-between items-center">
         <Link href="/">
-          <img src="/logo.svg" className="h-7" alt="Flowbite Logo" />
+          <Image src="/logo.svg" height={40} width={40} alt="Flowbite Logo" />
         </Link>
         {isAuth ? navbarContent : ""}
         {isAuth ? profileAvatar : account}

@@ -1,4 +1,12 @@
-export default function Home() {
+import React from "react";
+
+interface Feature {
+  title: string;
+  description: string;
+  icon: JSX.Element;
+}
+
+const Home: React.FC = () => {
   const backgroundShapes = (
     <>
       <img
@@ -59,7 +67,7 @@ export default function Home() {
     </>
   );
 
-  const featuresList = [
+  const featuresList: Feature[] = [
     {
       title: "interactive video",
       description:
@@ -74,13 +82,14 @@ export default function Home() {
         "Test your knowledge with interactive quizzes and track your progress.",
       icon: (
         <path
-          fill-rule="evenodd"
+          fillRule="evenodd"
           d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z"
-          clip-rule="evenodd"
+          clipRule="evenodd"
         ></path>
       ),
     },
   ];
+
   const features = featuresList.map((feature, index) => (
     <div
       key={index}
@@ -96,7 +105,6 @@ export default function Home() {
           {feature.icon}
         </svg>
         <h3 className=" text-lg md:text-xl font-bold text-white capitalize">
-          {" "}
           {feature.title}
         </h3>
       </div>
@@ -145,6 +153,7 @@ export default function Home() {
       />
     </>
   );
+
   return (
     <div className="h-[calc(100vh-61px)] bg-black relative isolate overflow-hidden">
       {backgroundShapes}
@@ -156,10 +165,11 @@ export default function Home() {
             alt="character"
             className="w-52 sm:w-72 md:w-80 lg:w-[22rem] xl:w-[27rem]"
           />
-
           {characterShapes}
         </div>
       </section>
     </div>
   );
-}
+};
+
+export default Home;
