@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Heading from "@/components/main/heading";
 import WatchingList from "./watchingList";
+import ListLoader from "@/components/main/loaders/listLoader";
 
 export default function InProgress() {
   return (
@@ -10,7 +11,9 @@ export default function InProgress() {
         subtitle="Access videos you've started watching but haven't completed."
       />
       <div className="mt-8 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-        <WatchingList />
+        <Suspense fallback={<ListLoader />}>
+          <WatchingList />
+        </Suspense>
       </div>
     </section>
   );

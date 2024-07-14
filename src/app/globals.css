@@ -45,7 +45,9 @@
   }
   body {
       @apply bg-background text-foreground bg-black;
-
   }
 }
 
+.progress-bar > div{
+  @apply bg-white
+}

@@ -1,5 +1,5 @@
+"use client";
 import React from "react";
-
 interface Feature {
   title: string;
   description: string;
@@ -17,7 +17,7 @@ const Home: React.FC = () => {
       <img
         src="/blur-2.png"
         alt="ss"
-        className="absolute bottom-44 -left-1/4 w-2/3 -z-10 opacity-80"
+        className="absolute bottom-44 -left-1/4 w-2/3 -z-10"
       />
       <img
         src="/blur-3.png"
@@ -27,32 +27,32 @@ const Home: React.FC = () => {
       <img
         src="/blur-4.png"
         alt="ss"
-        className="absolute top-0 left-1/4 h-2/3 -z-10 opacity-50"
+        className="absolute top-0 left-1/4 h-2/3 -z-10"
       />
       <img
         src="/shape.svg"
         alt="ss"
-        className="absolute top-24 -left-12 w-64 -z-10 opacity-50"
+        className="absolute top-24 -left-12 w-64 -z-10"
       />
       <img
         src="/shape.svg"
         alt="ss"
-        className="absolute bottom-16 left-12 w-32 -z-10 opacity-50"
+        className="absolute bottom-16 left-12 w-32 -z-10"
       />
       <img
         src="/shape.svg"
         alt="ss"
-        className="absolute top-6 left-1/3 w-80 -z-10 opacity-50"
+        className="absolute top-6 left-1/3 w-80 -z-10"
       />
       <img
         src="/shape.svg"
         alt="ss"
-        className="absolute top-1/4 -right-12 w-96 -z-10 opacity-50"
+        className="absolute top-1/4 -right-12 w-96 -z-10"
       />
       <img
         src="/shape.svg"
         alt="ss"
-        className="absolute -bottom-2 left-1/4 w-52 -z-10 opacity-50"
+        className="absolute -bottom-2 left-1/4 w-52 -z-10"
       />
       <img
         src="/shape-2.svg"
@@ -155,7 +155,7 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="h-[calc(100vh-61px)] bg-black relative isolate overflow-hidden">
+    <div className="h-[calc(100vh-62px)] bg-black relative isolate overflow-hidden">
       {backgroundShapes}
       <section className="pt-10 lg:pt-0 h-full flex md:justify-center items-center relative">
         <div className="container mx-auto px-4 lg:px-10 xl:px-20 flex flex-col lg:flex-row justify-center xl:justify-between items-center gap-8 sm:gap-10 lg:gap-20">

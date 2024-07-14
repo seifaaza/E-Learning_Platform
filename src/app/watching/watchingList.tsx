@@ -36,7 +36,7 @@ const WatchingList: React.FC = () => {
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
       enable-background="new 0 0 512 512"
-      className="absolute w-10 md:w-12 top-[42%] md:top-[45%] left-1/2 -translate-y-1/2 -translate-x-1/2"
+      className="absolute w-10 md:w-12 top-[45%] left-1/2 -translate-y-1/2 -translate-x-1/2"
     >
       <path
         d="M224 435.8V76.1c0-6.7-5.4-12.1-12.2-12.1h-71.6c-6.8 0-12.2 5.4-12.2 12.1v359.7c0 6.7 5.4 12.2 12.2 12.2h71.6c6.8 0 12.2-5.4 12.2-12.2zM371.8 64h-71.6c-6.7 0-12.2 5.4-12.2 12.1v359.7c0 6.7 5.4 12.2 12.2 12.2h71.6c6.7 0 12.2-5.4 12.2-12.2V76.1c0-6.7-5.4-12.1-12.2-12.1z"
@@ -54,12 +54,12 @@ const WatchingList: React.FC = () => {
 
   return (
     <>
-      {items.map((lesson) => (
-        <Link href={`/in-progress/${lesson.id}`} key={lesson.id}>
+      {items.map((item) => (
+        <Link href={`/watching/${item.id}`} key={item.id}>
           <Card
-            img={lesson.img}
-            title={lesson.title}
-            description={lesson.description}
+            img={item.img}
+            title={item.title}
+            description={item.description}
             icon={pauseIcon}
             progress={videoProgress}
           />

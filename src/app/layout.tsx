@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/main/navbar";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import Providers from "@/components/main/ProgressBarProvider";
 
 export const metadata: Metadata = {
   title: "Learnify",
@@ -16,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar />
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
