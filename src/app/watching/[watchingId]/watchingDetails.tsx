@@ -36,7 +36,6 @@ const WatchingDetails: React.FC<WatchingDetailsProps> = ({ watchingId }) => {
           tags={lesson.tags}
           language={lesson.language}
           date={formatDate(lesson.created_at)}
-          isLoading={loading}
         />
       )}
     </>

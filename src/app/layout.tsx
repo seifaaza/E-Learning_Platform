@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import SessionProvider from "@/lib/sessionProvider";
 import Providers from "@/components/main/ProgressBarProvider";
 import Navbar from "@/components/main/navbar/page";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"; // Adjust the path as needed
+import authOptions from "./api/auth/nextAuthOptions";
 
 export const metadata: Metadata = {
   title: "Learnify",
