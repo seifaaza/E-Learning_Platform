@@ -1,19 +1,17 @@
-"use client";
-
 import ItemContent from "@/components/main/itemContent";
-import { lessonStore } from "@/store/lessonStoe";
-import React, { useEffect } from "react";
+import axios from "axios";
 
 interface LessonDetailsProps {
   lessonId: string;
 }
 
-const LessonDetails: React.FC<LessonDetailsProps> = ({ lessonId }) => {
-  const { lesson, loading, fetchLessonById } = lessonStore();
+const LessonDetails: React.FC<LessonDetailsProps> = async ({ lessonId }) => {
+  const fetchLessonById = async (id: string) => {
+    const response = await axios.get(`http://localhost:3000/api/lessons/${id}`);
+    return response.data;
+  };
 
-  useEffect(() => {
-    fetchLessonById(lessonId);
-  }, [lessonId, fetchLessonById]);
+  const lesson = await fetchLessonById(lessonId);
 
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -36,7 +34,6 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({ lessonId }) => {
           tags={lesson.tags}
           language={lesson.language}
           date={formatDate(lesson.created_at)}
-          isLoading={loading}
         />
       )}
     </>

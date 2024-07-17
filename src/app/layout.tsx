@@ -1,24 +1,29 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/main/navbar";
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { getServerSession } from "next-auth";
+import SessionProvider from "@/lib/sessionProvider";
 import Providers from "@/components/main/ProgressBarProvider";
+import Navbar from "@/components/main/navbar/page";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"; // Adjust the path as needed
 
 export const metadata: Metadata = {
   title: "Learnify",
   description: "E-learning platform",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const session = await getServerSession(authOptions); // Pass authOptions here
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        <Providers>{children}</Providers>
+        <SessionProvider session={session}>
+          <Navbar />
+          <Providers>{children}</Providers>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -1,9 +1,6 @@
-"use client";
-
 import Link from "next/link";
+import axios from "axios";
 import Card from "@/components/main/card";
-import { lessonStore } from "@/store/lessonStoe";
-import { Skeleton } from "@/components/ui/skeleton";
 
 // Define the Lesson interface
 interface Lesson {
@@ -13,9 +10,17 @@ interface Lesson {
   description: string;
 }
 
-const LessonsList: React.FC = () => {
-  const { lessons, loading } = lessonStore();
+interface LessonsListProps {
+  lessons?: Lesson[];
+}
 
+const LessonsList: React.FC<LessonsListProps> = async ({ lessons }) => {
+  try {
+    const response = await axios.get(`http://localhost:3000/api/lessons`);
+    lessons = response.data;
+  } catch (error) {
+    console.error("Error fetching lessons:", error);
+  }
   const playIcon = (
     <svg
       viewBox="0 0 512 512"
@@ -32,7 +37,7 @@ const LessonsList: React.FC = () => {
 
   return (
     <>
-      {lessons &&
+      {lessons && lessons.length > 0 ? (
         lessons.map((item: Lesson) => (
           <Link href={`/lessons/${item._id}`} key={item._id}>
             <Card
@@ -40,10 +45,12 @@ const LessonsList: React.FC = () => {
               title={item.title}
               description={item.description}
               icon={playIcon}
-              isLoading={loading}
             />
           </Link>
-        ))}
+        ))
+      ) : (
+        <p>hh</p>
+      )}
     </>
   );
 };

@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BsChevronLeft } from "react-icons/bs";
 import LessonDetails from "./lessonDetails";
+import { Suspense } from "react";
+import DetailsLoader from "@/components/main/loaders/detailsLoader";
 
 interface LessonItemProps {
   params: {
@@ -19,7 +21,9 @@ const LessonItem: React.FC<LessonItemProps> = ({ params: { lessonId } }) => {
         </Button>
       </Link>
       <div className="mt-6 flex flex-col gap-10 xl:gap-12 lg:flex-row lg:justify-between">
-        <LessonDetails lessonId={lessonId} />
+        <Suspense fallback={<DetailsLoader />}>
+          <LessonDetails lessonId={lessonId} />
+        </Suspense>
       </div>
     </section>
   );

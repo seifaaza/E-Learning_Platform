@@ -61,7 +61,6 @@ const WatchingList: React.FC = () => {
             title={item.title}
             description={item.description}
             icon={pauseIcon}
-            progress={videoProgress}
           />
         </Link>
       ))}

@@ -91,11 +91,11 @@ const Home: React.FC = () => {
   ];
 
   const features = featuresList.map((feature, index) => (
-    <div
+    <li
       key={index}
       className="sm:w-1/2 bg-slate-900 p-3 sm:p-4 lg:p-5 xl:p-6 rounded-lg"
     >
-      <div className="flex items-center gap-2 xl:gap-3 mb-[6px] md:mb-2">
+      <ol className="flex items-center gap-2 xl:gap-3 mb-[6px] md:mb-2">
         <svg
           className="w-5 md:w-6 xl:w-8 h-5 md:h-6 xl:h-8 text-white"
           fill="currentColor"
@@ -107,15 +107,15 @@ const Home: React.FC = () => {
         <h3 className=" text-lg md:text-xl font-bold text-white capitalize">
           {feature.title}
         </h3>
-      </div>
+      </ol>
       <p className="text-sm md:text-base text-gray-200 text-left">
         {feature.description}
       </p>
-    </div>
+    </li>
   ));
 
   const content = (
-    <div className=" place-self-center lg:col-span-7 text-center lg:text-left">
+    <li className=" place-self-center lg:col-span-7 text-center lg:text-left">
       <h1 className="max-w-2xl mb-4 text-3xl sm:text-4xl font-black italic !leading-tight tracking-tight md:text-5xl xl:text-[3.2rem] text-white">
         Interactive Learning, Infinite Possibilities !
       </h1>
@@ -123,10 +123,10 @@ const Home: React.FC = () => {
         Unlock your potential with our interactive e-learning platform, Engage
         with video lessons and quizzes.
       </p>
-      <div className="lg:mt-8 xl:mt-10 flex flex-col sm:flex-row gap-x-8 xl:gap-x-6 gap-y-2 md:gap-12 max-w-2xl">
+      <ol className="lg:mt-8 xl:mt-10 flex flex-col sm:flex-row gap-x-8 xl:gap-x-6 gap-y-2 md:gap-12 max-w-2xl">
         {features}
-      </div>
-    </div>
+      </ol>
+    </li>
   );
 
   const characterShapes = (
@@ -155,10 +155,10 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="h-[calc(100vh-62px)] bg-black relative isolate overflow-hidden">
+    <section className="h-[calc(100svh-62px)] bg-black relative isolate overflow-hidden">
       {backgroundShapes}
-      <section className="pt-10 lg:pt-0 h-full flex md:justify-center items-center relative">
-        <div className="container mx-auto px-4 lg:px-10 xl:px-20 flex flex-col lg:flex-row justify-center xl:justify-between items-center gap-8 sm:gap-10 lg:gap-20">
+      <article className="pt-10 lg:pt-0 h-full flex md:justify-center items-center relative">
+        <ul className="container mx-auto px-4 lg:px-10 xl:px-20 flex flex-col lg:flex-row justify-center xl:justify-between items-center gap-8 sm:gap-10 lg:gap-20">
           {content}
           <img
             src="/character.svg"
@@ -166,9 +166,9 @@ const Home: React.FC = () => {
             className="w-52 sm:w-72 md:w-80 lg:w-[22rem] xl:w-[27rem]"
           />
           {characterShapes}
-        </div>
-      </section>
-    </div>
+        </ul>
+      </article>
+    </section>
   );
 };
 
