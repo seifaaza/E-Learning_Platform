@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({ img, title, description, icon }) => {
         alt={`${title} poster`}
         className="h-full w-full object-cover object-center opacity-80 group-hover:opacity-100 duration-700"
       />
-      {/* <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-6">
+      <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-6">
         <h3 className="mt-5 mb-2 text-xl font-bold text-white capitalize">
           {title}
         </h3>
@@ -23,7 +23,7 @@ const Card: React.FC<CardProps> = ({ img, title, description, icon }) => {
       </div>
       <div className="absolute h-10 md:h-12 w-10 md:w-12 top-[42%] md:top-[45%] left-1/2 -translate-y-1/2 -translate-x-1/2">
         {icon}
-      </div> */}
+      </div>
     </section>
   );
 };
