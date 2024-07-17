@@ -16,7 +16,9 @@ interface LessonsListProps {
 
 const LessonsList: React.FC<LessonsListProps> = async ({ lessons }) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/lessons`);
+    const response = await axios.get(
+      `https://learnify-demo.vercel.app/api/lessons`
+    );
     lessons = response.data;
   } catch (error) {
     console.error("Error fetching lessons:", error);

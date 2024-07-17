@@ -44,14 +44,6 @@ const WatchingList: React.FC = () => {
       ></path>
     </svg>
   );
-
-  const videoProgress = (
-    <>
-      <span className="absolute bottom-0 left-0 w-full h-[0.2rem] bg-gray-500"></span>
-      <span className="absolute bottom-0 left-0 w-1/4 h-[0.2rem] bg-white"></span>
-    </>
-  );
-
   return (
     <>
       {items.map((item) => (

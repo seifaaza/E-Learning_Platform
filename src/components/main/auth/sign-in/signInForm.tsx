@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BsPlusLg } from "react-icons/bs";
 import { Loader2 } from "lucide-react";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 // Validation function for email
@@ -19,7 +19,7 @@ const validateEmail = (email: string) => {
 
 function SignInForm() {
   const router = useRouter();
-  const { data: session, status: sessionStatus } = useSession();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<{

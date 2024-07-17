@@ -7,7 +7,9 @@ interface LessonDetailsProps {
 
 const LessonDetails: React.FC<LessonDetailsProps> = async ({ lessonId }) => {
   const fetchLessonById = async (id: string) => {
-    const response = await axios.get(`http://localhost:3000/api/lessons/${id}`);
+    const response = await axios.get(
+      `https://learnify-demo.vercel.app/api/lessons/${id}`
+    );
     return response.data;
   };
 
