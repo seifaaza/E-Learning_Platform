@@ -57,7 +57,9 @@ const ItemContent: React.FC<ItemContentProps> = ({
               <p className="capitalize !leading-[1rem] text-sm">{date}</p>
             </div>
           </div>
-          <Button variant="destructive">Cancel</Button>
+          <Button variant="secondary" className="capitalize">
+            add to watching list
+          </Button>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import ItemContent from "@/components/main/itemContent";
 import axios from "axios";
+import { redirect } from "next/navigation";
 
 interface LessonDetailsProps {
   lessonId: string;
@@ -7,10 +8,18 @@ interface LessonDetailsProps {
 
 const LessonDetails: React.FC<LessonDetailsProps> = async ({ lessonId }) => {
   const fetchLessonById = async (id: string) => {
-    const response = await axios.get(
-      `https://learnify-demo.vercel.app/api/lessons/${id}`
-    );
-    return response.data;
+    try {
+      const response = await axios.get(
+        `https://learnify-demo.vercel.app/api/lessons/${id}`
+      );
+      return response.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 500) {
+        redirect("/lessons");
+      } else {
+        throw error;
+      }
+    }
   };
 
   const lesson = await fetchLessonById(lessonId);

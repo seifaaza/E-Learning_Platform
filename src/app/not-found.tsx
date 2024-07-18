@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function Error() {
+export default function NotFound() {
   return (
     <section className="bg-gradient-to-b from-black to-gray-900 h-screen flex justify-center items-center">
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">

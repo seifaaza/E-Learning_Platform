@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -23,6 +22,7 @@ interface Session {
 export default function Navbar() {
   const { data: session } = useSession() as { data: Session | null };
 
+  // Destructure session.user safely and ensure id is string or undefined
   const { username, email, id } = session?.user || {
     username: null,
     email: null,
@@ -42,7 +42,7 @@ export default function Navbar() {
           />
         </Link>
 
-        {session && <Links />}
+        {session && <Links userId={id} />}
         {session ? (
           <Profile username={username} email={email} signOut={signOut} />
         ) : (

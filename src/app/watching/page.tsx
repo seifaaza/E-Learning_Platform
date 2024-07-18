@@ -3,7 +3,7 @@ import Heading from "@/components/main/heading";
 import WatchingList from "./watchingList";
 import ListLoader from "@/components/main/loaders/listLoader";
 
-export default function InProgress() {
+export default function Watching() {
   return (
     <section className="container px-3 py-12">
       <Heading
