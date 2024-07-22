@@ -114,56 +114,56 @@ function SignUpForm() {
     <form onSubmit={handleSubmit}>
       <div className="grid gap-5 py-4">
         <div>
-          <Label htmlFor="username" className="text-gray-200">
+          <Label htmlFor="username" className="text-blue-100">
             Username
           </Label>
           <Input
             id="username"
             type="text"
             placeholder="Enter your username"
-            className="mt-2 bg-gray-950/30 border-none focus-visible:ring-offset-0 text-white"
+            className="mt-2 bg-blue-800/50 border-none focus-visible:ring-offset-0 focus-visible:ring-0 text-white placeholder:text-blue-400"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           {errors.username && (
-            <p className="text-xs text-red-500 mt-2 ml-1">{errors.username}</p>
+            <p className="text-xs text-red-200 mt-2 ml-1">{errors.username}</p>
           )}
         </div>
         <div>
-          <Label htmlFor="email" className="text-gray-200">
+          <Label htmlFor="email" className="text-blue-100">
             Email
           </Label>
           <Input
             id="email"
             type="email"
             placeholder="Enter your email"
-            className="mt-2 bg-gray-950/30 border-none focus-visible:ring-offset-0 text-white"
+            className="mt-2 bg-blue-800/50 border-none focus-visible:ring-offset-0 focus-visible:ring-0 text-white placeholder:text-blue-400"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           {errors.email && (
-            <p className="text-xs text-red-500 mt-2 ml-1">{errors.email}</p>
+            <p className="text-xs text-red-200 mt-2 ml-1">{errors.email}</p>
           )}
         </div>
         <div>
-          <Label htmlFor="password" className="text-gray-200">
+          <Label htmlFor="password" className="text-blue-100">
             Password
           </Label>
           <Input
             id="password"
             type="password"
             placeholder="Enter your password"
-            className="mt-2 bg-gray-950/30 border-none focus-visible:ring-offset-0 text-white"
+            className="mt-2 bg-blue-800/50 border-none focus-visible:ring-offset-0 focus-visible:ring-0  text-white placeholder:text-blue-400 focus:outline-none"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           {errors.password && (
-            <p className="text-xs text-red-500 mt-2 ml-1">{errors.password}</p>
+            <p className="text-xs text-red-200 mt-2 ml-1">{errors.password}</p>
           )}
         </div>
       </div>
 
-      <p className="text-sm text-red-500 mt-1 ml-1">{errors.server}</p>
+      <p className="text-sm text-red-200 mt-1 ml-1">{errors.server}</p>
 
       <DialogFooter>
         <Button

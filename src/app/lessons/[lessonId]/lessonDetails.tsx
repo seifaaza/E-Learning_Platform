@@ -41,7 +41,7 @@ const LessonDetails: React.FC<LessonDetailsProps> = async ({ lessonId }) => {
           title={lesson.title}
           description={lesson.description}
           source={lesson.source}
-          pausedTime={lesson.pausedTime || 0}
+          pausedTime={10}
           tags={lesson.tags}
           language={lesson.language}
           date={formatDate(lesson.created_at)}

@@ -6,10 +6,11 @@ import Profile from "./profile";
 import Auth from "./auth";
 import Links from "./links";
 import { signOut, useSession } from "next-auth/react";
+import useScroll from "./UseScroll";
+import { Logo } from "../SVGs/logo";
 
 // Define the User type
 interface User {
-  id: string;
   username: string;
   email: string; // Add email to the user type
 }
@@ -23,26 +24,32 @@ export default function Navbar() {
   const { data: session } = useSession() as { data: Session | null };
 
   // Destructure session.user safely and ensure id is string or undefined
-  const { username, email, id } = session?.user || {
+  const { username, email } = session?.user || {
     username: null,
     email: null,
-    id: null,
   };
 
+  const { scrollDirection } = useScroll();
+
+  const navbarDisplay = {
+    show: "visible duration-500",
+    hide: "invisible -translate-y-full duration-500",
+  };
+  const navScrollAnim =
+    scrollDirection === "down" ? navbarDisplay.show : navbarDisplay.hide;
+
   return (
-    <header className="min-h-[61px] bg-black border-b-[1px] !border-gray-800 sticky top-0 z-10">
-      <nav className="container px-4 lg:px-6 py-2.5 flex justify-between items-start">
+    <header
+      className={`      ${
+        !session ? navScrollAnim : ""
+      } min-h-[60px] bg-blue-600 sticky top-0 z-10`}
+    >
+      <nav className="container px-4 lg:px-6 py-2.5 flex justify-between items-center">
         <Link href="/">
-          <Image
-            src="/logo.svg"
-            height={40}
-            width={40}
-            alt="Flowbite Logo"
-            className="select-none"
-          />
+          <Logo className="h-8" />
         </Link>
 
-        {session && <Links userId={id} />}
+        {session && <Links username={username} />}
         {session ? (
           <Profile username={username} email={email} signOut={signOut} />
         ) : (

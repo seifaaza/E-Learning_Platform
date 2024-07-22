@@ -5,6 +5,7 @@ import SessionProvider from "@/lib/sessionProvider";
 import Providers from "@/components/main/ProgressBarProvider";
 import Navbar from "@/components/main/navbar/page";
 import authOptions from "./api/auth/nextAuthOptions";
+import Footer from "@/components/main/landing-page/footer";
 
 export const metadata: Metadata = {
   title: "Learnify",
@@ -23,6 +24,7 @@ export default async function RootLayout({
         <SessionProvider session={session}>
           <Navbar />
           <Providers>{children}</Providers>
+          <Footer />
         </SessionProvider>
       </body>
     </html>

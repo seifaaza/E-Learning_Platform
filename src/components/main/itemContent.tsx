@@ -1,10 +1,8 @@
 import React from "react";
 import VideoPlayer from "./videoPlayer";
-import { Alert } from "../ui/alert";
 import { BsCalendarCheck, BsGlobe } from "react-icons/bs";
 import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "../ui/button";
 
 interface ItemContentProps {
@@ -35,7 +33,7 @@ const ItemContent: React.FC<ItemContentProps> = ({
     tags.map((tag, index) => (
       <Badge
         key={index}
-        className="rounded-md !border-gray-700 !bg-gray-950 p-2 w-fit font-normal capitalize"
+        className="rounded-md !border-none !bg-gray-400 p-2 w-fit font-normal capitalize"
       >
         {tag}
       </Badge>
@@ -43,70 +41,64 @@ const ItemContent: React.FC<ItemContentProps> = ({
 
   return (
     <>
-      <div className="w-full">
+      <section className="w-full">
         <VideoPlayer img={img} videoSrc={videoSrc} pausedTime={pausedTime} />
 
-        <div className="mt-4 xl:mt-6  w-full flex justify-between h-fit">
-          <div className="xl:ml-2 flex items-center gap-4 lg:gap-6">
-            <div className=" flex items-center gap-2 text-gray-200">
-              <BsGlobe className="h-[.9rem] md:h-4 !text-gray-300" />
+        <article className="mt-4 xl:mt-6  w-full flex justify-between h-fit">
+          <ul className="xl:ml-2 flex items-center gap-4 lg:gap-6">
+            <li className=" flex items-center gap-2 text-gray-900">
+              <BsGlobe className="h-[.9rem] md:h-4 " />
               <p className="capitalize !leading-[1rem] text-sm">{language}</p>
-            </div>
-            <div className=" flex items-center gap-2 text-gray-200">
-              <BsCalendarCheck className="h-[.9rem] md:h-4 !text-gray-300" />
+            </li>
+            <li className=" flex items-center gap-2 text-gray-900">
+              <BsCalendarCheck className="h-[.9rem] md:h-4 " />
               <p className="capitalize !leading-[1rem] text-sm">{date}</p>
-            </div>
-          </div>
-          <Button variant="secondary" className="capitalize">
-            add to watching list
-          </Button>
-        </div>
-      </div>
+            </li>
+          </ul>
+          <Button className="capitalize">add to watching list</Button>
+        </article>
+      </section>
 
-      <div className="mt-4 lg:mt-0 lg:max-w-lg xl:max-w-xl flex flex-col gap-6 lg:w-2/3">
-        <div className="flex flex-col gap-2 lg:gap-3">
-          <h3 className="text-[1rem] text-white capitalize font-medium">
+      <section className="mt-4 lg:mt-0 lg:max-w-lg xl:max-w-xl flex flex-col gap-6 lg:w-2/3">
+        <article className="flex flex-col gap-2 lg:gap-3">
+          <h3 className="text-[1rem] text-gray-900 capitalize font-medium">
             title
           </h3>
-          <p className="text-xl md:text-2xl xl:text-3xl font-semibold text-white capitalize">
+          <p className="text-xl md:text-2xl xl:text-3xl font-bold text-blue-600 capitalize">
             {title}
           </p>
-        </div>
+        </article>
         <Separator
           orientation="horizontal"
-          className="h-[1px] bg-white opacity-15"
+          className="h-[1px] bg-gray-800 opacity-15"
         />
-        <div className="flex flex-col gap-2 lg:gap-3">
-          <h3 className="text-[1rem] text-white capitalize font-medium">
+        <article className="flex flex-col gap-2 lg:gap-3">
+          <h3 className="text-[1rem] text-gray-900 capitalize font-medium">
             description
           </h3>
-          <p className="font-light text-sm text-gray-300 leading-[1.6]">
-            {description}
-          </p>
-        </div>
+          <p className=" text-sm text-gray-600 leading-[1.6]">{description}</p>
+        </article>
         <Separator
           orientation="horizontal"
-          className="h-[1px] bg-white opacity-15"
+          className="h-[1px] bg-gray-800 opacity-15"
         />
-        <div className="flex flex-col gap-2 lg:gap-3">
-          <h3 className="text-[1rem] text-white capitalize font-medium">
+        <article className="flex flex-col gap-2 lg:gap-3">
+          <h3 className="text-[1rem] text-gray-900 capitalize font-medium">
             source
           </h3>
-          <p className="font-light text-sm text-gray-300 leading-[1.6]">
-            {source}
-          </p>
-        </div>
+          <p className=" text-sm text-gray-600 leading-[1.6]">{source}</p>
+        </article>
         <Separator
           orientation="horizontal"
-          className="h-[1px] bg-white opacity-15"
+          className="h-[1px] bg-gray-800 opacity-15"
         />
-        <div className="flex flex-col gap-2 lg:gap-3">
-          <h3 className="text-[1rem] text-white capitalize font-medium">
+        <article className="flex flex-col gap-2 lg:gap-3">
+          <h3 className="text-[1rem] text-gray-900 capitalize font-medium">
             tags
           </h3>
           <div className="flex flex-wrap gap-2 md:gap-3">{tagsList}</div>
-        </div>
-      </div>
+        </article>
+      </section>
     </>
   );
 };

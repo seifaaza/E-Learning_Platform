@@ -4,7 +4,7 @@ import Card from "@/components/main/card";
 
 // Define the Watching interface
 interface Watching {
-  _id: string;
+  id: string;
   img: string;
   title: string;
   description: string;
@@ -12,18 +12,21 @@ interface Watching {
 
 interface WatchingListProps {
   watching?: Watching[];
+  username: string;
 }
 
-const WatchingList: React.FC<WatchingListProps> = async ({ watching }) => {
+const WatchingList: React.FC<WatchingListProps> = async ({ username }) => {
+  let watching: Watching[] = [];
+
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/watchings/getWatchingList?userId=66992b13dc113570a1daf59d`
+      `http://localhost:3000/api/watchings/getWatchingList/${username}`
     );
     watching = response.data;
-    console.log(watching);
   } catch (error) {
     console.error("Error fetching watching:", error);
   }
+
   const playIcon = (
     <svg
       viewBox="0 0 512 512"
@@ -40,9 +43,9 @@ const WatchingList: React.FC<WatchingListProps> = async ({ watching }) => {
 
   return (
     <>
-      {watching && watching.length > 0 ? (
+      {watching.length > 0 ? (
         watching.map((item: Watching) => (
-          <Link href={`/watching/${item._id}`} key={item._id}>
+          <Link href={`/lessons/${item.id}`} key={item.id}>
             <Card
               img={`https://res.cloudinary.com/depztpide/image/upload/${item.img}`}
               title={item.title}
@@ -52,7 +55,7 @@ const WatchingList: React.FC<WatchingListProps> = async ({ watching }) => {
           </Link>
         ))
       ) : (
-        <p>hh</p>
+        <p>{username}</p>
       )}
     </>
   );

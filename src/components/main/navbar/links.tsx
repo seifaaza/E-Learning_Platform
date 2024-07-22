@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 interface LinksProps {
-  userId: string | null | undefined;
+  username: string | null | undefined;
 }
 
-const Links: React.FC<LinksProps> = ({ userId }) => {
+const Links: React.FC<LinksProps> = ({ username }) => {
   return (
     <ul className="flex justify-center items-center gap-2">
       <li>
@@ -20,8 +20,9 @@ const Links: React.FC<LinksProps> = ({ userId }) => {
           </Button>
         </Link>
       </li>
+      <li className="bg-white h-8 w-[.5px]"></li>
       <li>
-        <Link href={`/watching${userId ? `?userId=${userId}` : ""}`}>
+        <Link href={`/${username ? `${username}/watching` : ""}`}>
           <Button
             variant="link"
             className="capitalize text-white hover:no-underline hover:opacity-80"

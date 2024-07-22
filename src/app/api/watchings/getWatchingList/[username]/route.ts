@@ -4,16 +4,19 @@ import Lesson from "@/models/Lesson"; // Adjust the import path based on your ac
 import { NextRequest, NextResponse } from "next/server";
 
 // Handle GET requests
-export async function GET(req: NextRequest) {
+export async function GET(
+  req: Request,
+  { params }: { params: { username: string } }
+) {
   try {
     // Access query parameters directly from request
-    const url = new URL(req.url);
-    const userId = url.searchParams.get("userId");
+    const { username } = params;
+    console.log(username);
 
-    // Check if userId is provided
-    if (!userId || userId.trim() === "") {
+    // Check if username is provided
+    if (!username || username.trim() === "") {
       return NextResponse.json(
-        { error: "userId is required and must be a non-empty string" },
+        { error: "username is required and must be a non-empty string" },
         { status: 400 }
       );
     }
@@ -21,8 +24,8 @@ export async function GET(req: NextRequest) {
     // Connect to MongoDB
     await dbConnect();
 
-    // Find user by userId
-    const user = await User.findById(userId);
+    // Find user by username
+    const user = await User.findOne({ username });
 
     // Handle if user is not found
     if (!user) {
@@ -35,6 +38,7 @@ export async function GET(req: NextRequest) {
       const lesson = await Lesson.findById(lessonId);
       if (lesson) {
         watchingListDetails.push({
+          id: lesson._id,
           title: lesson.title,
           img: lesson.img,
           description: lesson.description,
