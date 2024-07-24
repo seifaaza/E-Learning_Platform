@@ -12,17 +12,17 @@ export async function GET(
   const { id } = params;
 
   try {
-    // Find the lesson by its ID
-    const lesson = await Lesson.findById(id);
+    // Find the course by its ID
+    const course = await Lesson.findById(id);
 
-    if (!lesson) {
+    if (!course) {
       return NextResponse.json(
-        { errorMsg: "Lesson not found" },
+        { errorMsg: "course not found" },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(lesson);
+    return NextResponse.json(course);
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }

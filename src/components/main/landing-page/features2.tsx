@@ -9,19 +9,19 @@ import {
 
 const Features2 = () => {
   return (
-    <section className="bg-blue-500 isolate overflow-hidden">
+    <section className="bg-blue-600 isolate overflow-hidden">
       <article className="relative xl:container ">
-        <Doodle9 className="top-10 left-32 w-24 !fill-blue-600/30" />
-        <Doodle19 className="bottom-10 left-16 w-32 !fill-blue-600/30" />
-        <Doodle11 className="bottom-1/2 left-1/2 w-60 !fill-blue-600/30" />
-        <Doodle18 className="bottom-8 right-32 w-44 !fill-blue-600/30" />
-        <Doodle13 className="bottom-1/4 left-[32%] w-44 !fill-blue-600/30" />
+        <Doodle9 className="top-10 left-32 w-24 " />
+        <Doodle19 className="bottom-10 left-16 w-32 " />
+        <Doodle11 className="bottom-1/2 left-1/2 w-60 " />
+        <Doodle18 className="bottom-8 right-32 w-44 " />
+        <Doodle13 className="bottom-1/4 left-[32%] w-44 " />
         <ul className="px-3 py-16 md:py-20 lg:py-24 container flex flex-col-reverse lg:flex-row items-center lg:items-start gap-10 justify-evenly ">
           <li className="max-w-xl text-center lg:text-left">
             <h1 className="mb-5 text-xl sm:text-2xl md:text-3xl xl:text-4xl font-extrabold !leading-tight tracking-tight text-white capitalize">
               your personalized learning journey
             </h1>
-            <p className="text-sm md:text-base lg:text-lg  mb-6 lg:mb-8 text-blue-50">
+            <p className="text-sm md:text-base lg:text-lg mb-6 lg:mb-8 text-blue-50">
               Boost your skills with our adaptive quizzes, which provide a
               personalized learning experience. Receive instant feedback on your
               answers to quickly correct mistakes and improve your

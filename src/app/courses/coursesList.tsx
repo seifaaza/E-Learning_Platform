@@ -2,26 +2,23 @@ import Link from "next/link";
 import axios from "axios";
 import Card from "@/components/main/card";
 
-// Define the Lesson interface
-interface Lesson {
+interface Course {
   _id: string;
   img: string;
   title: string;
   description: string;
 }
 
-interface LessonsListProps {
-  lessons?: Lesson[];
+interface CoursesListProps {
+  courses?: Course[];
 }
 
-const LessonsList: React.FC<LessonsListProps> = async ({ lessons }) => {
+const CoursesList: React.FC<CoursesListProps> = async ({ courses }) => {
   try {
-    const response = await axios.get(
-      `https://learnify-demo.vercel.app/api/lessons`
-    );
-    lessons = response.data;
+    const response = await axios.get(`http://localhost:3000/api/courses`);
+    courses = response.data;
   } catch (error) {
-    console.error("Error fetching lessons:", error);
+    console.error("Error fetching courses:", error);
   }
   const playIcon = (
     <svg
@@ -39,9 +36,9 @@ const LessonsList: React.FC<LessonsListProps> = async ({ lessons }) => {
 
   return (
     <>
-      {lessons && lessons.length > 0 ? (
-        lessons.map((item: Lesson) => (
-          <Link href={`/lessons/${item._id}`} key={item._id}>
+      {courses && courses.length > 0 ? (
+        courses.map((item: Course) => (
+          <Link href={`/courses/${item._id}`} key={item._id}>
             <Card
               img={`https://res.cloudinary.com/depztpide/image/upload/${item.img}`}
               title={item.title}
@@ -51,10 +48,10 @@ const LessonsList: React.FC<LessonsListProps> = async ({ lessons }) => {
           </Link>
         ))
       ) : (
-        <p>hh</p>
+        <p>lesson</p>
       )}
     </>
   );
 };
 
-export default LessonsList;
+export default CoursesList;

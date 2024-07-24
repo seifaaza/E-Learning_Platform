@@ -1,15 +1,19 @@
-import { BsBookHalf, BsCurrencyExchange, BsPersonFill } from "react-icons/bs";
+import {
+  BsBookHalf,
+  BsCurrencyExchange,
+  BsClipboard2PulseFill,
+} from "react-icons/bs";
 
 const SocialProof = () => {
   const statsList = [
     {
-      title: "endless",
-      stat: "users",
-      icon: <BsPersonFill className="text-[1.9rem]" />,
+      title: "learning",
+      stat: "tracking",
+      icon: <BsClipboard2PulseFill className="text-[1.9rem]" />,
     },
     {
-      title: "several",
-      stat: "lessons",
+      title: "interactive",
+      stat: "courses & quizzes",
       icon: <BsBookHalf className="text-[1.75rem]" />,
     },
     {

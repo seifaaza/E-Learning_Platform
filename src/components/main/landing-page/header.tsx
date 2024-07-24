@@ -31,9 +31,9 @@ interface Feature {
 const Header: React.FC = () => {
   const featuresList: Feature[] = [
     {
-      title: "interactive video",
+      title: "dynamic courses",
       description:
-        "Enjoy our video lessons, save your progress, and continue from where you left off.",
+        "Enjoy our video courses, save your progress, and continue from where you left off.",
       icon: (
         <BsCollectionPlayFill className="text-lg md:text-xl lg:text-2xl text-white" />
       ),

@@ -22,7 +22,14 @@ const useScroll = (): ScrollPosition => {
 
     setScrollY(currentScrollY);
     setScrollX(currentScrollX);
-    setScrollDirection(lastScrollTop > currentScrollY ? "down" : "up");
+
+    // Check if the current scroll position is within the top 100 pixels
+    if (currentScrollY <= 300) {
+      setScrollDirection("down");
+    } else {
+      setScrollDirection(lastScrollTop > currentScrollY ? "down" : "up");
+    }
+
     setLastScrollTop(currentScrollY);
   }, [lastScrollTop]);
 

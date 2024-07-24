@@ -6,8 +6,8 @@ import { NextResponse } from "next/server";
 export async function GET() {
   await dbConnect();
   try {
-    const lessons = await Lesson.find({}).select("title img description");
-    return NextResponse.json(lessons);
+    const courses = await Lesson.find({}).select("title img description");
+    return NextResponse.json(courses);
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message });
   }

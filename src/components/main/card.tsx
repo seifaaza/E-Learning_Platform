@@ -9,7 +9,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ img, title, description, icon }) => {
   return (
-    <section className="relative h-44 sm:h-48 md:h-52 lg:h-56 xl:h-60 rounded-lg overflow-hidden group cursor-pointer hover:scale-[1.02] transition-transform duration-500">
+    <section className="relative h-44 sm:h-48 md:h-52 lg:h-56 xl:h-60 rounded-lg overflow-hidden group cursor-pointer hover:scale-[.99] transition-transform duration-500">
       <img
         src={img}
         alt={`${title} poster`}

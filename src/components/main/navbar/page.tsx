@@ -1,16 +1,16 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import Profile from "./profile";
 import Auth from "./auth";
 import Links from "./links";
 import { signOut, useSession } from "next-auth/react";
 import useScroll from "./UseScroll";
-import { Logo } from "../SVGs/logo";
+import { Logo } from "../SVGs/logos";
+import Profile from "./profile/page";
 
 // Define the User type
 interface User {
+  id: string;
   username: string;
   email: string; // Add email to the user type
 }
@@ -24,7 +24,8 @@ export default function Navbar() {
   const { data: session } = useSession() as { data: Session | null };
 
   // Destructure session.user safely and ensure id is string or undefined
-  const { username, email } = session?.user || {
+  const { id, username, email } = session?.user || {
+    id: null,
     username: null,
     email: null,
   };
@@ -51,7 +52,12 @@ export default function Navbar() {
 
         {session && <Links username={username} />}
         {session ? (
-          <Profile username={username} email={email} signOut={signOut} />
+          <Profile
+            id={id}
+            username={username}
+            email={email}
+            signOut={signOut}
+          />
         ) : (
           <Auth />
         )}

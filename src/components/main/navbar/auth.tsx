@@ -8,11 +8,10 @@ import { mainStore } from "@/store/mainStore";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 export default function Auth() {
-  const { isSignUpOpen, setSignUpOpen } = mainStore();
   return (
     <ul className="flex gap-4">
       <li>
-        <Dialog open={isSignUpOpen} onOpenChange={setSignUpOpen}>
+        <Dialog>
           <DialogTrigger asChild>
             <Button variant="secondary" className="capitalize text-blue-600">
               Sign Up

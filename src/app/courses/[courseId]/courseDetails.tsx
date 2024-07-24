@@ -2,27 +2,27 @@ import ItemContent from "@/components/main/itemContent";
 import axios from "axios";
 import { redirect } from "next/navigation";
 
-interface LessonDetailsProps {
-  lessonId: string;
+interface CourseDetailsProps {
+  courseId: string;
 }
 
-const LessonDetails: React.FC<LessonDetailsProps> = async ({ lessonId }) => {
-  const fetchLessonById = async (id: string) => {
+const CourseDetails: React.FC<CourseDetailsProps> = async ({ courseId }) => {
+  const fetchCourseById = async (id: string) => {
     try {
       const response = await axios.get(
-        `https://learnify-demo.vercel.app/api/lessons/${id}`
+        `http://localhost:3000/api/courses/${id}`
       );
       return response.data;
     } catch (error: any) {
       if (error.response && error.response.status === 500) {
-        redirect("/lessons");
+        redirect("/courses");
       } else {
         throw error;
       }
     }
   };
 
-  const lesson = await fetchLessonById(lessonId);
+  const course = await fetchCourseById(courseId);
 
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -34,21 +34,21 @@ const LessonDetails: React.FC<LessonDetailsProps> = async ({ lessonId }) => {
 
   return (
     <>
-      {lesson && (
+      {course && (
         <ItemContent
-          img={lesson.img}
-          videoSrc={lesson.src}
-          title={lesson.title}
-          description={lesson.description}
-          source={lesson.source}
+          img={course.img}
+          videoSrc={course.src}
+          title={course.title}
+          description={course.description}
+          source={course.source}
           pausedTime={10}
-          tags={lesson.tags}
-          language={lesson.language}
-          date={formatDate(lesson.created_at)}
+          tags={course.tags}
+          language={course.language}
+          date={formatDate(course.created_at)}
         />
       )}
     </>
   );
 };
 
-export default LessonDetails;
+export default CourseDetails;

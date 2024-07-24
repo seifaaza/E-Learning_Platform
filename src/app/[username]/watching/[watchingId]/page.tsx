@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BsChevronLeft } from "react-icons/bs";
 import DetailsLoader from "@/components/main/loaders/detailsLoader";
-import LessonDetails from "@/app/lessons/[lessonId]/lessonDetails";
+import LessonDetails from "@/app/courses/[lessonId]/lessonDetails";
 import { Suspense } from "react";
 
 interface WatchingItemProps {

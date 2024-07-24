@@ -45,13 +45,13 @@ const FAQ = () => {
   ));
 
   return (
-    <section className="bg-blue-600 isolate overflow-hidden">
+    <section className="bg-blue-500 isolate overflow-hidden">
       <ul className="relative xl:container ">
-        <Doodle1 className="bottom-20 left-40 w-32 absolute" />
-        <Doodle2 className="bottom-1/2 left-0 xl:left-[30%] w-52 absolute" />
-        <Doodle8 className="top-24 left-64 w-24 absolute" />
-        <Doodle20 className="bottom-20 right-44 w-28 absolute" />
-        <Doodle15 className="invisible lg:visible bottom-[15%] left-[45%] w-44 absolute" />
+        <Doodle1 className="bottom-20 left-40 w-32 absolute !fill-blue-600/30" />
+        <Doodle2 className="bottom-1/2 left-0 xl:left-[30%] w-52 absolute !fill-blue-600/30" />
+        <Doodle8 className="top-24 left-64 w-24 absolute !fill-blue-600/30" />
+        <Doodle20 className="bottom-20 right-44 w-28 absolute !fill-blue-600/30" />
+        <Doodle15 className="invisible lg:visible bottom-[15%] left-[45%] w-44 absolute !fill-blue-600/30" />
         <article className="px-3 py-16 md:py-20 lg:py-24 container text-center relative">
           <h1 className="mb-5 text-xl sm:text-2xl md:text-3xl xl:text-4xl font-extrabold !leading-tight tracking-tight text-white capitalize">
             Frequently Asked Questions

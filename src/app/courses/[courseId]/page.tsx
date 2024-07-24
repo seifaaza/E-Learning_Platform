@@ -1,20 +1,20 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BsChevronLeft } from "react-icons/bs";
-import LessonDetails from "./lessonDetails";
+import CourseDetails from "./courseDetails";
 import { Suspense } from "react";
 import DetailsLoader from "@/components/main/loaders/detailsLoader";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-interface LessonItemProps {
+interface CourseItemProps {
   params: {
-    lessonId: string;
+    courseId: string;
   };
 }
 
-const LessonItem: React.FC<LessonItemProps> = async ({
-  params: { lessonId },
+const CourseItem: React.FC<CourseItemProps> = async ({
+  params: { courseId },
 }) => {
   const session = await getServerSession();
   if (!session) {
@@ -23,7 +23,7 @@ const LessonItem: React.FC<LessonItemProps> = async ({
   return (
     <section className="bg-blue-50">
       <article className="container px-3 xl:px-8 pt-12 pb-20">
-        <Link href="/lessons" className="my-6">
+        <Link href="/courses" className="my-6">
           <Button>
             <BsChevronLeft className="mr-2 h-4 w-4" />
             Back
@@ -31,7 +31,7 @@ const LessonItem: React.FC<LessonItemProps> = async ({
         </Link>
         <div className="mt-6 flex flex-col gap-10 xl:gap-12 lg:flex-row lg:justify-between">
           <Suspense fallback={<DetailsLoader />}>
-            <LessonDetails lessonId={lessonId} />
+            <CourseDetails courseId={courseId} />
           </Suspense>
         </div>
       </article>
@@ -39,4 +39,4 @@ const LessonItem: React.FC<LessonItemProps> = async ({
   );
 };
 
-export default LessonItem;
+export default CourseItem;

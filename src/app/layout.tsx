@@ -6,6 +6,7 @@ import Providers from "@/components/main/ProgressBarProvider";
 import Navbar from "@/components/main/navbar/page";
 import authOptions from "./api/auth/nextAuthOptions";
 import Footer from "@/components/main/landing-page/footer";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Learnify",
@@ -26,6 +27,7 @@ export default async function RootLayout({
           <Providers>{children}</Providers>
           <Footer />
         </SessionProvider>
+        <Toaster />
       </body>
     </html>
   );

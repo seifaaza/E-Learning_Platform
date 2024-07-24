@@ -7,6 +7,7 @@ import { BsPlusLg } from "react-icons/bs";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 // Validation function for email
 const validateEmail = (email: string) => {
@@ -19,6 +20,7 @@ const validateEmail = (email: string) => {
 
 function SignInForm() {
   const router = useRouter();
+  const { toast } = useToast();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,9 +57,14 @@ function SignInForm() {
       setEmail("");
       setPassword("");
       setErrors({});
-      router.replace("/lessons");
-    }
+      router.replace("/courses");
 
+      // Show the toast notification on successful sign in
+      toast({
+        title: "Welcome Back",
+        description: "You have successfully signed in",
+      });
+    }
     setIsLoading(false);
   };
 
@@ -99,10 +106,10 @@ function SignInForm() {
 
       <DialogFooter>
         <Button
+          disabled={!isFormValid || isLoading}
           type="submit"
           variant="secondary"
           className="capitalize"
-          disabled={!isFormValid || isLoading}
         >
           Sign In
           {isLoading ? (

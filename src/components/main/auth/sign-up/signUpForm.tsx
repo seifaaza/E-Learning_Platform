@@ -6,8 +6,10 @@ import { Label } from "@/components/ui/label";
 import { BsPlusLg } from "react-icons/bs";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
-import { signIn } from "next-auth/react"; // Import signIn
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+
 // Validation functions
 const validateUsername = (username: string) => {
   if (username && (username.length < 6 || username.length > 16)) {
@@ -34,6 +36,8 @@ const validatePassword = (password: string) => {
 
 function SignUpForm() {
   const router = useRouter();
+  const { toast } = useToast();
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -89,7 +93,11 @@ function SignUpForm() {
         setEmail("");
         setPassword("");
         setErrors({});
-        router.replace("/lessons");
+        router.replace("/courses");
+        toast({
+          title: "Welcome To Learnify",
+          description: "You have successfully signed up.",
+        });
       }
 
       setIsLoading(false);
@@ -103,7 +111,7 @@ function SignUpForm() {
           setErrors({ server: "An unexpected error occurred." });
         }
       } else {
-        console.error("Failed to sign up:", error);
+        setErrors({ server: "Failed to sign up." });
       }
     } finally {
       setIsLoading(false);
@@ -167,10 +175,10 @@ function SignUpForm() {
 
       <DialogFooter>
         <Button
+          disabled={!isFormValid || isLoading}
           type="submit"
           variant="secondary"
           className="capitalize"
-          disabled={!isFormValid || isLoading}
         >
           Sign Up
           {isLoading ? (
