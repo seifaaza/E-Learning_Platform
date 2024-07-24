@@ -20,7 +20,7 @@ const WatchingList: React.FC<WatchingListProps> = async ({ username }) => {
 
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/watchings/getWatchingList/${username}`
+      `https://learnify-demo.vercel.app/api/watchings/getWatchingList/${username}`
     );
     watching = response.data;
   } catch (error) {

@@ -3,7 +3,7 @@ import { Doodle12 } from "../SVGs/doodles";
 import { CodeCademy, Udemy, Udacity, Duolingo, Edx } from "../SVGs/logos";
 
 const Sponsors = () => {
-  const logoStyle = "h-6 md:h-8 ld:h-10 xl:h-[2.6rem]";
+  const logoStyle = "h-6 md:h-8 ld:h-10 ";
   const sponsorsList = [
     <Udemy key={1} className={logoStyle} />,
     <Edx key={2} className={logoStyle} />,

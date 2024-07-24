@@ -10,7 +10,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = async ({ courseId }) => {
   const fetchCourseById = async (id: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/courses/${id}`
+        `https://learnify-demo.vercel.app/api/courses/${id}`
       );
       return response.data;
     } catch (error: any) {
