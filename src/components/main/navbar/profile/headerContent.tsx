@@ -32,13 +32,13 @@ const HeaderContent: React.FC<HeaderContentProps> = ({
 
   return (
     <SheetHeader className="gap-2">
-      <section className="flex flex-row items-center justify-center gap-4">
-        <BsPersonCircle className="text-white text-5xl opacity-80" />
-        <article className="text-left">
-          <SheetTitle className="text-white font-normal text-base md:text-lg capitalize">
+      <section className="mt-4 flex flex-row items-center justify-start gap-4">
+        <BsPersonCircle className="text-white text-[2.8rem] min-w-[2.8rem] opacity-80" />
+        <article className="text-left w-full">
+          <SheetTitle className="text-lg md:text-xl text-white font-normal capitalize truncate !mb-0">
             {username}
           </SheetTitle>
-          <SheetDescription className="text-blue-100 text-sm md:text-base">
+          <SheetDescription className="text-base text-blue-100 truncate">
             {email}
           </SheetDescription>
         </article>
@@ -46,13 +46,13 @@ const HeaderContent: React.FC<HeaderContentProps> = ({
       <Button
         disabled={isLoading}
         onClick={handleSignOut}
-        className="capitalize w-full focus:!ring-offset-0 outline-none text-blue-600"
+        className=" capitalize w-full focus:!ring-offset-0 outline-none text-blue-600"
         variant="secondary"
       >
         {isLoading ? (
-          <Loader2 className="mr-2 h-4 animate-spin" />
+          <Loader2 className="mr-2 h-5 animate-spin" />
         ) : (
-          <BsBoxArrowRight className="mr-2 h-4" />
+          <BsBoxArrowRight className="mr-2 h-5" />
         )}
         Logout
       </Button>

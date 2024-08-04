@@ -71,7 +71,7 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/lessons",
+    signIn: "/courses",
   },
   session: {
     strategy: "jwt",

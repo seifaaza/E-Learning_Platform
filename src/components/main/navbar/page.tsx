@@ -1,18 +1,20 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Auth from "./auth";
-import Links from "./links";
 import { signOut, useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import useScroll from "./UseScroll";
 import { Logo } from "../SVGs/logos";
 import Profile from "./profile/page";
+import Auth from "./auth/page";
+import Links from "./links";
+import NavbarLoader from "../loaders/navbarLoader";
 
 // Define the User type
 interface User {
   id: string;
   username: string;
-  email: string; // Add email to the user type
+  email: string;
 }
 
 // Define the Session type
@@ -21,17 +23,21 @@ interface Session {
 }
 
 export default function Navbar() {
-  const { data: session } = useSession() as { data: Session | null };
-
-  // Destructure session.user safely and ensure id is string or undefined
-  const { id, username, email } = session?.user || {
-    id: null,
-    username: null,
-    email: null,
+  const { data: session, status } = useSession() as {
+    data: Session | null;
+    status: string;
   };
+  const [isLoading, setIsLoading] = useState(true);
+  const pathname = usePathname(); // Get the current path
+
+  useEffect(() => {
+    // Skip loading state on the home page
+    if (status !== "loading" || pathname === "/") {
+      setIsLoading(false);
+    }
+  }, [status, pathname]);
 
   const { scrollDirection } = useScroll();
-
   const navbarDisplay = {
     show: "visible duration-500",
     hide: "invisible -translate-y-full duration-500",
@@ -41,23 +47,27 @@ export default function Navbar() {
 
   return (
     <header
-      className={`      ${
+      className={`${
         !session ? navScrollAnim : ""
-      } min-h-[60px] bg-blue-600 sticky top-0 z-10`}
+      } min-h-14 bg-blue-600 sticky top-0 z-10`}
     >
-      <nav className="container px-4 lg:px-6 py-2.5 flex justify-between items-center">
+      <nav className="container px-4 lg:px-6 py-2 h-14 flex justify-between items-center">
         <Link href="/">
           <Logo className="h-8" />
         </Link>
 
-        {session && <Links username={username} />}
-        {session ? (
-          <Profile
-            id={id}
-            username={username}
-            email={email}
-            signOut={signOut}
-          />
+        {isLoading && pathname !== "/" ? (
+          <NavbarLoader />
+        ) : session ? (
+          <>
+            <Links username={session.user?.username || ""} />
+            <Profile
+              id={session.user?.id}
+              username={session.user?.username}
+              email={session.user?.email}
+              signOut={signOut}
+            />
+          </>
         ) : (
           <Auth />
         )}

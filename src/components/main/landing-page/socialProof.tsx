@@ -27,10 +27,10 @@ const SocialProof = () => {
     <ul key={index} className="flex items-center gap-5">
       {item.icon}
       <li className="text-left">
-        <dt className="mb-1 text-2xl font-extrabold capitalize">
+        <dt className="text-white mb-1 text-2xl font-bold capitalize">
           {item.title}
         </dt>
-        <dd className="text-base font-medium text-blue-50 capitalize">
+        <dd className="text-blue-50 text-base md:text-lg font-medium  capitalize">
           {item.stat}
         </dd>
       </li>

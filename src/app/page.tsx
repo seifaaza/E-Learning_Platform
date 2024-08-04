@@ -7,11 +7,13 @@ import Header from "@/components/main/landing-page/header";
 import SocialProof from "@/components/main/landing-page/socialProof";
 import Sponsors from "@/components/main/landing-page/sponsors";
 import Testimonial from "@/components/main/landing-page/testimonial";
+import Navbar from "@/components/main/navbar/page";
 import React from "react";
 
 const Home: React.FC = () => {
   return (
     <>
+      <Navbar />
       <Header />
       <SocialProof />
       <Testimonial />
@@ -19,6 +21,7 @@ const Home: React.FC = () => {
       <Features1 />
       <Features2 />
       <FAQ />
+      <Footer />
     </>
   );
 };

@@ -1,37 +1,22 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
+// Define the Lesson interface
 export interface ILesson extends Document {
   title: string;
-  img: string;
-  description: string;
-  tags?: string[];
-  language?: string;
-  created_at: Date;
-  updated_at: Date;
+  video: string;
+  thumbnail: string;
+  isComplete: boolean;
 }
 
+// Define the Lesson schema
 const lessonSchema: Schema<ILesson> = new mongoose.Schema({
   title: { type: String, required: true },
-  img: { type: String, required: true },
-  description: { type: String, required: true },
-  tags: { type: [String] },
-  language: { type: String },
-  created_at: {
-    type: Date,
-    default: Date.now,
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now,
-  },
+  video: { type: String, required: true },
+  thumbnail: { type: String, required: true },
+  isComplete: { type: Boolean, default: false },
 });
 
-// Middleware to update updated_at before saving
-lessonSchema.pre<ILesson>("save", function (next) {
-  this.updated_at = new Date(); // Convert to Date object
-  next();
-});
-
+// Register the model with Mongoose
 const Lesson: Model<ILesson> =
   mongoose.models.Lesson || mongoose.model<ILesson>("Lesson", lessonSchema);
 

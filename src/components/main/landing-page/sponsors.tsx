@@ -1,16 +1,28 @@
 import React from "react";
 import { Doodle12 } from "../SVGs/doodles";
 import { CodeCademy, Udemy, Udacity, Duolingo, Edx } from "../SVGs/logos";
+import Link from "next/link";
 
 const Sponsors = () => {
   const logoStyle = "h-6 md:h-8 ld:h-10 ";
   const sponsorsList = [
-    <Udemy key={1} className={logoStyle} />,
-    <Edx key={2} className={logoStyle} />,
-    <CodeCademy key={3} className={logoStyle} />,
-    <Udacity key={4} className={logoStyle} />,
-    <Duolingo key={5} className={logoStyle} />,
+    <Link key="udemy" href="https://www.udemy.com" target="_blank">
+      <Udemy className={logoStyle} />
+    </Link>,
+    <Link key="edx" href="https://www.edx.org" target="_blank">
+      <Edx className={logoStyle} />
+    </Link>,
+    <Link key="codecademy" href="https://www.codecademy.com" target="_blank">
+      <CodeCademy className={logoStyle} />
+    </Link>,
+    <Link key="udacity" href="https://www.udacity.com" target="_blank">
+      <Udacity className={logoStyle} />
+    </Link>,
+    <Link key="duolingo" href="https://www.duolingo.com" target="_blank">
+      <Duolingo className={logoStyle} />,
+    </Link>,
   ];
+
   const sponsors = sponsorsList.map((item, index) => (
     <li key={index} className="w-fit">
       {item}
@@ -20,9 +32,7 @@ const Sponsors = () => {
     <section className="bg-blue-600 px-3 py-16 md:py-20 lg:py-24 relative isolate overflow-hidden text-center">
       <Doodle12 className="rotate-90 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 md:w-60" />
 
-      <h1 className=" mb-12 text-xl sm:text-2xl md:text-3xl xl:text-4xl font-extrabold !leading-tight tracking-tight text-white capitalize">
-        trusted course providers
-      </h1>
+      <h2 className="text-white !mb-14">trusted course providers</h2>
       <ul className="flex flex-wrap justify-center gap-8 md:gap-12 lg:gap-14 xl:gap-16">
         {sponsors}
       </ul>

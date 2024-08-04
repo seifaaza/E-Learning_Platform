@@ -8,7 +8,7 @@ const Testimonial = () => {
         <Doodle18 className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] w-full md:w-3/4 lg:w-[43%] !fill-blue-600/30" />
         <Doodle5 className="bottom-12 left-10 md:left-24 lg:left-64 xl:left-96 w-28 !fill-blue-600/30" />
 
-        <figure className="max-w-screen-md mx-auto">
+        <figure className="max-w-screen-sm mx-auto">
           <svg
             className="h-20 mx-auto text-blue-600 "
             viewBox="0 0 24 27"
@@ -20,23 +20,19 @@ const Testimonial = () => {
               fill="currentColor"
             />
           </svg>
-          <blockquote>
-            <p className="text-xl font-medium text-white">
-              &quot;I love Learnify! The ability to watch and save video
-              lessons, then pick up where I left off anytime, is fantastic.
-              Plus, it&apos;s all free! It&apos;s perfect for flexible learning
-              at my own pace.&quot;
-            </p>
-          </blockquote>
-          <figcaption className="flex items-center justify-center mt-6 gap-3">
-            <BsPersonCircle className="text-lg text-white mb-1" />
-            <h3 className="text-sm font-medium text-blue-100 capitalize">
-              aaza seifeddine
-            </h3>
-            {/* <span className=" h-6 w-[1px] bg-blue-300"></span> */}
-            <h4 className=" text-sm text-blue-100 capitalize">
-              software engineer
-            </h4>
+
+          <h3 className="text-white">
+            &quot;I love Learnify! The ability to watch and save video lessons,
+            then pick up where I left off anytime, is fantastic. Plus, it&apos;s
+            all free! It&apos;s perfect for flexible learning at my own
+            pace.&quot;
+          </h3>
+
+          <figcaption className="text-blue-50 flex items-center justify-center mt-6 gap-3">
+            <BsPersonCircle className="text-white text-lg " />
+            <h4 className=" text-lg font-medium">Aaza Seifeddine</h4>
+            <span className="text-blue-100 h-6 w-[1px] bg-blue-200"></span>
+            <h6 className="">Software Engineer</h6>
           </figcaption>
         </figure>
       </ul>

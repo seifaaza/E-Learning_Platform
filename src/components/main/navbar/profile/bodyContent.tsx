@@ -2,52 +2,71 @@ import { Button } from "@/components/ui/button";
 import { mainStore } from "@/store/mainStore";
 import Link from "next/link";
 import {
+  BsBookmark,
   BsBookmarkFill,
-  BsClipboard2DataFill,
+  BsEye,
   BsEyeFill,
+  BsClipboard2Data,
+  BsClipboard2DataFill,
 } from "react-icons/bs";
+import { usePathname } from "next/navigation";
 
 interface BodyContentProps {
   username: string | null | undefined;
 }
 
 const BodyContent: React.FC<BodyContentProps> = ({ username }) => {
+  const iconStyle = "mr-2 h-5";
   const linksList = [
     {
       title: "saved",
       link: "/saved",
-      icon: <BsBookmarkFill className="mr-2 h-[.85rem] pb-[1px]" />,
+      icon: <BsBookmark className={iconStyle} />,
+      fillIcon: <BsBookmarkFill className={iconStyle} />,
     },
     {
-      title: "watching list",
-      link: "/watching",
-      icon: <BsEyeFill className="mr-2 h-4 pb-[1px]" />,
+      title: "watched",
+      link: "/watched",
+      icon: <BsEye className={iconStyle} />,
+      fillIcon: <BsEyeFill className={iconStyle} />,
     },
     {
-      title: "learning path",
-      link: "/learning-path",
-      icon: <BsClipboard2DataFill className="mr-2 pb-[1px] h-4" />,
+      title: "learning",
+      link: "/learning",
+      icon: <BsClipboard2Data className={iconStyle} />,
+      fillIcon: <BsClipboard2DataFill className={iconStyle} />,
     },
   ];
 
+  const pathname = usePathname(); // Get the current path
+
   const { setSheetOpen } = mainStore();
-  const links = linksList.map((item, index) => (
-    <li key={index} className="w-full">
-      <Link
-        href={`/${username ? `${username}/${item.link}` : ""}`}
-        onClick={() => setSheetOpen(false)}
-        className="w-full block"
-      >
-        <Button
-          variant="link"
-          className="w-full flex justify-start capitalize text-white hover:no-underline hover:bg-blue-800/60 duration-300"
+
+  const links = linksList.map((item, index) => {
+    // Determine if the current link matches the pathname
+    const isActive =
+      pathname === `/${username ? `${username}${item.link}` : ""}`;
+
+    return (
+      <li key={index} className="w-full">
+        <Link
+          href={`/${username ? `${username}${item.link}` : ""}`}
+          onClick={() => setSheetOpen(false)}
+          className="w-full"
         >
-          {item.icon}
-          <span>{item.title}</span>
-        </Button>
-      </Link>
-    </li>
-  ));
+          <Button
+            variant="link"
+            className={`w-full flex justify-start text-white hover:no-underline hover:bg-blue-800/50 duration-300 ${
+              isActive ? "bg-blue-800" : ""
+            }`}
+          >
+            {isActive ? item.fillIcon : item.icon}
+            <span>{item.title}</span>
+          </Button>
+        </Link>
+      </li>
+    );
+  });
 
   return <ul className="w-full flex flex-col gap-4">{links}</ul>;
 };

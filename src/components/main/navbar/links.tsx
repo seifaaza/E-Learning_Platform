@@ -14,7 +14,7 @@ const Links: React.FC<LinksProps> = ({ username }) => {
         <Link href="/courses" className="block">
           <Button
             variant="link"
-            className="capitalize text-white hover:no-underline hover:opacity-80"
+            className="text-base capitalize text-white hover:no-underline hover:opacity-80"
           >
             courses
           </Button>
@@ -25,7 +25,7 @@ const Links: React.FC<LinksProps> = ({ username }) => {
         <Link href="/quizzes" className="block">
           <Button
             variant="link"
-            className="capitalize text-white hover:no-underline hover:opacity-80"
+            className="text-base capitalize text-white hover:no-underline hover:opacity-80"
           >
             quizzes
           </Button>
