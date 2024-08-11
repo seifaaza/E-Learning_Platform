@@ -1,27 +1,29 @@
 import axios from "axios";
 import LessonPlayer from "./lessonPlayer";
-import LessonsList from "./lessonsList";
+import LessonsControl from "./lessonsControl";
 import LessonPlayerLoader from "@/components/main/loaders/lessonPlayerLoader";
 import LessonsListLoader from "@/components/main/loaders/lessonsListLoader";
 import { Suspense } from "react";
+import LessonInfo from "./lessonInfo";
 
 interface LessonItemProps {
   courseId: string;
   lessonId: string;
   initialLessonId: string;
   lessonsCount: number;
-  otherLessons: string[];
+  lessonIds: string[];
 }
 
 const Lesson: React.FC<LessonItemProps> = async ({
   courseId,
   lessonId,
   initialLessonId,
+  lessonIds,
 }) => {
   const fetchLessonById = async (courseId: string, lessonId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/courses/${courseId}?lesson=${
+        `${process.env.API_URL}/api/courses/${courseId}?lesson=${
           lessonId || initialLessonId
         }`
       );
@@ -36,20 +38,22 @@ const Lesson: React.FC<LessonItemProps> = async ({
 
   return (
     <section className="w-full ">
-      <div className="aspect-video">
-        <Suspense fallback={<LessonPlayerLoader />}>
-          <LessonPlayer
-            title={lesson.title}
-            thumbnail={lesson.thumbnail}
-            video={lesson.video}
-            index={lesson.index}
-            lessonsCount={lesson.lessonsCount}
-          />
-        </Suspense>
-        <Suspense fallback={<LessonsListLoader />}>
-          <LessonsList courseId={courseId} otherLessons={lesson.otherLessons} />
-        </Suspense>
-      </div>
+      <article className="aspect-video">
+        <LessonPlayer
+          title={lesson.title}
+          thumbnail={lesson.thumbnail}
+          video={lesson.video}
+          index={lesson.index}
+          lessonsCount={lessonIds.length}
+        />
+        <LessonsControl
+          title={lesson.title}
+          index={lesson.index}
+          courseId={courseId}
+          lessonIds={lessonIds}
+        />
+        <LessonInfo />
+      </article>
     </section>
   );
 };

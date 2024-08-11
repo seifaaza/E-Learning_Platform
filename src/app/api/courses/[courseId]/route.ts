@@ -14,8 +14,10 @@ export async function GET(
   const lessonId = url.searchParams.get("lesson");
 
   try {
-    // Find the course by its ID
-    const course = await Course.findById(courseId).populate("lessons");
+    // Find the course by its ID, excluding `updated_at` and `category`
+    const course = await Course.findById(courseId)
+      .populate("lessons", "_id")
+      .select("-updated_at -category");
 
     if (!course) {
       return NextResponse.json(
@@ -24,11 +26,13 @@ export async function GET(
       );
     }
 
-    // Get the total number of lessons
-    const lessonsCount = course.lessons.length;
+    // Create an array of all lesson IDs
+    const lessonIds = course.lessons.map((lessonInCourse: any) =>
+      lessonInCourse._id.toString()
+    );
 
-    // If a specific lesson ID is provided, find the lesson and include it in the response
     if (lessonId) {
+      // Find the lesson by ID
       const lesson = await Lesson.findById(lessonId);
       if (!lesson) {
         return NextResponse.json(
@@ -38,9 +42,7 @@ export async function GET(
       }
 
       // Check if the lesson is part of the course
-      const lessonIndex = course.lessons.findIndex(
-        (lessonInCourse: any) => lessonInCourse._id.toString() === lessonId
-      );
+      const lessonIndex = lessonIds.indexOf(lessonId);
 
       if (lessonIndex === -1) {
         return NextResponse.json(
@@ -49,31 +51,31 @@ export async function GET(
         );
       }
 
-      // Extract other lessons excluding the current one
-      const otherLessons = course.lessons
-        .filter(
-          (lessonInCourse: any) => lessonInCourse._id.toString() !== lessonId
-        )
-        .map((lessonInCourse: any) => ({
-          id: lessonInCourse._id.toString(),
-          title: lessonInCourse.title,
-          thumbnail: lessonInCourse.thumbnail,
-        }));
-
-      // Return the lesson with the specified format, total number of lessons, and other lessons
+      // Return the lesson with the specified format, total number of lessons, and all lessons
       return NextResponse.json({
         _id: lesson._id.toString(),
         title: lesson.title,
         video: lesson.video,
         thumbnail: lesson.thumbnail,
         index: lessonIndex + 1,
-        lessonsCount,
-        otherLessons,
       });
     }
 
     // If no specific lesson ID is provided, return the course details with the total number of lessons
-    return NextResponse.json({ ...course.toObject(), lessonsCount });
+    const courseResponse = {
+      _id: course._id.toString(),
+      title: course.title,
+      thumbnail: course.thumbnail,
+      description: course.description,
+      tags: course.tags,
+      language: course.language,
+      lessonIds,
+      source: course.source,
+      creator: course.creator,
+      created_at: course.created_at,
+    };
+
+    return NextResponse.json(courseResponse);
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }

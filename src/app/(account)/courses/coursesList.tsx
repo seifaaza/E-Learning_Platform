@@ -6,7 +6,7 @@ import DataNotFound from "@/components/main/errors/dataNotFound";
 interface Course {
   _id: string;
   initialLessonId: string;
-  img: string;
+  thumbnail: string;
   title: string;
   description: string;
   action: string;
@@ -17,7 +17,7 @@ const CoursesList = async () => {
 
   try {
     const response = await axios.get<Course[]>(
-      `http://localhost:3000/api/courses`
+      `${process.env.API_URL}/api/courses`
     );
     courses = response.data;
   } catch (error) {
@@ -27,17 +27,13 @@ const CoursesList = async () => {
   return (
     <>
       {courses && courses.length > 0 ? (
-        <ul className="mt-4 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+        <ul className="mt-4 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {courses.map((item) => (
             <Link
+              key={item.title}
               href={`/courses/${item._id}?lesson=${item.initialLessonId}`}
-              key={item._id}
             >
-              <Card
-                thumbnail={`https://res.cloudinary.com/depztpide/image/upload/${item.img}`}
-                title={item.title}
-                description={item.description}
-              />
+              <Card thumbnail={item.thumbnail} title={item.title} />
             </Link>
           ))}
         </ul>

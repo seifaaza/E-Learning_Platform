@@ -26,7 +26,7 @@ const CourseItem: React.FC<CourseItemProps> = async ({
   const fetchCourseById = async (courseId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/courses/${courseId}`
+        `${process.env.API_URL}/api/courses/${courseId}`
       );
       return response.data;
     } catch (error: any) {
@@ -59,20 +59,20 @@ const CourseItem: React.FC<CourseItemProps> = async ({
             variant="link"
             className="!pl-[.65rem] hover:!no-underline !border-blue-600 border-[1px] hover:!bg-blue-600 hover:!text-white"
           >
-            <BsChevronLeft className="mr-2 h-4 mb-[2px]" />
+            <BsChevronLeft className="mr-2 h-4" />
             Back
           </Button>
         </Link>
-        <div className="mt-2 flex flex-col gap-6 md:gap-10 xl:gap-12 lg:flex-row lg:justify-between">
+        <ul className="mt-4 flex flex-col gap-6 xl:gap-12 lg:flex-row lg:justify-between">
           {course ? (
             <>
               {lesson && (
                 <Lesson
                   lessonId={lesson}
                   courseId={courseId}
-                  initialLessonId={course.lessons[0]}
-                  lessonsCount={course.lessons.length}
-                  otherLessons={course.lessons}
+                  initialLessonId={course.lessonIds[0]}
+                  lessonsCount={course.lessonsCount}
+                  lessonIds={course.lessonIds}
                 />
               )}
 
@@ -86,6 +86,7 @@ const CourseItem: React.FC<CourseItemProps> = async ({
                       date={formatDate(course.created_at)}
                       description={course.description}
                       source={course.source}
+                      creator={course.creator}
                       tags={course.tags}
                     />
                   </>
@@ -95,7 +96,7 @@ const CourseItem: React.FC<CourseItemProps> = async ({
           ) : (
             <p>No course details available.</p>
           )}
-        </div>
+        </ul>
       </article>
     </section>
   );

@@ -18,7 +18,7 @@ const Categories = async () => {
 
   try {
     const response = await axios.get<Category[]>(
-      `http://localhost:3000/api/categories`
+      `${process.env.API_URL}/api/categories`
     );
     categories = response.data;
   } catch (error) {

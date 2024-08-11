@@ -15,7 +15,7 @@ const Courses: React.FC = async () => {
             <Categories />
           </Suspense>
         </section>
-        <Suspense fallback={<CoursesListLoader count={9} />}>
+        <Suspense fallback={<CoursesListLoader count={12} />}>
           <CoursesList />
         </Suspense>
       </article>

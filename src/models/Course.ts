@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { ICategory } from "./Category";
-import Lesson from "./Lesson"; // Import the Lesson model
 
 // Define the Course interface
 export interface ICourse extends Document {
@@ -8,6 +7,7 @@ export interface ICourse extends Document {
   thumbnail: string;
   description: string;
   source: string;
+  creator: string;
   tags?: string[];
   language?: string;
   category: ICategory | mongoose.Types.ObjectId; // Reference to Category
@@ -22,6 +22,7 @@ const courseSchema: Schema<ICourse> = new mongoose.Schema({
   thumbnail: { type: String, required: true },
   description: { type: String, required: true },
   source: { type: String },
+  creator: { type: String },
   tags: { type: [String] },
   language: { type: String },
   category: {
@@ -47,7 +48,7 @@ const courseSchema: Schema<ICourse> = new mongoose.Schema({
 
 // Middleware to update updated_at before saving
 courseSchema.pre<ICourse>("save", function (next) {
-  this.updated_at = new Date(); // Convert to Date object
+  this.updated_at = new Date();
   next();
 });
 

@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import Course from "@/models/Course";
+import Lesson from "@/models/Lesson"; // Import the Lesson model
 import { NextRequest, NextResponse } from "next/server";
 
 // Handle GET requests
@@ -7,9 +8,12 @@ export async function GET() {
   await dbConnect();
 
   try {
+    // Ensure that the Lesson model is registered before using it
+    await Lesson.init();
+
     // Find all courses and populate the lessons field
     const courses = await Course.find({})
-      .select("title thumbnail description lessons")
+      .select("title thumbnail")
       .populate("lessons", "_id");
 
     if (courses.length === 0) {
@@ -52,6 +56,9 @@ export async function POST(req: NextRequest) {
   await dbConnect();
 
   try {
+    // Ensure that the Lesson model is registered before using it
+    await Lesson.init();
+
     // Parse the JSON body of the request
     const body = await req.json();
     const {

@@ -7,7 +7,7 @@ interface CoursesListLoaderProps {
 
 const CoursesListLoader: React.FC<CoursesListLoaderProps> = ({ count = 1 }) => {
   return (
-    <ul className="w-full mt-4 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+    <ul className="mt-4 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  xl:gap-x-8">
       {Array.from({ length: count }).map((_, index) => (
         <Skeleton
           key={index}

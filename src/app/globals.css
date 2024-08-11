@@ -37,6 +37,9 @@
       @apply border-border font-primary antialiased !important;
   }
 
+  html{
+      @apply overflow-x-hidden !important;
+  }
   body {
       @apply bg-background text-foreground bg-blue-600;
   }
@@ -49,12 +52,16 @@
     @apply text-lg md:text-xl font-medium !leading-[1.7] capitalize
   }
 
+  h4{
+    @apply text-base md:text-lg font-medium !leading-[1.7] capitalize
+  }
+
   h5{
     @apply text-base md:text-[1.03rem] xl:text-[1.05rem] leading-[1.6] text-left 
   }
 
   h6{
-    @apply text-base
+    @apply text-sm lg:text-base
   }
 
   p{
@@ -66,7 +73,7 @@
   }
 
   a{
-    @apply block 
+    @apply block h-fit
   }
 
   img{
@@ -77,5 +84,4 @@
     @apply text-base border-none focus-visible:ring-offset-0 focus-visible:ring-0 !important;
   }
 }
-
 
