@@ -1,22 +1,14 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import React from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
-// Define the structure of each lesson item
-interface LessonId {
-  id: string;
-  title: string;
-  index: number;
-  thumbnail: string;
-}
-
-// Update the interface to reflect the correct type for lessons
 interface LessonsControlProps {
   courseId: string;
   title: string;
   index: number;
-  lessonIds: string[]; // Array of lesson IDs
+  lessonIds: string[];
 }
 
 const LessonsControl: React.FC<LessonsControlProps> = ({
@@ -25,8 +17,12 @@ const LessonsControl: React.FC<LessonsControlProps> = ({
   courseId,
   lessonIds,
 }) => {
+  if (!lessonIds || lessonIds.length === 0) {
+    notFound();
+  }
+
   // Find the index of the current lesson in the array
-  const currentIndex = lessonIds.indexOf(lessonIds[index - 1]); // Adjust for 0-based index
+  const currentIndex = index - 1;
 
   // Get previous and next lesson IDs
   const prevLessonId = currentIndex > 0 ? lessonIds[currentIndex - 1] : null;
@@ -37,7 +33,7 @@ const LessonsControl: React.FC<LessonsControlProps> = ({
     <ul className="w-full flex flex-col md:flex-row gap-4 mt-4 md:mt-4 justify-between">
       <li>
         <h3 className="text-blue-600">
-          Lesson {index} : {title}
+          Lesson {index}: {title}
         </h3>
       </li>
       <li className="self-end flex gap-2 md:gap-3">

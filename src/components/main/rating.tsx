@@ -19,7 +19,8 @@ interface RatingsProps extends React.HTMLAttributes<HTMLDivElement> {
   Icon?: React.ReactElement;
   variant?: keyof typeof ratingVariants;
   onRatingChange?: (rating: number) => void;
-  interactive?: boolean; // Add this prop
+  interactive?: boolean;
+  ratingNumber?: boolean;
 }
 
 export const CommentRatings = ({
@@ -30,7 +31,8 @@ export const CommentRatings = ({
   Icon = <Star />,
   variant = "yellow",
   onRatingChange,
-  interactive = false, // Default to true for interactive behavior
+  interactive = false,
+  ratingNumber = false,
   ...props
 }: RatingsProps) => {
   const [hoverRating, setHoverRating] = useState<number | null>(null);
@@ -108,7 +110,9 @@ export const CommentRatings = ({
           })
         )}
       </div>
-      <h5 className="text-yellow-500 font-bold">{currentRating}</h5>
+      {ratingNumber && (
+        <h5 className="text-yellow-500 font-bold">{currentRating}</h5>
+      )}
     </div>
   );
 };

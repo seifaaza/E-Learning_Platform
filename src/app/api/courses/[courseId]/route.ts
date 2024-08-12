@@ -17,7 +17,7 @@ export async function GET(
     // Find the course by its ID, excluding `updated_at` and `category`
     const course = await Course.findById(courseId)
       .populate("lessons", "_id")
-      .select("-updated_at -category");
+      .select("title description tags language source creator created_at");
 
     if (!course) {
       return NextResponse.json(
@@ -53,23 +53,21 @@ export async function GET(
 
       // Return the lesson with the specified format, total number of lessons, and all lessons
       return NextResponse.json({
-        _id: lesson._id.toString(),
         title: lesson.title,
+        description: lesson.description,
         video: lesson.video,
         thumbnail: lesson.thumbnail,
         index: lessonIndex + 1,
+        lessonIds,
       });
     }
 
     // If no specific lesson ID is provided, return the course details with the total number of lessons
     const courseResponse = {
-      _id: course._id.toString(),
       title: course.title,
-      thumbnail: course.thumbnail,
       description: course.description,
       tags: course.tags,
       language: course.language,
-      lessonIds,
       source: course.source,
       creator: course.creator,
       created_at: course.created_at,

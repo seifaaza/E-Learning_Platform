@@ -3,6 +3,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 // Define the Lesson interface
 export interface ILesson extends Document {
   title: string;
+  description: string;
   video: string;
   thumbnail: string;
   isComplete: boolean;
@@ -11,6 +12,7 @@ export interface ILesson extends Document {
 // Define the Lesson schema
 const lessonSchema: Schema<ILesson> = new mongoose.Schema({
   title: { type: String, required: true },
+  description: { type: String },
   video: { type: String, required: true },
   thumbnail: { type: String, required: true },
   isComplete: { type: Boolean, default: false },
