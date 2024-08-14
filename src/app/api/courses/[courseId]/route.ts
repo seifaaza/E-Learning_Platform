@@ -1,6 +1,8 @@
 import dbConnect from "@/lib/dbConnect";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
+import User from "@/models/User";
+import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -12,10 +14,22 @@ export async function GET(
   const { courseId } = params;
   const url = new URL(request.url);
   const lessonId = url.searchParams.get("lesson");
+  const username = url.searchParams.get("username");
 
   try {
-    // Find the course by its ID, excluding `updated_at` and `category`
-    const course = await Course.findById(courseId)
+    if (!courseId) {
+      return NextResponse.json(
+        { errorMsg: "Course ID is missing" },
+        { status: 400 }
+      );
+    }
+
+    const courseObjectId = new mongoose.Types.ObjectId(courseId);
+    const lessonObjectId = lessonId
+      ? new mongoose.Types.ObjectId(lessonId)
+      : null;
+
+    const course = await Course.findById(courseObjectId)
       .populate("lessons", "_id")
       .select("title description tags language source creator created_at");
 
@@ -26,14 +40,52 @@ export async function GET(
       );
     }
 
-    // Create an array of all lesson IDs
     const lessonIds = course.lessons.map((lessonInCourse: any) =>
       lessonInCourse._id.toString()
     );
 
-    if (lessonId) {
-      // Find the lesson by ID
-      const lesson = await Lesson.findById(lessonId);
+    if (username) {
+      const user = await User.findOne({ username }).exec();
+
+      if (user) {
+        console.log("User Progress Before Initialization:", user.progress);
+
+        // Ensure progress is initialized
+        if (!user.progress) {
+          user.progress = new Map<string, CourseProgress>();
+        }
+
+        if (!user.progress.has(courseId)) {
+          console.log(`Initializing progress for course ${courseId}`);
+          user.progress.set(courseId, {
+            completedLessons: [],
+            totalLessons: lessonIds.length,
+          });
+        } else {
+          console.log(
+            `Progress already exists for course ${courseId}:`,
+            user.progress.get(courseId)
+          );
+        }
+
+        // Check if the course is already in watchedCourses
+        if (!user.watchedCourses.includes(courseObjectId)) {
+          user.watchedCourses.push(courseObjectId);
+        }
+
+        await user.save();
+
+        console.log("User Progress After Initialization:", user.progress);
+      } else {
+        return NextResponse.json(
+          { errorMsg: "User not found" },
+          { status: 404 }
+        );
+      }
+    }
+
+    if (lessonObjectId) {
+      const lesson = await Lesson.findById(lessonObjectId);
       if (!lesson) {
         return NextResponse.json(
           { errorMsg: "Lesson not found" },
@@ -41,8 +93,7 @@ export async function GET(
         );
       }
 
-      // Check if the lesson is part of the course
-      const lessonIndex = lessonIds.indexOf(lessonId);
+      const lessonIndex = lessonIds.indexOf(lessonObjectId.toString());
 
       if (lessonIndex === -1) {
         return NextResponse.json(
@@ -51,7 +102,6 @@ export async function GET(
         );
       }
 
-      // Return the lesson with the specified format, total number of lessons, and all lessons
       return NextResponse.json({
         title: lesson.title,
         description: lesson.description,
@@ -62,7 +112,6 @@ export async function GET(
       });
     }
 
-    // If no specific lesson ID is provided, return the course details with the total number of lessons
     const courseResponse = {
       title: course.title,
       description: course.description,
@@ -71,6 +120,7 @@ export async function GET(
       source: course.source,
       creator: course.creator,
       created_at: course.created_at,
+      totalLessons: course.lessons.length,
     };
 
     return NextResponse.json(courseResponse);

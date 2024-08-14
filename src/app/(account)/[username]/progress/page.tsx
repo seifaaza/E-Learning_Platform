@@ -1,15 +1,15 @@
 import React, { Suspense } from "react";
 
-interface SavedCoursesProps {
+interface StartedCoursesProps {
   params: {
     username: string;
   };
 }
 
-const SavedCourses: React.FC<SavedCoursesProps> = ({
+const StartedCourses: React.FC<StartedCoursesProps> = ({
   params: { username },
 }) => {
   return <p className="text-black">{username}</p>;
 };
 
-export default SavedCourses;
+export default StartedCourses;

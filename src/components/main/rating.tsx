@@ -79,7 +79,7 @@ export const CommentRatings = ({
       onMouseLeave={interactive ? handleMouseLeave : undefined}
       {...props}
     >
-      <div
+      <span
         className="flex items-center"
         onMouseEnter={interactive ? handleMouseEnter : undefined}
       >
@@ -109,7 +109,7 @@ export const CommentRatings = ({
             "data-star-index": i + fullStars + 1,
           })
         )}
-      </div>
+      </span>
       {ratingNumber && (
         <h5 className="text-yellow-500 font-bold">{currentRating}</h5>
       )}

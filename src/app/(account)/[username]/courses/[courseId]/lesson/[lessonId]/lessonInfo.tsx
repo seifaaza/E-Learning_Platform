@@ -1,6 +1,5 @@
 import { Separator } from "@radix-ui/react-separator";
-import LessonsControl from "./lessonsControl";
-import { Suspense } from "react";
+import LessonControl from "./lessonControl";
 import { notFound } from "next/navigation";
 import axios from "axios";
 
@@ -37,7 +36,7 @@ const LessonInfo: React.FC<LessonInfoProps> = async ({
   const lesson = await fetchLessonById(courseId, lessonId);
   return (
     <>
-      <LessonsControl
+      <LessonControl
         title={lesson.title}
         index={lesson.index}
         courseId={courseId}

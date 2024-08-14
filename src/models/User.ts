@@ -1,15 +1,20 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { ICourse } from "./Course";
-import { ILesson } from "./Lesson"; // Import ILesson interface
+import { ILesson } from "./Lesson";
+
+// Define the interface for user progress
+interface CourseProgress {
+  totalLessons: number;
+}
 
 export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  savedCourses: ICourse[] | mongoose.Types.ObjectId[];
-  watchedCourses: ICourse[] | mongoose.Types.ObjectId[];
-  completedCourses: ICourse[] | mongoose.Types.ObjectId[];
-  completedLessons: ILesson[] | mongoose.Types.ObjectId[]; // List of completed lessons
+  savedCourses: mongoose.Types.ObjectId[]; // Array of course IDs
+  watchedCourses: mongoose.Types.ObjectId[]; // Array of course IDs
+  completedCourses: mongoose.Types.ObjectId[]; // Array of course IDs
+  progress: Record<string, CourseProgress>; // Keyed by course ID
 }
 
 const userSchema: Schema<IUser> = new mongoose.Schema({
@@ -34,12 +39,14 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
       ref: "Course",
     },
   ],
-  completedLessons: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Lesson",
+
+  progress: {
+    type: Map,
+    of: {
+      completedLessons: [mongoose.Schema.Types.ObjectId],
+      totalLessons: Number,
     },
-  ],
+  },
 });
 
 const User: Model<IUser> =

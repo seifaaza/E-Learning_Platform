@@ -4,14 +4,14 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
-interface LessonsControlProps {
+interface LessonControlProps {
   courseId: string;
   title: string;
   index: number;
   lessonIds: string[];
 }
 
-const LessonsControl: React.FC<LessonsControlProps> = ({
+const LessonControl: React.FC<LessonControlProps> = ({
   title,
   index,
   courseId,
@@ -61,4 +61,4 @@ const LessonsControl: React.FC<LessonsControlProps> = ({
   );
 };
 
-export default LessonsControl;
+export default LessonControl;

@@ -26,14 +26,14 @@ const Features2 = () => {
               answers to quickly correct mistakes and improve your
               understanding.
             </p>
-            <ul className=" flex justify-center lg:justify-start gap-8 lg:gap-12 xl:gap-14 text-white font-medium capitalize">
+            <ul className=" flex justify-center lg:justify-start gap-8 lg:gap-12 xl:gap-14 text-white font-medium">
               <li className="flex items-center gap-2">
                 <BsFillQuestionCircleFill className="text-white text-lg " />
-                <h5>adaptive quizzes</h5>
+                <h5>Adaptive Quizzes</h5>
               </li>
               <li className="flex items-center gap-2">
                 <BsCheckCircleFill className="text-white text-lg " />
-                <h5> instant feedback</h5>
+                <h5>Instant Feedback</h5>
               </li>
             </ul>
           </article>

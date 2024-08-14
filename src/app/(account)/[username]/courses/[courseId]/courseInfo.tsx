@@ -55,19 +55,10 @@ const CourseInfo: React.FC<CourseInfoProps> = async ({ courseId }) => {
 
   return (
     <>
-      <ul className="flex flex-col sm:flex-row justify-between gap-6 md:gap-8 lg:gap-10 xl:gap-12">
-        <li>
-          <h2 className="text-xl md:text-2xl xl:text-3xl font-bold text-blue-600 capitalize !mb-0">
-            {course.title}
-          </h2>
-        </li>
-        <li className="self-end">
-          <Button>
-            Save
-            <BsBookmark className="ml-2 h-4 " />
-          </Button>
-        </li>
-      </ul>
+      <h2 className="text-xl md:text-2xl xl:text-3xl font-bold text-blue-600 capitalize !mb-0">
+        {course.title}
+      </h2>
+
       <CommentRatings
         rating={3.5}
         size={20}
@@ -110,7 +101,7 @@ const CourseInfo: React.FC<CourseInfoProps> = async ({ courseId }) => {
       <article className="flex flex-col gap-1">
         <h5 className=" text-gray-900 font-medium">Tags</h5>
 
-        <div className="flex flex-wrap gap-2 md:gap-3">{tagsList}</div>
+        <ul className="flex flex-wrap gap-2 md:gap-3">{tagsList}</ul>
       </article>
 
       <Separator

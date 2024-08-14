@@ -1,6 +1,6 @@
 import axios from "axios";
-import MuxPlayer from "@mux/mux-player-react";
 import { notFound } from "next/navigation";
+import Player from "./player";
 
 interface LessonPlayerProps {
   courseId: string;
@@ -38,13 +38,8 @@ const LessonPlayer: React.FC<LessonPlayerProps> = async ({
       <p className="text-sm text-gray-700 mr-2 text-right mb-2">
         Lesson {lesson.index} of {lesson.lessonIds.length}
       </p>
-      <MuxPlayer
-        streamType="on-demand"
+      <Player
         src={`https://res.cloudinary.com/depztpide/video/upload/${lesson.video}`}
-        primaryColor="#ffffff"
-        accentColor="#2563eb"
-        className="w-full rounded-lg aspect-video overflow-hidden"
-        autoPlay
       />
     </>
   );

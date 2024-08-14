@@ -21,17 +21,18 @@ const Features1 = () => {
             <h2 className="text-white">your seamless learning experience</h2>
             <p className="text-blue-50 mb-6 text-center lg:text-left">
               Learn at your own pace with our video lessons. Save your progress
-              and continue right where you left off with our convenient watching
-              list feature, making education flexible and convenient.
+              and seamlessly pick up where you left off using our convenient
+              in-progress list feature, making education both flexible and
+              accessible.
             </p>
-            <ul className=" flex justify-center lg:justify-start gap-8 lg:gap-12 xl:gap-14 text-white font-medium capitalize">
+            <ul className=" flex justify-center lg:justify-start gap-8 lg:gap-12 xl:gap-14 text-white font-medium">
               <li className=" flex items-center gap-2 ">
                 <BsBookmarkFill className="text-white text-lg " />
-                <h5>save progress</h5>
+                <h5>Saved Courses</h5>
               </li>
               <li className="flex items-center gap-2">
                 <BsCollectionFill className="text-white text-lg " />
-                <h5>watching list</h5>
+                <h5>In Progress</h5>
               </li>
             </ul>
           </article>

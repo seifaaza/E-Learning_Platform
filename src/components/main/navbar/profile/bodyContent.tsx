@@ -25,8 +25,8 @@ const BodyContent: React.FC<BodyContentProps> = ({ username }) => {
       fillIcon: <BsBookmarkFill className={iconStyle} />,
     },
     {
-      title: "watched",
-      link: "/watched",
+      title: "in progress",
+      link: "/progress",
       icon: <BsEye className={iconStyle} />,
       fillIcon: <BsEyeFill className={iconStyle} />,
     },

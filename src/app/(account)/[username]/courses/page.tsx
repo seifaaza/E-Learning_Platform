@@ -5,7 +5,13 @@ import SelectLoader from "@/components/main/loaders/selectLoader";
 import Categories from "./filter/categories";
 import CoursesListLoader from "@/components/main/loaders/coursesListLoader";
 
-const Courses: React.FC = async () => {
+interface CoursesProps {
+  params: {
+    username: string;
+  };
+}
+
+const Courses: React.FC<CoursesProps> = ({ params: { username } }) => {
   return (
     <section className="bg-blue-50">
       <article className="container px-3 pt-4 pb-14">
@@ -16,7 +22,7 @@ const Courses: React.FC = async () => {
           </Suspense>
         </section>
         <Suspense fallback={<CoursesListLoader count={12} />}>
-          <CoursesList />
+          <CoursesList username={username} />
         </Suspense>
       </article>
     </section>
