@@ -1,17 +1,13 @@
 import React, { Suspense } from "react";
 import CoursesList from "./coursesList";
-import Search from "./filter/search";
+import Search from "../[username]/courses/filter/search";
 import SelectLoader from "@/components/main/loaders/selectLoader";
-import Categories from "./filter/categories";
+import Categories from "../[username]/courses/filter/categories";
 import CoursesListLoader from "@/components/main/loaders/coursesListLoader";
 
-interface CoursesProps {
-  params: {
-    username: string;
-  };
-}
+interface CoursesProps {}
 
-const Courses: React.FC<CoursesProps> = ({ params: { username } }) => {
+const Courses: React.FC<CoursesProps> = () => {
   return (
     <section className="bg-blue-50">
       <article className="container px-3 pt-4 pb-14">
@@ -22,7 +18,7 @@ const Courses: React.FC<CoursesProps> = ({ params: { username } }) => {
           </Suspense>
         </section>
         <Suspense fallback={<CoursesListLoader count={12} />}>
-          <CoursesList username={username} />
+          <CoursesList username="sambosa" />
         </Suspense>
       </article>
     </section>

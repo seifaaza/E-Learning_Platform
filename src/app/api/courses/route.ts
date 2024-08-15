@@ -13,7 +13,7 @@ export async function GET() {
 
     // Find all courses and populate the lessons field
     const courses = await Course.find({})
-      .select("title thumbnail lessons")
+      .select("title thumbnail lessons ratings averageRating")
       .populate("lessons", "_id");
 
     if (courses.length === 0) {
@@ -24,21 +24,19 @@ export async function GET() {
       );
     }
 
-    // Extract the ID of the first lesson and count of lessons for each course
+    // Extract the course details including average rating
     const coursesWithDetails = courses.map((course) => {
-      const initialLessonId =
-        course.lessons.length > 0 ? course.lessons[0]._id : null;
+      // Return course details including average rating
       return {
         _id: course._id,
         title: course.title,
         thumbnail: course.thumbnail,
-        description: course.description,
-        initialLessonId,
         lessonsCount: course.lessons.length, // Include the count of lessons
+        averageRating: course.averageRating || 0, // Include the average rating or default to 0
       };
     });
 
-    // Return the courses with first lesson ID and lesson count
+    // Return the courses with details
     return NextResponse.json(coursesWithDetails);
   } catch (error) {
     // Handle any errors that occur

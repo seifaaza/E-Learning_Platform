@@ -7,6 +7,7 @@ interface CardProps {
   thumbnail: string;
   title: string;
   lessonsCount: number;
+  averageRating: number;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -14,6 +15,7 @@ const Card: React.FC<CardProps> = ({
   thumbnail,
   title,
   lessonsCount,
+  averageRating,
 }) => {
   return (
     <section className="p-2 md:p-4 hover:scale-[1.02] duration-300 ">
@@ -43,7 +45,7 @@ const Card: React.FC<CardProps> = ({
           </h6>
         )}
       </ul>
-      <CommentRatings rating={4} size={16} className="pl-1 w-fit" />
+      <CommentRatings rating={averageRating} size={16} className="pl-1 w-fit" />
     </section>
   );
 };

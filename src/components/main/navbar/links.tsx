@@ -11,7 +11,7 @@ const Links: React.FC<LinksProps> = ({ username }) => {
   return (
     <ul className="flex justify-center items-center gap-2">
       <li>
-        <Link href={`/${username}/courses`}>
+        <Link href={`/courses`}>
           <Button
             variant="link"
             className="text-base capitalize text-white hover:no-underline hover:opacity-80"
@@ -22,7 +22,7 @@ const Links: React.FC<LinksProps> = ({ username }) => {
       </li>
       <li className="bg-white h-8 w-[.5px]"></li>
       <li>
-        <Link href={`/${username}/quizzes`}>
+        <Link href={`/quizzes`}>
           <Button
             variant="link"
             className="text-base capitalize text-white hover:no-underline hover:opacity-80"

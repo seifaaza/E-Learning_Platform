@@ -1,7 +1,8 @@
 import LessonPlayerLoader from "@/components/main/loaders/lessonPlayerLoader";
 import LessonInfo from "./lessonInfo";
-import LessonPlayer from "./lessonPlayer";
+
 import { Suspense } from "react";
+import LessonPlayer from "./lessonPlayer";
 
 interface LessonItemProps {
   courseId: string;
@@ -15,7 +16,6 @@ const Lesson: React.FC<LessonItemProps> = ({ courseId, lessonId }) => {
         <Suspense fallback={<LessonPlayerLoader />}>
           <LessonPlayer courseId={courseId} lessonId={lessonId} />
         </Suspense>
-        <LessonInfo courseId={courseId} lessonId={lessonId} />
       </article>
     </section>
   );

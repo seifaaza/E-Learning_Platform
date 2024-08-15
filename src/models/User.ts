@@ -1,18 +1,17 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-import { ICourse } from "./Course";
-import { ILesson } from "./Lesson";
 
 // Define the interface for user progress
 interface CourseProgress {
   totalLessons: number;
+  completedLessons: mongoose.Types.ObjectId[]; // Added completedLessons field
 }
 
 export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
+  startedCourses: mongoose.Types.ObjectId[]; // Array of course IDs
   savedCourses: mongoose.Types.ObjectId[]; // Array of course IDs
-  watchedCourses: mongoose.Types.ObjectId[]; // Array of course IDs
   completedCourses: mongoose.Types.ObjectId[]; // Array of course IDs
   progress: Record<string, CourseProgress>; // Keyed by course ID
 }
@@ -21,13 +20,13 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  savedCourses: [
+  startedCourses: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
     },
   ],
-  watchedCourses: [
+  savedCourses: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
@@ -43,8 +42,8 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
   progress: {
     type: Map,
     of: {
-      completedLessons: [mongoose.Schema.Types.ObjectId],
       totalLessons: Number,
+      completedLessons: [mongoose.Schema.Types.ObjectId],
     },
   },
 });

@@ -42,11 +42,11 @@ export function CourseProgress({ username, courseId }: CourseProgressProps) {
   }, [username, courseId]);
 
   return (
-    <section className="text-right w-full">
+    <section className="mb-4 w-full">
       <p className="text-sm font-medium text-blue-600 mb-2">
         {progress}% complete
       </p>
-      <Progress value={progress} className="w-full h-1 bg-blue-200" />
+      <Progress value={progress} className="w-full h-[.2rem] bg-blue-200" />
     </section>
   );
 }

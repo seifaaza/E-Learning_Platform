@@ -10,6 +10,7 @@ interface Course {
   thumbnail: string;
   title: string;
   lessonsCount: number;
+  averageRating: number;
 }
 
 interface CoursesListProps {
@@ -21,7 +22,7 @@ const CoursesList = async ({ username }: CoursesListProps) => {
 
   try {
     const response = await axios.get<Course[]>(
-      `${process.env.API_URL}/api/courses`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/courses`
     );
     courses = response.data;
   } catch (error: any) {
@@ -40,14 +41,12 @@ const CoursesList = async ({ username }: CoursesListProps) => {
       {courses && courses.length > 0 ? (
         <ul className="mt-4 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {courses.map((item) => (
-            <Link
-              key={item.title}
-              href={`/${username}/courses/${item._id}?lesson=${item.initialLessonId}`}
-            >
+            <Link key={item.title} href={`/courses/${item._id}`}>
               <Card
                 thumbnail={item.thumbnail}
                 title={item.title}
                 lessonsCount={item.lessonsCount}
+                averageRating={item.averageRating}
               />
             </Link>
           ))}
