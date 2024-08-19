@@ -51,3 +51,53 @@ export async function POST(
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }
 }
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { courseId: string } }
+) {
+  await dbConnect();
+
+  const { courseId } = params;
+  const url = new URL(request.url);
+  const username = url.searchParams.get("username");
+
+  try {
+    if (!courseId || !username) {
+      return NextResponse.json(
+        { errorMsg: "Course ID or username is missing" },
+        { status: 400 }
+      );
+    }
+
+    // Find the user by their username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
+    }
+
+    const courseObjectId = new mongoose.Types.ObjectId(courseId);
+
+    // Check if the course is in the savedCourses array
+    const courseIndex = user.savedCourses.indexOf(courseObjectId);
+    if (courseIndex === -1) {
+      return NextResponse.json(
+        { errorMsg: "Course not found in saved courses" },
+        { status: 404 }
+      );
+    }
+
+    // Remove the course from the user's savedCourses array
+    user.savedCourses.splice(courseIndex, 1);
+
+    await user.save();
+
+    return NextResponse.json(
+      { successMsg: "Course removed from saved courses successfully" },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    return NextResponse.json({ errorMsg: error.message }, { status: 500 });
+  }
+}

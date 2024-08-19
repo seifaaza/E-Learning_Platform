@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { BsArrowRight, BsBookmark } from "react-icons/bs";
+import { BsBookmarkXFill, BsBookmarkFill } from "react-icons/bs";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
 interface SaveCourseButtonProps {
@@ -14,48 +13,93 @@ interface SaveCourseButtonProps {
 
 const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
   const { data: session, status } = useSession();
-  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+
+  const username = session?.user?.username;
+
+  useEffect(() => {
+    const fetchSavedCourses = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/saved`
+        );
+        const savedCourses = response.data;
+
+        // Check if the current course is already saved
+        const courseIsSaved = savedCourses.some(
+          (course: { _id: string }) => course._id === courseId
+        );
+        setIsSaved(courseIsSaved);
+      } catch (error) {
+        console.error("Error fetching saved courses:", error);
+      }
+    };
+
+    fetchSavedCourses();
+  }, [status, username, courseId]);
 
   const handleSaveCourse = async () => {
-    if (status === "loading") {
-      // Handle loading state if needed
-      return;
-    }
+    if (status === "loading") return;
 
-    const username = session?.user?.username;
     if (!username) {
-      // Handle case where username is not available
       console.error("Username not available");
       return;
     }
 
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
     try {
-      const response = await axios.post(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/save?username=${username}`
       );
-      console.log("Course started successfully:", response.data);
+      setIsSaved(true);
     } catch (error) {
-      console.error("Error starting course:", error);
-      // Handle error appropriately
+      console.error("Error saving course:", error);
     } finally {
-      setIsLoading(false); // End loading
+      setIsLoading(false);
+    }
+  };
+
+  const handleUnsaveCourse = async () => {
+    if (status === "loading") return;
+
+    setIsLoading(true);
+
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/save?username=${username}`
+      );
+      setIsSaved(false);
+    } catch (error) {
+      console.error("Error unsaving course:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <Button
-      onClick={handleSaveCourse}
+      onClick={isSaved ? handleUnsaveCourse : handleSaveCourse}
       variant="link"
-      className="hover:!no-underline !border-blue-600 border-[1px] hover:!bg-blue-600 hover:!text-white"
+      className="hover:!no-underline !border-[1px] !border-blue-600 hover:!bg-blue-600 hover:!text-white"
+      disabled={isLoading}
     >
-      Save For Later
       {isLoading ? (
-        <Loader2 className=" ml-2 h-4 animate-spin" />
+        <>
+          {isSaved ? "Unsaving..." : "Saving..."}
+          <Loader2 className="ml-2 h-4 animate-spin" />
+        </>
       ) : (
-        <BsBookmark className="ml-2 h-4" />
+        <>
+          {isSaved ? "Unsave" : "Save For Later"}
+          {isSaved ? (
+            <BsBookmarkXFill className="ml-2 h-4" />
+          ) : (
+            <BsBookmarkFill className="ml-2 h-4" />
+          )}
+        </>
       )}
     </Button>
   );

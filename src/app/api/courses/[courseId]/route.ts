@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import Course from "@/models/Course";
+import Lesson from "@/models/Lesson";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
@@ -12,6 +13,7 @@ export async function GET(
   const { courseId } = params;
 
   try {
+    await Lesson.init();
     if (!courseId) {
       return NextResponse.json(
         { errorMsg: "Course ID is missing" },
@@ -21,9 +23,8 @@ export async function GET(
 
     const courseObjectId = new mongoose.Types.ObjectId(courseId);
 
-    // Find the course by ID, populate the lessons (including titles, articles, and topics), and exclude the category and ratings
     const course = await Course.findById(courseObjectId)
-      .populate("lessons", "_id title articles topics") // Include lesson titles, articles, and topics in the population
+      .populate("lessons", "_id title articles topics")
       .select("-category -ratings");
 
     if (!course) {

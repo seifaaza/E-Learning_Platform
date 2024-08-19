@@ -3,17 +3,17 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 // Define the interface for user progress
 interface CourseProgress {
   totalLessons: number;
-  completedLessons: mongoose.Types.ObjectId[]; // Added completedLessons field
+  completedLessons: mongoose.Types.ObjectId[];
 }
 
 export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  startedCourses: mongoose.Types.ObjectId[]; // Array of course IDs
-  savedCourses: mongoose.Types.ObjectId[]; // Array of course IDs
-  completedCourses: mongoose.Types.ObjectId[]; // Array of course IDs
-  progress: Record<string, CourseProgress>; // Keyed by course ID
+  startedCourses: mongoose.Types.ObjectId[];
+  savedCourses: mongoose.Types.ObjectId[];
+  completedCourses: mongoose.Types.ObjectId[];
+  progress: Record<string, CourseProgress>;
 }
 
 const userSchema: Schema<IUser> = new mongoose.Schema({
@@ -38,7 +38,6 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
       ref: "Course",
     },
   ],
-
   progress: {
     type: Map,
     of: {

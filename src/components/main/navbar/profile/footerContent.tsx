@@ -14,23 +14,23 @@ import {
 } from "@/components/ui/dialog";
 
 interface FooterContentProps {
-  id: string | null | undefined;
+  username: string | null | undefined;
   signOut: () => void;
 }
 
-const FooterContent: React.FC<FooterContentProps> = ({ id, signOut }) => {
+const FooterContent: React.FC<FooterContentProps> = ({ username, signOut }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleDeleteAccount = async () => {
-    if (!id) return;
+    if (!username) return;
 
     setIsLoading(true);
     setError(null);
 
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/deleteAccount/${id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/delete-account`
       );
 
       signOut();

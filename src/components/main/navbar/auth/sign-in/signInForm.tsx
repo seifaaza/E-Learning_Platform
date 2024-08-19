@@ -84,9 +84,7 @@ function SignInForm() {
             onChange={(e) => setEmail(e.target.value)}
           />
           {errors.email && (
-            <h6 className="text-red-200 font-medium mt-2 ml-1">
-              {errors.email}
-            </h6>
+            <h6 className="text-white font-medium mt-2 ml-1">{errors.email}</h6>
           )}
         </div>
         <div>
@@ -104,7 +102,7 @@ function SignInForm() {
         </div>
       </div>
 
-      <h6 className=" text-red-200 font-medium  my-2 ml-1">{errors.server}</h6>
+      <h6 className=" text-white font-medium  my-2 ml-1">{errors.server}</h6>
 
       <DialogFooter>
         <Button

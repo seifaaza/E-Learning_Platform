@@ -5,9 +5,7 @@ import SelectLoader from "@/components/main/loaders/selectLoader";
 import Categories from "../[username]/courses/filter/categories";
 import CoursesListLoader from "@/components/main/loaders/coursesListLoader";
 
-interface CoursesProps {}
-
-const Courses: React.FC<CoursesProps> = () => {
+const Courses: React.FC = () => {
   return (
     <section className="bg-blue-50">
       <article className="container px-3 pt-4 pb-14">
@@ -18,7 +16,7 @@ const Courses: React.FC<CoursesProps> = () => {
           </Suspense>
         </section>
         <Suspense fallback={<CoursesListLoader count={12} />}>
-          <CoursesList username="sambosa" />
+          <CoursesList />
         </Suspense>
       </article>
     </section>

@@ -31,15 +31,15 @@ const LessonPlayer: React.FC<LessonPlayerProps> = async ({
     }
   };
 
-  const lesson = await fetchLessonById(courseId, lessonId);
+  //   const lesson = await fetchLessonById(courseId, lessonId);
 
   return (
     <>
       <p className="text-sm text-gray-700 mr-2 text-right mb-2">
-        Lesson {lesson.index} of {lesson.lessonIds.length}
+        Lesson lesson.index of lesson.lessonIds.length
       </p>
       <Player
-        src={`https://res.cloudinary.com/depztpide/video/upload/${lesson.video}`}
+        src={`https://res.cloudinary.com/depztpide/video/upload/lesson.video`}
       />
     </>
   );

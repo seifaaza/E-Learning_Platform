@@ -49,10 +49,6 @@ const courseSchema: Schema<ICourse> = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  updated_at: {
-    type: Date,
-    default: Date.now,
-  },
   ratings: [
     {
       user: {
@@ -60,8 +56,7 @@ const courseSchema: Schema<ICourse> = new mongoose.Schema({
         ref: "User",
         required: true,
       },
-      rating: { type: Number, required: true, min: 1, max: 5 }, // Example rating scale
-      comment: { type: String },
+      rating: { type: Number, required: true },
     },
   ],
   averageRating: { type: Number, default: 0 }, // Optional field to store the average rating
@@ -80,7 +75,9 @@ courseSchema.pre<ICourse>("save", function (next) {
       (sum, rating) => sum + rating.rating,
       0
     );
-    this.averageRating = totalRating / this.ratings.length;
+    // Calculate average and round to nearest 0.5
+    const avgRating = totalRating / this.ratings.length;
+    this.averageRating = Math.round(avgRating * 2) / 2;
   } else {
     this.averageRating = 0;
   }

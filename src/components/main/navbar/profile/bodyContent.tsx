@@ -4,8 +4,8 @@ import Link from "next/link";
 import {
   BsBookmark,
   BsBookmarkFill,
-  BsEye,
-  BsEyeFill,
+  BsRocketTakeoff,
+  BsRocketTakeoffFill,
   BsClipboard2Data,
   BsClipboard2DataFill,
 } from "react-icons/bs";
@@ -16,7 +16,7 @@ interface BodyContentProps {
 }
 
 const BodyContent: React.FC<BodyContentProps> = ({ username }) => {
-  const iconStyle = "mr-2 h-5";
+  const iconStyle = "mr-2 h-6";
   const linksList = [
     {
       title: "saved",
@@ -27,8 +27,8 @@ const BodyContent: React.FC<BodyContentProps> = ({ username }) => {
     {
       title: "in progress",
       link: "/progress",
-      icon: <BsEye className={iconStyle} />,
-      fillIcon: <BsEyeFill className={iconStyle} />,
+      icon: <BsRocketTakeoff className={iconStyle} />,
+      fillIcon: <BsRocketTakeoffFill className={iconStyle} />,
     },
     {
       title: "learning",

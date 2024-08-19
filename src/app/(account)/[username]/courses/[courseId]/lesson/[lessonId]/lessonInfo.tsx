@@ -1,24 +1,26 @@
 import { Separator } from "@radix-ui/react-separator";
-import LessonControl from "./lessonControl";
 import { notFound } from "next/navigation";
 import axios from "axios";
 import { Badge } from "@/components/ui/badge";
 
 // Define the type for the fetched
 interface LessonInfoProps {
+  username: string;
   courseId: string;
   lessonId: string;
 }
 
 const LessonInfo: React.FC<LessonInfoProps> = async ({
+  username,
   courseId,
   lessonId,
 }) => {
   const fetchLessonById = async (courseId: string, lessonId: string) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}?lesson=${lessonId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/started/${courseId}?lesson=${lessonId}`
       );
+
       return response.data;
     } catch (error: any) {
       if (
@@ -47,9 +49,7 @@ const LessonInfo: React.FC<LessonInfoProps> = async ({
 
   return (
     <>
-      <h3 className="text-blue-600">
-        Lesson {lesson.index}: {lesson.title}
-      </h3>
+      <h3 className="text-blue-600 ">Lesson lesson.index: {lesson.title}</h3>
       <Separator
         orientation="horizontal"
         className="h-[1px] bg-gray-800 opacity-15"

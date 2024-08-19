@@ -44,15 +44,15 @@ export async function POST(
     // Initialize the course progress for this user
     const course = await Course.findById(courseObjectId);
     if (course) {
-      // Ensure progress is an object before setting the course progress
+      // Ensure progress is a Map before setting the course progress
       if (!user.progress) {
-        user.progress = {};
+        user.progress = new Map();
       }
 
-      user.progress[courseId] = {
+      user.progress.set(courseId, {
         totalLessons: course.lessons.length,
         completedLessons: [],
-      };
+      });
     }
 
     await user.save();
@@ -61,6 +61,57 @@ export async function POST(
       { successMsg: "Course started successfully" },
       { status: 200 }
     );
+  } catch (error: any) {
+    return NextResponse.json({ errorMsg: error.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { courseId: string } }
+) {
+  await dbConnect();
+
+  const { courseId } = params;
+  const username = new URL(request.url).searchParams.get("username");
+
+  if (!courseId || !username) {
+    return NextResponse.json(
+      { errorMsg: "Course ID and username are required" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    // Find the user
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
+    }
+
+    const courseObjectId = new mongoose.Types.ObjectId(courseId);
+
+    // Remove the course from the startedCourses array and progress field
+    const updatedUser = await User.findByIdAndUpdate(
+      user._id,
+      {
+        $pull: { startedCourses: courseObjectId },
+        $unset: { [`progress.${courseId}`]: "" }, // Remove the specific course progress
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return NextResponse.json(
+        { errorMsg: "Failed to update started courses" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      message: "Course removed from started courses and progress successfully",
+    });
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }

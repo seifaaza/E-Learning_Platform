@@ -1,13 +1,13 @@
 import React from "react";
 
-interface DataEmptyProps {
+interface EmptyDataProps {
   imgSrc: string;
   text: string;
 }
 
-const DataEmpty: React.FC<DataEmptyProps> = ({ imgSrc, text }) => {
+const EmptyData: React.FC<EmptyDataProps> = ({ imgSrc, text }) => {
   return (
-    <article className="px-4 mx-auto max-w-screen-sm flex flex-col items-center gap-8 my-10">
+    <article className="px-4 mx-auto max-w-screen-sm flex flex-col items-center gap-8 my-10 md:my-16 lg:my-20">
       <img
         src={imgSrc}
         alt="Empty data"
@@ -18,4 +18,4 @@ const DataEmpty: React.FC<DataEmptyProps> = ({ imgSrc, text }) => {
   );
 };
 
-export default DataEmpty;
+export default EmptyData;

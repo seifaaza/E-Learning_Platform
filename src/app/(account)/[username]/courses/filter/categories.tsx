@@ -18,7 +18,7 @@ const Categories = async () => {
 
   try {
     const response = await axios.get<Category[]>(
-      `${process.env.API_URL}/api/categories`
+      `${process.env.NEXT_PUBLIC_API_URL}/api/categories`
     );
     categories = response.data;
   } catch (error) {

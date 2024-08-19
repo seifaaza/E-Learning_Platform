@@ -34,6 +34,13 @@ export async function GET(
       );
     }
 
+    if (!course.lessons || !Array.isArray(course.lessons)) {
+      return NextResponse.json(
+        { errorMsg: "Course lessons are not properly defined" },
+        { status: 500 }
+      );
+    }
+
     // Find the user and retrieve progress
     const user = await User.findOne({ username }).exec();
 
@@ -50,15 +57,11 @@ export async function GET(
       );
     }
 
-    // Calculate the course completion percentage
     const totalLessons = course.lessons.length;
-    const completedLessons = courseProgress.completedLessons.length;
+    const completedLessons = courseProgress.completedLessons.length || 0;
     const progressPercentage = (completedLessons / totalLessons) * 100;
 
-    return NextResponse.json({
-      message: "Course progress retrieved successfully",
-      progressPercentage: progressPercentage,
-    });
+    return NextResponse.json({ progressPercentage });
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }

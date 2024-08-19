@@ -76,7 +76,7 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
           <SaveCourseButton courseId={courseId} />
         </ul>
       </li>
-      <li className="ml-auto hidden self-start lg:flex items-center gap-1 text-blue-600">
+      <li className="ml-auto hidden self-start lg:flex items-center gap-1 text-blue-600 bg-blue-100 rounded-lg py-2 px-4">
         <h5 className="!font-semibold">Free</h5>
         <BsCurrencyDollar className="h-4 " />
       </li>

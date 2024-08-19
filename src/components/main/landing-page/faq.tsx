@@ -9,29 +9,24 @@ import { Doodle1, Doodle15, Doodle2, Doodle20, Doodle8 } from "../SVGs/doodles";
 const FAQ = () => {
   const questionsList = [
     {
-      title: "Are there any limits to how many videos i can save?",
+      title: "Can I retake quizzes?",
       response:
-        "No, there are no limits to the number of videos you can save to your saved lessons",
+        "Yes, you can retake quizzes to improve your scores and enhance your learning.",
     },
     {
-      title: "How do i resume a video from where i left off?",
+      title: "How are my assessment results tracked?",
       response:
-        "If you’ve saved a video to your watching list, it will automatically remember the last watched point. When you come back to watch the video, it will start from where you left off.",
+        "Assessment results are recorded automatically. You can view and track your results over time in your profile.",
     },
     {
-      title: "How do i access my watching list?",
+      title: "Are there any limits on how many courses I can save?",
       response:
-        'You can access your watching list from the main menu. Click on "Watching List" to view all the videos you’ve saved to watch later.',
+        "No, you can save as many videos as you like to your saved lessons.",
     },
     {
-      title: "Can i retake quizzes?",
+      title: "How do I resume a course from where I left off?",
       response:
-        "Yes, you can retake quizzes to improve your scores. Just go to the quiz section and select the quiz you want to retake.",
-    },
-    {
-      title: "How are my quiz results tracked?",
-      response:
-        "Quiz results are recorded automatically. After completing a quiz, you can view your results and track your progress over time in your profile.",
+        "Courses automatically remember your last watched point. When you return, it will start from where you left off.",
     },
   ];
 

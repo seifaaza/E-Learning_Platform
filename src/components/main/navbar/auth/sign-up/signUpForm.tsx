@@ -95,7 +95,7 @@ function SignUpForm() {
         setEmail("");
         setPassword("");
         setErrors({});
-        router.replace("/courses");
+        router.push("/courses");
         toast({
           title: "Welcome To Learnify",
           description: "You have successfully signed up.",
@@ -136,7 +136,7 @@ function SignUpForm() {
             onChange={(e) => setUsername(e.target.value)}
           />
           {errors.username && (
-            <h6 className="text-red-100 font-medium  mt-2 ml-1">
+            <h6 className="text-white font-medium  mt-2 ml-1">
               {errors.username}
             </h6>
           )}
@@ -154,7 +154,7 @@ function SignUpForm() {
             onChange={(e) => setEmail(e.target.value)}
           />
           {errors.email && (
-            <h6 className="text-red-100 font-medium  mt-2 ml-1">
+            <h6 className="text-white font-medium  mt-2 ml-1">
               {errors.email}
             </h6>
           )}
@@ -172,14 +172,14 @@ function SignUpForm() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {errors.password && (
-            <h6 className="text-red-100 font-medium  mt-2 ml-1">
+            <h6 className="text-white font-medium  mt-2 ml-1">
               {errors.password}
             </h6>
           )}
         </div>
       </div>
 
-      <h6 className="text-red-100 font-medium my-2 ml-1">{errors.server}</h6>
+      <h6 className="text-white font-medium my-2 ml-1">{errors.server}</h6>
 
       <DialogFooter>
         <Button

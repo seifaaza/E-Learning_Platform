@@ -1,16 +1,14 @@
 import dbConnect from "@/lib/dbConnect";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 // Handle GET requests
 export async function GET() {
   await dbConnect();
 
   try {
-    // Ensure that the Lesson model is registered before using it
     await Lesson.init();
-
     // Find all courses and populate the lessons field
     const courses = await Course.find({})
       .select("title thumbnail lessons ratings averageRating")
@@ -31,8 +29,8 @@ export async function GET() {
         _id: course._id,
         title: course.title,
         thumbnail: course.thumbnail,
-        lessonsCount: course.lessons.length, // Include the count of lessons
-        averageRating: course.averageRating || 0, // Include the average rating or default to 0
+        lessonsCount: course.lessons.length,
+        averageRating: course.averageRating,
       };
     });
 

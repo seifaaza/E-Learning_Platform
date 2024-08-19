@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import Lesson from "./lesson/[lessonId]/page";
 import { CourseProgress } from "./courseProgress";
 import LessonInfo from "./lesson/[lessonId]/lessonInfo";
+import CancelCourseButton from "./lesson/[lessonId]/actions/cancelCourseButton";
 
 interface CourseItemProps {
   params: {
@@ -36,7 +37,12 @@ const CourseItem: React.FC<CourseItemProps> = async ({
           <Lesson courseId={courseId} lessonId={lesson} />
           <section className=" mt-4 lg:mt-0 lg:max-w-lg xl:max-w-xl flex flex-col gap-6 lg:w-2/3">
             <CourseProgress username={username} courseId={courseId} />
-            <LessonInfo courseId={courseId} lessonId={lesson} />
+            <CancelCourseButton username={username} courseId={courseId} />
+            <LessonInfo
+              username={username}
+              courseId={courseId}
+              lessonId={lesson}
+            />
           </section>
         </ul>
       </article>

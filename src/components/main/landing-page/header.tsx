@@ -33,15 +33,15 @@ const Header: React.FC = () => {
     {
       title: "dynamic courses",
       description:
-        "Enjoy video lessons, save courses for later, and automatically track your progress as you start.",
+        "Engage with courses, track progress, and boost understanding with integrated quizzes.",
       icon: (
         <BsCollectionPlayFill className="text-lg md:text-xl lg:text-2xl text-white" />
       ),
     },
     {
-      title: "engaging quizzes",
+      title: "interactive assessments",
       description:
-        "hallenge your knowledge with interactive quizzes and get instant, detailed results.",
+        "Evaluate and enhance your skills with instant, detailed results across various fields.",
       icon: (
         <BsClipboard2CheckFill className="text-lg md:text-xl lg:text-2xl text-white" />
       ),
@@ -70,8 +70,8 @@ const Header: React.FC = () => {
         Interactive Learning, Infinite Possibilities !
       </h1>
       <h1 className="text-blue-50 md:text-lg lg:text-xl max-w-lg md:max-w-lg mb-6 lg:mb-8 text-base  ">
-        Unleash your potential with our dynamic e-learning platform. Dive into
-        dynamic courses and engaging quizzes.
+        Explore comprehensive courses with end-of-course quizzes and specialized
+        assessments in various fields
       </h1>
       <li className="mt-4 lg:mt-8 xl:mt-10 flex flex-col sm:flex-row gap-x-8 xl:gap-x-6 gap-y-2 md:gap-12 md:max-w-2xl">
         {features}

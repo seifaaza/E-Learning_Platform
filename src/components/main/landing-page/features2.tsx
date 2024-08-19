@@ -21,15 +21,15 @@ const Features2 = () => {
           <article className="max-w-[35rem] text-center lg:text-left">
             <h2 className="text-white">your personalized learning journey</h2>
             <p className="text-blue-50 mb-6 text-center lg:text-left">
-              Boost your skills with our adaptive quizzes, which provide a
-              personalized learning experience. Receive instant feedback on your
-              answers to quickly correct mistakes and improve your
+              Boost your skills with our specialized assessments, which provide
+              a personalized learning experience. Receive instant feedback on
+              your answers to quickly correct mistakes and improve your
               understanding.
             </p>
             <ul className=" flex justify-center lg:justify-start gap-8 lg:gap-12 xl:gap-14 text-white font-medium">
               <li className="flex items-center gap-2">
                 <BsFillQuestionCircleFill className="text-white text-lg " />
-                <h5>Adaptive Quizzes</h5>
+                <h5>Specialized Assessments</h5>
               </li>
               <li className="flex items-center gap-2">
                 <BsCheckCircleFill className="text-white text-lg " />

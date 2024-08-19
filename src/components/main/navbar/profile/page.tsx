@@ -41,7 +41,7 @@ const Profile: React.FC<ProfileProps> = ({ id, username, email, signOut }) => {
           <BodyContent username={username} />
           {separator}
         </section>
-        <FooterContent id={id} signOut={signOut} />
+        <FooterContent username={username} signOut={signOut} />
       </SheetContent>
     </Sheet>
   );

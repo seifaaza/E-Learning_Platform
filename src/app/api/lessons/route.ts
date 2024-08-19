@@ -1,7 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
-
 import Lesson from "@/models/Lesson";
-
 import { NextResponse } from "next/server";
 
 // Handle GET requests

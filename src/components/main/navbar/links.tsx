@@ -14,20 +14,20 @@ const Links: React.FC<LinksProps> = ({ username }) => {
         <Link href={`/courses`}>
           <Button
             variant="link"
-            className="text-base capitalize text-white hover:no-underline hover:opacity-80"
+            className="text-base text-white hover:no-underline hover:opacity-80"
           >
-            courses
+            Courses
           </Button>
         </Link>
       </li>
       <li className="bg-white h-8 w-[.5px]"></li>
       <li>
-        <Link href={`/quizzes`}>
+        <Link href={`/assessments`}>
           <Button
             variant="link"
-            className="text-base capitalize text-white hover:no-underline hover:opacity-80"
+            className="text-base text-white hover:no-underline hover:opacity-80"
           >
-            quizzes
+            Assessments
           </Button>
         </Link>
       </li>

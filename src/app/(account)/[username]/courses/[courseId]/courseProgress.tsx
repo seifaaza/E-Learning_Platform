@@ -17,7 +17,7 @@ export function CourseProgress({ username, courseId }: CourseProgressProps) {
     async function fetchProgress() {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/courses/${courseId}/get-progress?username=${username}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/get-progress?username=${username}`
         );
         const data = await response.json();
 
@@ -42,7 +42,7 @@ export function CourseProgress({ username, courseId }: CourseProgressProps) {
   }, [username, courseId]);
 
   return (
-    <section className="mb-4 w-full">
+    <section className=" w-full">
       <p className="text-sm font-medium text-blue-600 mb-2">
         {progress}% complete
       </p>

@@ -4,23 +4,23 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: { username: string } }
 ) {
   await dbConnect();
 
   try {
-    const { userId } = params;
+    const { username } = params;
 
-    // Ensure userId is provided
-    if (!userId) {
+    // Ensure username is provided
+    if (!username) {
       return NextResponse.json(
-        { errorMsg: "User ID is required" },
+        { errorMsg: "Username is required" },
         { status: 400 }
       );
     }
 
-    // Find and delete the user by ID
-    const deletedUser = await User.findByIdAndDelete(userId);
+    // Find and delete the user by username
+    const deletedUser = await User.findOneAndDelete({ username });
 
     // If the user does not exist
     if (!deletedUser) {
