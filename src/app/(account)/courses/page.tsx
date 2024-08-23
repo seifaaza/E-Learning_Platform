@@ -7,9 +7,9 @@ import CoursesListLoader from "@/components/main/loaders/coursesListLoader";
 
 const Courses: React.FC = () => {
   return (
-    <section className="bg-blue-50">
+    <section className="bg-blue-50 min-h-[100vh]">
       <article className="container px-3 pt-4 pb-14">
-        <section className="flex justify-between items-center gap-4 bg-blue-50 sticky top-[56px] z-10 py-4">
+        <section className="flex justify-between items-center gap-4 bg-blue-50 sticky top-[56px] z-[2] py-4">
           <Search />
           <Suspense fallback={<SelectLoader />}>
             <Categories />

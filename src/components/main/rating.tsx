@@ -74,7 +74,7 @@ export const CommentRatings = ({
     ) : null;
 
   return (
-    <div
+    <section
       className="flex w-fit items-center gap-2"
       onMouseLeave={interactive ? handleMouseLeave : undefined}
       {...props}
@@ -113,7 +113,7 @@ export const CommentRatings = ({
       {ratingNumber && (
         <h5 className="text-yellow-500 font-bold">{currentRating}</h5>
       )}
-    </div>
+    </section>
   );
 };
 

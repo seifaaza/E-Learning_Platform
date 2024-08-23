@@ -14,14 +14,14 @@ const FAQ = () => {
         "Yes, you can retake quizzes to improve your scores and enhance your learning.",
     },
     {
-      title: "How are my assessment results tracked?",
+      title: "Do I receive a certificate after completing a course?",
       response:
-        "Assessment results are recorded automatically. You can view and track your results over time in your profile.",
+        "Yes, you will receive a verified certificate upon successful completion of each course.",
     },
     {
-      title: "Are there any limits on how many courses I can save?",
+      title: "How are my test results tracked?",
       response:
-        "No, you can save as many videos as you like to your saved lessons.",
+        "Test results are recorded automatically. You can view and track your results over time in your profile.",
     },
     {
       title: "How do I resume a course from where I left off?",
@@ -42,13 +42,19 @@ const FAQ = () => {
   ));
 
   return (
-    <section className="bg-blue-500 isolate overflow-hidden">
+    <section className="bg-least isolate overflow-hidden">
       <ul className="relative xl:container ">
-        <Doodle1 className="bottom-20 left-40 w-32 absolute !fill-blue-600/30" />
-        <Doodle2 className="bottom-1/2 left-0 xl:left-[30%] w-52 absolute !fill-blue-600/30" />
-        <Doodle8 className="top-24 left-64 w-24 absolute !fill-blue-600/30" />
-        <Doodle20 className="bottom-20 right-44 w-28 absolute !fill-blue-600/30" />
-        <Doodle15 className="invisible lg:visible bottom-[15%] left-[45%] w-44 absolute !fill-blue-600/30" />
+        <Doodle1 color="least" className="bottom-20 left-40 w-32 absolute" />
+        <Doodle2
+          color="least"
+          className="bottom-1/2 left-0 xl:left-[30%] w-52 absolute"
+        />
+        <Doodle8 color="least" className="top-24 left-64 w-24 absolute" />
+        <Doodle20 color="least" className="bottom-20 right-44 w-28 absolute" />
+        <Doodle15
+          color="least"
+          className="invisible lg:visible bottom-[15%] left-[45%] w-44 absolute"
+        />
         <article className="px-3 py-16 md:py-20 lg:py-24 container text-center relative">
           <h2 className="text-white">Frequently Asked Questions</h2>
           <Accordion

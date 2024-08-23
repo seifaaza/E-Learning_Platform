@@ -46,8 +46,7 @@ const HeaderContent: React.FC<HeaderContentProps> = ({
       <Button
         disabled={isLoading}
         onClick={handleSignOut}
-        className=" capitalize w-full focus:!ring-offset-0 outline-none text-blue-600"
-        variant="secondary"
+        className=" capitalize w-full bg-white hover:!bg-white/90 text-main"
       >
         {isLoading ? (
           <Loader2 className="mr-2 h-5 animate-spin" />

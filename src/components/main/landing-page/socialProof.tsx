@@ -1,8 +1,4 @@
-import {
-  BsBookHalf,
-  BsCurrencyExchange,
-  BsClipboard2PulseFill,
-} from "react-icons/bs";
+import { BsBookHalf, BsAwardFill, BsClipboard2PulseFill } from "react-icons/bs";
 
 const SocialProof = () => {
   const statsList = [
@@ -13,13 +9,13 @@ const SocialProof = () => {
     },
     {
       title: "interactive",
-      stat: "courses & assessments",
+      stat: "courses & tests",
       icon: <BsBookHalf className="text-[1.75rem]" />,
     },
     {
-      title: "free",
-      stat: "service cost",
-      icon: <BsCurrencyExchange className="text-[1.9rem]" />,
+      title: "certificates",
+      stat: "earned",
+      icon: <BsAwardFill className="text-[1.9rem]" />,
     },
   ];
 
@@ -38,8 +34,8 @@ const SocialProof = () => {
   ));
 
   return (
-    <section className="px-3 bg-gradient-to-b from-blue-600 from-50% to-50% to-blue-500">
-      <article className="bg-blue-700 max-w-screen-lg mx-auto text-center py-14 lg:py-16 rounded-lg">
+    <section className="px-3 bg-least">
+      <article className="max-w-screen-lg mx-auto text-center py-14 lg:py-16 rounded-lg">
         <dl className="w-fit flex sm:flex-row flex-col gap-8 md:gap-16 xl:gap-32 mx-auto text-white ">
           {stats}
         </dl>

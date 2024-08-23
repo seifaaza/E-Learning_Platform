@@ -48,7 +48,7 @@ const FooterContent: React.FC<FooterContentProps> = ({ username, signOut }) => {
   };
 
   const deleteAccountModal = (
-    <DialogContent className="w-[calc(100%-2rem)] sm:max-w-[425px] bg-blue-700 border-none rounded-lg">
+    <DialogContent className="w-[calc(100%-2rem)] sm:max-w-[425px] bg-least border-none rounded-lg">
       <DialogHeader>
         <DialogTitle className="text-white text-base md:text-xl mb-2">
           Delete Account
@@ -58,13 +58,13 @@ const FooterContent: React.FC<FooterContentProps> = ({ username, signOut }) => {
             Are you sure you want to delete your account? This action cannot be
             undone and you will lose all your data associated with this account.
           </h6>
-          {error && <h6 className="text-red-200 font-medium mt-2">{error}</h6>}
+          {error && <h6 className="text-white font-medium mt-2">{error}</h6>}
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>
         <Button
           variant="secondary"
-          className="capitalize text-blue-600"
+          className="capitalize text-main"
           onClick={handleDeleteAccount}
           disabled={isLoading}
         >
@@ -82,7 +82,7 @@ const FooterContent: React.FC<FooterContentProps> = ({ username, signOut }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-full flex justify-center capitalize text-white !bg-blue-600 hover:!bg-blue-800/50 duration-300">
+        <Button className="w-full flex justify-center capitalize text-white !bg-main hover:!bg-main/80 duration-300">
           <BsXLg className="mr-2 pb-[1px] h-4" />
           <span>delete account</span>
         </Button>

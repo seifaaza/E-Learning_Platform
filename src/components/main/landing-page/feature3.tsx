@@ -7,9 +7,9 @@ import {
   Doodle9,
 } from "../SVGs/doodles";
 
-const Features2 = () => {
+const Feature3 = () => {
   return (
-    <section className="bg-blue-600 isolate overflow-hidden">
+    <section className="bg-main isolate overflow-hidden">
       <article className="relative xl:container ">
         <Doodle9 className="top-10 left-32 w-24 " />
         <Doodle19 className="bottom-10 left-16 w-32 " />
@@ -19,17 +19,19 @@ const Features2 = () => {
 
         <ul className="px-3 py-16 md:py-20 lg:py-24 container flex flex-col lg:flex-row items-center lg:items-start gap-12 justify-evenly ">
           <article className="max-w-[35rem] text-center lg:text-left">
-            <h2 className="text-white">your personalized learning journey</h2>
+            <h2 className="text-white max-w-xl">
+              advance your expertise with custom tests and instant insights
+            </h2>
             <p className="text-blue-50 mb-6 text-center lg:text-left">
-              Boost your skills with our specialized assessments, which provide
-              a personalized learning experience. Receive instant feedback on
-              your answers to quickly correct mistakes and improve your
+              Boost your skills with our specialized tests, which provide a
+              personalized learning experience. Receive instant feedback on your
+              answers to quickly correct mistakes and improve your
               understanding.
             </p>
             <ul className=" flex justify-center lg:justify-start gap-8 lg:gap-12 xl:gap-14 text-white font-medium">
               <li className="flex items-center gap-2">
                 <BsFillQuestionCircleFill className="text-white text-lg " />
-                <h5>Specialized Assessments</h5>
+                <h5>Specialized Tests</h5>
               </li>
               <li className="flex items-center gap-2">
                 <BsCheckCircleFill className="text-white text-lg " />
@@ -38,7 +40,7 @@ const Features2 = () => {
             </ul>
           </article>
           <img
-            src="/illustration-3.svg"
+            src="/feature-3.svg"
             alt="mockup"
             className="w-56 sm:w-64 md:w-72 lg:w-80 xl:w-[21rem] "
           />
@@ -48,4 +50,4 @@ const Features2 = () => {
   );
 };
 
-export default Features2;
+export default Feature3;

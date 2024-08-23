@@ -79,7 +79,7 @@ function SignInForm() {
             id="email"
             type="email"
             placeholder="Enter your email"
-            className="mt-2 bg-blue-800/50 text-white placeholder:text-blue-400"
+            className="mt-2 bg-main text-white placeholder:text-white/40"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -95,7 +95,7 @@ function SignInForm() {
             id="password"
             type="password"
             placeholder="Enter your password"
-            className="mt-2 bg-blue-800/50 text-white placeholder:text-blue-400"
+            className="mt-2 bg-main text-white placeholder:text-white/40"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -109,7 +109,7 @@ function SignInForm() {
           disabled={!isFormValid || isLoading}
           type="submit"
           variant="secondary"
-          className="text-blue-600"
+          className="text-main"
         >
           Sign In
           {isLoading ? (

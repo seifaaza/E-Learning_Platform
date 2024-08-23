@@ -22,12 +22,12 @@ const Links: React.FC<LinksProps> = ({ username }) => {
       </li>
       <li className="bg-white h-8 w-[.5px]"></li>
       <li>
-        <Link href={`/assessments`}>
+        <Link href={`/tests`}>
           <Button
             variant="link"
             className="text-base text-white hover:no-underline hover:opacity-80"
           >
-            Assessments
+            Tests
           </Button>
         </Link>
       </li>

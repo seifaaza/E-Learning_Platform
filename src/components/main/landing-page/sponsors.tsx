@@ -29,8 +29,11 @@ const Sponsors = () => {
     </li>
   ));
   return (
-    <section className="bg-blue-600 px-3 py-16 md:py-20 lg:py-24 relative isolate overflow-hidden text-center">
-      <Doodle12 className="rotate-90 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 md:w-60" />
+    <section className="bg-least px-3 py-16 md:py-20 lg:py-24 relative isolate overflow-hidden text-center">
+      <Doodle12
+        color="least"
+        className="rotate-90 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 md:w-60"
+      />
 
       <h2 className="text-white !mb-14">trusted course providers</h2>
       <ul className="flex flex-wrap justify-center gap-8 md:gap-12 lg:gap-14 xl:gap-16">

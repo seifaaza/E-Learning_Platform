@@ -1,23 +1,22 @@
-import LessonPlayerLoader from "@/components/main/loaders/lessonPlayerLoader";
-import LessonInfo from "./lessonInfo";
-
 import { Suspense } from "react";
-import LessonPlayer from "./lessonPlayer";
+import LessonData from "./lessonData";
+import CourseInfoLoader from "@/components/main/loaders/courseInfoLoader";
 
 interface LessonItemProps {
+  username: string;
   courseId: string;
   lessonId: string;
 }
 
-const Lesson: React.FC<LessonItemProps> = ({ courseId, lessonId }) => {
+const Lesson: React.FC<LessonItemProps> = ({
+  username,
+  courseId,
+  lessonId,
+}) => {
   return (
-    <section className="w-full">
-      <article className="aspect-video">
-        <Suspense fallback={<LessonPlayerLoader />}>
-          <LessonPlayer courseId={courseId} lessonId={lessonId} />
-        </Suspense>
-      </article>
-    </section>
+    <Suspense fallback={<CourseInfoLoader />}>
+      <LessonData username={username} courseId={courseId} lessonId={lessonId} />
+    </Suspense>
   );
 };
 

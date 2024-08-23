@@ -1,7 +1,8 @@
 "use client";
 import FAQ from "@/components/main/landing-page/faq";
-import Features1 from "@/components/main/landing-page/features1";
-import Features2 from "@/components/main/landing-page/features2";
+import Feature1 from "@/components/main/landing-page/feature1";
+import Feature2 from "@/components/main/landing-page/feature2";
+import Feature3 from "@/components/main/landing-page/feature3";
 import Footer from "@/components/main/landing-page/footer";
 import Header from "@/components/main/landing-page/header";
 import SocialProof from "@/components/main/landing-page/socialProof";
@@ -18,8 +19,9 @@ const Home: React.FC = () => {
       <SocialProof />
       <Testimonial />
       <Sponsors />
-      <Features1 />
-      <Features2 />
+      <Feature1 />
+      <Feature2 />
+      <Feature3 />
       <FAQ />
       <Footer />
     </>

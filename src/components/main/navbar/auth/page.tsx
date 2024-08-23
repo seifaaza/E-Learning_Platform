@@ -11,7 +11,7 @@ export default function Auth() {
       <li>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="secondary" className=" capitalize text-blue-600">
+            <Button variant="secondary" className=" capitalize text-main">
               Sign Up
               <BsPlusLg className="ml-2 h-4 w-4" />
             </Button>
@@ -24,7 +24,7 @@ export default function Auth() {
           <DialogTrigger asChild>
             <Button
               variant="ghost"
-              className=" capitalize text-white hover:text-blue-600"
+              className=" capitalize text-white hover:text-main"
             >
               Sign In
               <BsBoxArrowInRight className="ml-2 h-4 w-4" />

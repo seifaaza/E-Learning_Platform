@@ -131,7 +131,7 @@ function SignUpForm() {
             id="username"
             type="text"
             placeholder="Enter your username"
-            className="mt-2 bg-blue-800/50 text-white placeholder:text-blue-400"
+            className="mt-2 bg-main text-white placeholder:text-white/40"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -149,7 +149,7 @@ function SignUpForm() {
             id="email"
             type="email"
             placeholder="Enter your email"
-            className="mt-2 bg-blue-800/50 text-white placeholder:text-blue-400"
+            className="mt-2 bg-main text-white placeholder:text-white/40"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -167,7 +167,7 @@ function SignUpForm() {
             id="password"
             type="password"
             placeholder="Enter your password"
-            className="mt-2 bg-blue-800/50 text-white placeholder:text-blue-400 focus:outline-none"
+            className="mt-2 bg-main text-white placeholder:text-white/40 focus:outline-none"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -186,7 +186,7 @@ function SignUpForm() {
           disabled={!isFormValid || isLoading}
           type="submit"
           variant="secondary"
-          className="text-blue-600"
+          className="text-main"
         >
           Sign Up
           {isLoading ? (

@@ -39,7 +39,7 @@ const Header: React.FC = () => {
       ),
     },
     {
-      title: "interactive assessments",
+      title: "interactive tests",
       description:
         "Evaluate and enhance your skills with instant, detailed results across various fields.",
       icon: (
@@ -49,10 +49,7 @@ const Header: React.FC = () => {
   ];
 
   const features = featuresList.map((feature, index) => (
-    <ul
-      key={index}
-      className="sm:w-1/2 bg-blue-700 p-4 lg:p-5 xl:p-6 rounded-lg"
-    >
+    <ul key={index} className="sm:w-1/2 mt-4 lg:mt-5 xl:mt-6 rounded-lg">
       <li className="flex items-center gap-3 mb-2 md:mb-3">
         {feature.icon}
 
@@ -70,8 +67,8 @@ const Header: React.FC = () => {
         Interactive Learning, Infinite Possibilities !
       </h1>
       <h1 className="text-blue-50 md:text-lg lg:text-xl max-w-lg md:max-w-lg mb-6 lg:mb-8 text-base  ">
-        Explore comprehensive courses with end-of-course quizzes and specialized
-        assessments in various fields
+        Explore comprehensive courses, earn your completion certificates, and
+        engage in specialized skills tests across various fields.
       </h1>
       <li className="mt-4 lg:mt-8 xl:mt-10 flex flex-col sm:flex-row gap-x-8 xl:gap-x-6 gap-y-2 md:gap-12 md:max-w-2xl">
         {features}
@@ -80,7 +77,7 @@ const Header: React.FC = () => {
   );
 
   return (
-    <section className="px-3 py-16 md:py-20 lg:py-24 xl:py-28 bg-blue-600 isolate overflow-hidden">
+    <section className="px-3 py-16 md:py-20 lg:py-24 xl:py-28 bg-main isolate overflow-hidden">
       <article className="relative xl:container ">
         <Doodle1 className="-top-4 left-10 w-24 " />
         <Doodle2 className="invisible lg:visible -top-16 left-64 w-48 " />
@@ -105,10 +102,10 @@ const Header: React.FC = () => {
         <Doodle20 className="top-[60%] lg:top-2/4 right-4 w-28 lg:w-32 " />
 
         <ul className=" h-full flex md:justify-center items-center relative">
-          <li className=" mx-auto flex flex-col lg:flex-row justify-center xl:justify-between items-center gap-8 sm:gap-10 lg:gap-20">
+          <li className=" mx-auto flex flex-col lg:flex-row justify-center xl:justify-between items-center gap-10 lg:gap-20">
             {content}
             <img
-              src="/illustration-1.svg"
+              src="/header.svg"
               alt=""
               className="w-60 sm:w-72 md:w-80 lg:w-[22rem] xl:w-[27rem] "
             />

@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 
 const config = {
-  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -19,25 +18,15 @@ const config = {
     },
     extend: {
       colors: {
+        main: "#432dd1",
+        least: "#4f36e6",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          "50": "#eff6ff",
-          "100": "#dbeafe",
-          "200": "#bfdbfe",
-          "300": "#93c5fd",
-          "400": "#60a5fa",
-          "500": "#3b82f6",
-          "600": "#2563eb",
-          "700": "#1d4ed8",
-          "800": "#1e40af",
-          "900": "#1e3a8a",
-          "950": "#172554",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -47,10 +36,7 @@ const config = {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
+
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",

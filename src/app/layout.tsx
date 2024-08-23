@@ -3,9 +3,7 @@ import "./globals.css";
 import { getServerSession } from "next-auth";
 import SessionProvider from "@/lib/sessionProvider";
 import Providers from "@/components/main/ProgressBarProvider";
-import Navbar from "@/components/main/navbar/page";
 import authOptions from "./api/auth/nextAuthOptions";
-import Footer from "@/components/main/landing-page/footer";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {

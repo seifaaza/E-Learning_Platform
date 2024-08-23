@@ -8,6 +8,8 @@ import {
   BsRocketTakeoffFill,
   BsClipboard2Data,
   BsClipboard2DataFill,
+  BsAwardFill,
+  BsAward,
 } from "react-icons/bs";
 import { usePathname } from "next/navigation";
 
@@ -19,22 +21,28 @@ const BodyContent: React.FC<BodyContentProps> = ({ username }) => {
   const iconStyle = "mr-2 h-6";
   const linksList = [
     {
-      title: "saved",
-      link: "/saved",
-      icon: <BsBookmark className={iconStyle} />,
-      fillIcon: <BsBookmarkFill className={iconStyle} />,
-    },
-    {
       title: "in progress",
       link: "/progress",
       icon: <BsRocketTakeoff className={iconStyle} />,
       fillIcon: <BsRocketTakeoffFill className={iconStyle} />,
     },
     {
+      title: "saved",
+      link: "/saved",
+      icon: <BsBookmark className={iconStyle} />,
+      fillIcon: <BsBookmarkFill className={iconStyle} />,
+    },
+    {
       title: "learning",
       link: "/learning",
       icon: <BsClipboard2Data className={iconStyle} />,
       fillIcon: <BsClipboard2DataFill className={iconStyle} />,
+    },
+    {
+      title: "certificates",
+      link: "/certificates",
+      icon: <BsAward className={iconStyle} />,
+      fillIcon: <BsAwardFill className={iconStyle} />,
     },
   ];
 
@@ -56,8 +64,8 @@ const BodyContent: React.FC<BodyContentProps> = ({ username }) => {
         >
           <Button
             variant="link"
-            className={`w-full flex justify-start text-white hover:no-underline hover:bg-blue-800/50 duration-300 ${
-              isActive ? "bg-blue-800" : ""
+            className={`w-full flex justify-start text-white hover:no-underline hover:bg-main duration-300 ${
+              isActive ? "bg-main" : ""
             }`}
           >
             {isActive ? item.fillIcon : item.icon}

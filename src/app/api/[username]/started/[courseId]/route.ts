@@ -4,7 +4,6 @@ import Course from "@/models/Course";
 import { NextRequest, NextResponse } from "next/server";
 import Article from "@/models/Article";
 
-// Handle GET requests
 export async function GET(
   req: NextRequest,
   { params }: { params: { username: string; courseId: string } }
@@ -12,7 +11,7 @@ export async function GET(
   await dbConnect();
 
   const { username, courseId } = params;
-  const lessonId = req.nextUrl.searchParams.get("lesson");
+  const lessonId = req.nextUrl.searchParams.get("lessonId");
 
   try {
     await Article.init();
@@ -37,22 +36,50 @@ export async function GET(
 
     const course = await Course.findById(courseId).populate({
       path: "lessons",
-      match: { _id: lessonId },
-      select:
-        "title description topics tips objective video thumbnail articles",
+      select: "title description topics tips objective video thumbnail",
       populate: { path: "articles", select: "title content" },
     });
 
     if (!course || !course.lessons || course.lessons.length === 0) {
       return NextResponse.json(
-        { errorMsg: "Lesson not found" },
+        { errorMsg: "Lessons not found" },
         { status: 404 }
       );
     }
 
-    const lesson = course.lessons[0];
+    // Extract lesson IDs
+    const lessonIds = course.lessons.map((lesson) => lesson._id.toString());
 
-    return NextResponse.json(lesson);
+    // Find the index of the current lesson
+    const currentLessonIndex = lessonIds.indexOf(lessonId) + 1;
+
+    if (currentLessonIndex === -1) {
+      return NextResponse.json(
+        { errorMsg: "Lesson ID does not match any lesson in the course" },
+        { status: 404 }
+      );
+    }
+
+    // Find the current lesson data
+    const lesson = course.lessons.find(
+      (lesson) => lesson._id.toString() === lessonId
+    );
+
+    if (!lesson) {
+      return NextResponse.json(
+        { errorMsg: "Current lesson not found" },
+        { status: 404 }
+      );
+    }
+
+    // Combine lesson details with additional data
+    const responseData = {
+      ...lesson.toObject(),
+      lessonIds,
+      currentLessonIndex,
+    };
+
+    return NextResponse.json(responseData);
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json({ errorMsg: error.message }, { status: 500 });

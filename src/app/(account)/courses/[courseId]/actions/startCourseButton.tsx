@@ -58,7 +58,6 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
         `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/start?username=${username}`,
         {}
       );
-
       router.push(`/${username}/courses/${courseId}?lesson=${lessonId}`);
     } catch (error) {
       console.error("Error starting course:", error);
@@ -71,13 +70,17 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
     <>
       {isStarted ? (
         <Link href={`/${username}/courses/${courseId}?lesson=${lessonId}`}>
-          <Button>
+          <Button className="hover:!bg-main brightness-90">
             Continue
             <BsArrowRight className="ml-2 h-4" />
           </Button>
         </Link>
       ) : (
-        <Button onClick={handleStartCourse} disabled={isLoading}>
+        <Button
+          onClick={handleStartCourse}
+          disabled={isLoading}
+          className="hover:!bg-main brightness-90"
+        >
           {isLoading ? (
             <>
               Starting...

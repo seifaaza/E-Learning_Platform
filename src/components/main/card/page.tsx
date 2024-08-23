@@ -35,7 +35,7 @@ const Card: React.FC<CardProps> = ({
         />
       </article>
       <ul className="gap-8 pl-1 pb-1 pt-2 flex justify-between items-center">
-        <h4 className="text-blue-600 font-medium truncate text-sm md:text-base">
+        <h4 className="text-main font-medium truncate text-sm md:text-base">
           {title}
         </h4>
         {btn ? (
@@ -56,7 +56,7 @@ const Card: React.FC<CardProps> = ({
       {progress && (
         <ul className="flex gap-3 items-center">
           <Progress value={progress} className="w-full h-[.2rem] bg-blue-200" />
-          <span className="text-blue-600 text-sm">
+          <span className="text-main text-sm">
             {progress === 0.1 ? 0 : progress}%
           </span>
         </ul>

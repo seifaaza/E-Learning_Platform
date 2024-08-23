@@ -83,7 +83,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
     <Button
       onClick={isSaved ? handleUnsaveCourse : handleSaveCourse}
       variant="link"
-      className="hover:!no-underline !border-[1px] !border-blue-600 hover:!bg-blue-600 hover:!text-white"
+      className="hover:!no-underline !border-[1px] !border-main hover:!bg-main hover:!text-white"
       disabled={isLoading}
     >
       {isLoading ? (

@@ -37,7 +37,7 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
 }) => {
   return (
     <ul className="w-full mt-4 mb-2 flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12">
-      <li className="h-fit w-fit md:w-1/2 lg:w-1/3 flex flex-col gap-4 lg:gap-6">
+      <li className="h-fit w-full md:w-1/2 lg:w-1/3 flex flex-col gap-4 lg:gap-6">
         <img
           src={`https://res.cloudinary.com/depztpide/image/upload/${thumbnail}`}
           alt={`${title} poster`}
@@ -63,7 +63,7 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
         </ul>
       </li>
       <li className="flex flex-col gap-3">
-        <h2 className="text-xl md:text-2xl xl:text-3xl font-bold text-blue-600 capitalize !mb-0">
+        <h2 className="text-xl md:text-2xl xl:text-3xl font-bold text-main capitalize !mb-0">
           {title}
         </h2>
         <article className="flex flex-col gap-1">
@@ -76,7 +76,7 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
           <SaveCourseButton courseId={courseId} />
         </ul>
       </li>
-      <li className="ml-auto hidden self-start lg:flex items-center gap-1 text-blue-600 bg-blue-100 rounded-lg py-2 px-4">
+      <li className="ml-auto hidden self-start lg:flex items-center gap-1 text-main bg-main/10 rounded-lg py-2 px-4">
         <h5 className="!font-semibold">Free</h5>
         <BsCurrencyDollar className="h-4 " />
       </li>

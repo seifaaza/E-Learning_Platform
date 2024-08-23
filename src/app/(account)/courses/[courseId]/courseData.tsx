@@ -6,11 +6,11 @@ import CourseInfoHeader from "./courseInfoHeader";
 import CourseInfoBody from "./courseInfoBody";
 import CourseInfoFooter from "./courseInfoFooter";
 
-interface CourseInfoProps {
+interface CourseDataProps {
   courseId: string;
 }
 
-const CourseInfo: React.FC<CourseInfoProps> = async ({ courseId }) => {
+const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
   const fetchCourseById = async (courseId: string) => {
     try {
       const response = await axios.get(
@@ -32,7 +32,7 @@ const CourseInfo: React.FC<CourseInfoProps> = async ({ courseId }) => {
   const course = await fetchCourseById(courseId);
 
   if (!course) {
-    return <p>No course details available.</p>;
+    notFound();
   }
 
   const formatDate = (dateString: string) => {
@@ -44,7 +44,7 @@ const CourseInfo: React.FC<CourseInfoProps> = async ({ courseId }) => {
   };
 
   return (
-    <>
+    <section className="mt-4 xl:mt-6">
       <CourseInfoHeader
         courseId={courseId}
         firstLessonId={course.firstLessonId}
@@ -75,8 +75,8 @@ const CourseInfo: React.FC<CourseInfoProps> = async ({ courseId }) => {
         totalArticles={course.totalArticles}
         totalTopics={course.totalTopics}
       />
-    </>
+    </section>
   );
 };
 
-export default CourseInfo;
+export default CourseData;
