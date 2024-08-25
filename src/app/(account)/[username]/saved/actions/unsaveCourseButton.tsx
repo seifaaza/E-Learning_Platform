@@ -40,7 +40,7 @@ const UnsaveCourseButton: React.FC<UnsaveCourseButtonProps> = ({
     <Button
       variant="link"
       onClick={handleUnsaveCourse}
-      className="!pl-[.65rem] hover:!no-underline hover:!bg-blue-600 hover:!text-white "
+      className="!pl-[.65rem] hover:!no-underline hover:!bg-main hover:!text-white "
     >
       {isLoading ? (
         <Loader2 className="mr-2 h-4 animate-spin" />

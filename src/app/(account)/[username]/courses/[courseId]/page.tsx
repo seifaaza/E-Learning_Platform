@@ -1,8 +1,5 @@
 import Lesson from "./lesson/[lessonId]/page";
-import { CourseProgress } from "./courseProgress";
-import CancelCourseButton from "./lesson/[lessonId]/actions/cancelCourseButton";
 import BackButton from "@/components/main/backButton";
-import LessonData from "./lesson/[lessonId]/lessonData";
 
 interface CourseItemProps {
   params: {
@@ -19,7 +16,7 @@ const CourseItem: React.FC<CourseItemProps> = async ({
   searchParams: { lesson },
 }) => {
   return (
-    <section className="bg-blue-50">
+    <section className="bg-blue-50 min-h-[100vh]">
       <article className="container px-3 xl:px-8 pt-6 pb-20">
         <BackButton />
         <Lesson username={username} courseId={courseId} lessonId={lesson} />

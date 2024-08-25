@@ -25,7 +25,8 @@ export async function GET(
 
     const course = await Course.findById(courseObjectId)
       .populate("lessons", "_id title articles topics")
-      .select("-category -ratings");
+      .populate("category", "name") // Populate the category name
+      .select("-ratings");
 
     if (!course) {
       return NextResponse.json(
@@ -60,6 +61,7 @@ export async function GET(
       lessonsTitles: course.lessons.map((lesson) => lesson.title),
       totalArticles,
       totalTopics,
+      categoryName: course.category.name, // Add category name to the response
     };
 
     return NextResponse.json(courseResponse);

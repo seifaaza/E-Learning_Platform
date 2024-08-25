@@ -21,6 +21,7 @@ interface CourseInfoHeaderProps {
   createdAt: string;
   source: string;
   creator: string;
+  category: string;
 }
 
 const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
@@ -34,6 +35,7 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
   createdAt,
   source,
   creator,
+  category,
 }) => {
   return (
     <ul className="w-full mt-4 mb-2 flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12">
@@ -76,9 +78,8 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
           <SaveCourseButton courseId={courseId} />
         </ul>
       </li>
-      <li className="ml-auto hidden self-start lg:flex items-center gap-1 text-main bg-main/10 rounded-lg py-2 px-4">
-        <h5 className="!font-semibold">Free</h5>
-        <BsCurrencyDollar className="h-4 " />
+      <li className="-order-1 md:order-none ml-auto self-start text-main bg-main/10 rounded-lg py-2 px-4 whitespace-nowrap">
+        <h5 className="!font-medium">{category}</h5>
       </li>
     </ul>
   );

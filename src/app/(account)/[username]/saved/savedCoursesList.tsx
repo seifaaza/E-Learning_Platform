@@ -66,7 +66,7 @@ const SavedCoursesList = ({ username }: SavedCoursesListProps) => {
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="ghost" className="!p-0 cursor-pointer">
-                      <BsThreeDotsVertical className="text-xl text-blue-600 " />
+                      <BsThreeDotsVertical className="text-xl text-main " />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-fit">
@@ -79,7 +79,7 @@ const SavedCoursesList = ({ username }: SavedCoursesListProps) => {
                       <Link href={`/courses/${item._id}`}>
                         <Button
                           variant="link"
-                          className="!pl-[.65rem] hover:!no-underline hover:!bg-blue-600 hover:!text-white "
+                          className="!pl-[.65rem] hover:!no-underline hover:!bg-main hover:!text-white "
                         >
                           <BsArrowRight className="mr-2 h-4" />
                           Go To Course

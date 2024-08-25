@@ -9,8 +9,8 @@ const DataNotFound: React.FC<DataNotFoundProps> = ({ text }) => {
   return (
     <article className="px-4 mx-auto max-w-screen-sm flex flex-col items-center gap-8 my-52 mg:my-60 lg:my-72">
       <ul className="flex lg:items-center gap-3">
-        <BsExclamationCircleFill className="text-blue-600 mt-1 lg:mt-[1px] text-lg min-w-[1.125rem]" />
-        <p className="text-blue-600">{text}</p>
+        <BsExclamationCircleFill className="text-main mt-1 lg:mt-[1px] text-lg min-w-[1.125rem]" />
+        <p className="text-main">{text}</p>
       </ul>
     </article>
   );

@@ -72,11 +72,11 @@ const StartedCoursesList = ({ username }: StartedCoursesListProps) => {
                       <Link
                         href={`/${username}/courses/${item._id}?lesson=66be2c9466fa2fd282a325b5`}
                       >
-                        <BsArrowRight className="h-4 text-blue-600" />
+                        <BsArrowRight className="h-4 text-main" />
                       </Link>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <h6 className="text-blue-600">Continue Course</h6>
+                      <h6 className="text-main">Continue Course</h6>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>

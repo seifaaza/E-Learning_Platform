@@ -56,10 +56,11 @@ const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
         createdAt={formatDate(course.created_at)}
         source={course.source}
         creator={course.creator}
+        category={course.categoryName}
       />
       <Separator
         orientation="vertical"
-        className="h-[1px] bg-gray-800 opacity-15 my-8"
+        className="h-[1px] bg-gray-800 opacity-20 my-8"
       />
       <CourseInfoBody
         objectives={course.objectives}
@@ -67,7 +68,7 @@ const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
       />
       <Separator
         orientation="vertical"
-        className="h-[1px] bg-gray-800 opacity-15 my-8"
+        className="h-[1px] bg-gray-800 opacity-20 my-8"
       />
 
       <CourseInfoFooter

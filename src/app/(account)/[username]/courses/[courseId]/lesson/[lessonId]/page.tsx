@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import LessonData from "./lessonData";
-import CourseInfoLoader from "@/components/main/loaders/courseInfoLoader";
+import LessonLoader from "@/components/main/loaders/lessonLoader";
 
 interface LessonItemProps {
   username: string;
@@ -14,7 +14,7 @@ const Lesson: React.FC<LessonItemProps> = ({
   lessonId,
 }) => {
   return (
-    <Suspense fallback={<CourseInfoLoader />}>
+    <Suspense fallback={<LessonLoader />}>
       <LessonData username={username} courseId={courseId} lessonId={lessonId} />
     </Suspense>
   );

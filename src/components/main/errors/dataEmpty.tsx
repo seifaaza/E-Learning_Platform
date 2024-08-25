@@ -13,7 +13,7 @@ const EmptyData: React.FC<EmptyDataProps> = ({ imgSrc, text }) => {
         alt="Empty data"
         className="h-64 md:h-72 lg:h-80 xl:h-96"
       />
-      <p className="text-blue-600 max-w-md !text-center">{text}</p>
+      <p className="text-main max-w-md !text-center">{text}</p>
     </article>
   );
 };

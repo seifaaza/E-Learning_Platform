@@ -6,7 +6,7 @@ const Search = () => {
     <Input
       type="email"
       placeholder="Search"
-      className="bg-main/10 !text-main placeholder:text-main/50 max-w-xs focus-visible:!ring-offset-0 focus-visible:ring-0"
+      className="bg-main/10 !text-main placeholder:text-main/70 placeholder:font-medium max-w-xs focus-visible:!ring-offset-0 focus-visible:ring-0"
     />
   );
 };

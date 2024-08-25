@@ -21,6 +21,9 @@ const CourseInfoLoader = () => {
             <Skeleton className="mt-4 w-32 h-5 bg-main/10 rounded-lg" />
           </article>
         </li>
+        <li className="-order-1 md:order-none ml-auto self-start">
+          <Skeleton className="w-28 h-10 bg-main/10 rounded-lg" />
+        </li>
       </ul>
       <Skeleton className="my-6 mx-auto w-44 h-5 bg-main/10 rounded-lg mt-16" />
     </>

@@ -55,7 +55,7 @@ const Card: React.FC<CardProps> = ({
       )}
       {progress && (
         <ul className="flex gap-3 items-center">
-          <Progress value={progress} className="w-full h-[.2rem] bg-blue-200" />
+          <Progress value={progress} className="w-full h-[.2rem] bg-main/20" />
           <span className="text-main text-sm">
             {progress === 0.1 ? 0 : progress}%
           </span>
