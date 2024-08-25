@@ -1,7 +1,8 @@
 import {
+  BsPatchCheck,
+  BsPatchExclamation,
   BsCalendarCheck,
   BsCollection,
-  BsCurrencyDollar,
   BsGlobe,
   BsPerson,
 } from "react-icons/bs";
@@ -17,6 +18,7 @@ interface CourseInfoHeaderProps {
   title: string;
   rating: number;
   description: string;
+  isCertified: boolean;
   language: string;
   createdAt: string;
   source: string;
@@ -31,6 +33,7 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
   title,
   rating,
   description,
+  isCertified,
   language,
   createdAt,
   source,
@@ -58,7 +61,7 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
             <BsCollection className="h-[.9rem] pt-[1px]" />
             <h6 className="text-gray-900 !text-sm capitalize">{source}</h6>
           </li>
-          <li className="flex items-center gap-2 text-gray-900">
+          <li className="flex items-center gap-[.4rem] text-gray-900">
             <BsPerson className="h-[.9rem] pt-[1px]" />
             <h6 className="text-gray-900 !text-sm capitalize">{creator}</h6>
           </li>
@@ -73,6 +76,17 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
           <h6 className="text-gray-700 max-w-xl">{description}</h6>
         </article>
         <CommentRatings rating={rating} ratingNumber />
+        {isCertified ? (
+          <h6 className="text-gray-900 font-medium flex gap-2">
+            <BsPatchCheck className="h-6" />
+            Certificate of completion
+          </h6>
+        ) : (
+          <h6 className="text-gray-900 font-medium flex gap-2">
+            <BsPatchExclamation className="h-6" />
+            Without Certificate
+          </h6>
+        )}{" "}
         <ul className="flex gap-4 mt-2">
           <StartCourseButton courseId={courseId} lessonId={firstLessonId} />
           <SaveCourseButton courseId={courseId} />

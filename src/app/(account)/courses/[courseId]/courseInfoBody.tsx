@@ -30,7 +30,7 @@ const CourseInfoBody: React.FC<CourseInfoBodyProps> = ({
         </section>
         <Separator
           orientation="vertical"
-          className="h-[1px] md:w-[1px] w-full md:h-40 bg-gray-800 opacity-15 self-center"
+          className="h-[1px] md:w-[1px] w-full md:h-40 bg-gray-800 opacity-20 self-center"
         />
         <section className="w-full md:w-1/2">
           <h5 className="text-gray-900 font-medium mb-4 md:text-center">

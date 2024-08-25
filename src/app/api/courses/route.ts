@@ -10,9 +10,9 @@ export async function GET() {
   try {
     await Lesson.init();
     // Find all courses and populate the lessons field
-    const courses = await Course.find({})
-      .select("title thumbnail lessons ratings averageRating")
-      .populate("lessons", "_id");
+    const courses = await Course.find({}).select(
+      "title thumbnail averageRating isCertified"
+    );
 
     if (courses.length === 0) {
       // If no courses are found, return a 404 response with a message
@@ -29,8 +29,8 @@ export async function GET() {
         _id: course._id,
         title: course.title,
         thumbnail: course.thumbnail,
-        lessonsCount: course.lessons.length,
         averageRating: course.averageRating,
+        isCertified: course.isCertified,
       };
     });
 

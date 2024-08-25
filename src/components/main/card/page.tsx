@@ -1,12 +1,13 @@
 import React from "react";
 import { CommentRatings } from "../rating";
 import { Progress } from "@/components/ui/progress";
+import { BsFillPatchCheckFill } from "react-icons/bs";
 
 interface CardProps {
   thumbnail: string;
   title: string;
-  lessonsCount: number;
   averageRating?: number;
+  isCertified: boolean;
   btn?: React.ReactNode;
   link?: boolean;
   progress?: number;
@@ -15,8 +16,8 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({
   thumbnail,
   title,
-  lessonsCount,
   averageRating,
+  isCertified,
   btn,
   link = true,
   progress,
@@ -24,8 +25,8 @@ const Card: React.FC<CardProps> = ({
   return (
     <section
       className={`p-2 md:p-4 ${
-        link && "hover:scale-[1.02] duration-300 transition-transform"
-      } `}
+        link ? "hover:scale-[1.02] duration-300 transition-transform" : ""
+      }`}
     >
       <article className="relative">
         <img
@@ -35,16 +36,17 @@ const Card: React.FC<CardProps> = ({
         />
       </article>
       <ul className="gap-8 pl-1 pb-1 pt-2 flex justify-between items-center">
-        <h4 className="text-main font-medium truncate text-sm md:text-base">
+        <h4 className="text-gray-700 font-medium truncate text-sm md:text-base">
           {title}
         </h4>
-        {btn ? (
-          btn
-        ) : (
-          <h6 className="text-gray-700 whitespace-nowrap">
-            {lessonsCount} Lessons
-          </h6>
-        )}
+        {btn
+          ? btn
+          : isCertified && (
+              <h6 className="!text-sm text-main whitespace-nowrap flex gap-2">
+                With Certificate
+                <BsFillPatchCheckFill className="h-6" />
+              </h6>
+            )}
       </ul>
       {!btn && (
         <CommentRatings
@@ -53,7 +55,7 @@ const Card: React.FC<CardProps> = ({
           className="pl-1 w-fit"
         />
       )}
-      {progress && (
+      {progress !== undefined && (
         <ul className="flex gap-3 items-center">
           <Progress value={progress} className="w-full h-[.2rem] bg-main/20" />
           <span className="text-main text-sm">

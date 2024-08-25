@@ -55,6 +55,7 @@ export async function GET(
       language: course.language,
       source: course.source,
       creator: course.creator,
+      isCertified: course.isCertified,
       objectives: course.objectives,
       created_at: course.created_at,
       firstLessonId: course.lessons[0]?._id || null,

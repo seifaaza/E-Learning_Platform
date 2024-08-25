@@ -52,6 +52,7 @@ const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
         title={course.title}
         rating={course.averageRating}
         description={course.description}
+        isCertified={course.isCertified}
         language={course.language}
         createdAt={formatDate(course.created_at)}
         source={course.source}
@@ -60,7 +61,7 @@ const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
       />
       <Separator
         orientation="vertical"
-        className="h-[1px] bg-gray-800 opacity-20 my-8"
+        className="h-[1px] bg-gray-800 opacity-20 my-10"
       />
       <CourseInfoBody
         objectives={course.objectives}
@@ -68,13 +69,14 @@ const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
       />
       <Separator
         orientation="vertical"
-        className="h-[1px] bg-gray-800 opacity-20 my-8"
+        className="h-[1px] bg-gray-800 opacity-20 my-10"
       />
 
       <CourseInfoFooter
         totalLessons={course.lessonsTitles.length}
         totalArticles={course.totalArticles}
         totalTopics={course.totalTopics}
+        quiz={course.isCertified}
       />
     </section>
   );

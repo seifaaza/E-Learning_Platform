@@ -10,6 +10,7 @@ interface Course {
   title: string;
   lessonsCount: number;
   averageRating: number;
+  isCertified: boolean;
 }
 
 const CoursesList = async () => {
@@ -44,8 +45,8 @@ const CoursesList = async () => {
               <Card
                 thumbnail={item.thumbnail}
                 title={item.title}
-                lessonsCount={item.lessonsCount}
                 averageRating={item.averageRating}
+                isCertified={item.isCertified}
               />
             </Link>
           ))}

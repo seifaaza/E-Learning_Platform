@@ -59,7 +59,12 @@ export async function GET(
 
     const totalLessons = course.lessons.length;
     const completedLessons = courseProgress.completedLessons.length || 0;
-    const progressPercentage = (completedLessons / totalLessons) * 100;
+
+    // Calculate progressPercentage based on whether the course is certified
+    const maxProgress = course.isCertified ? 80 : 100;
+    const progressPercentage = Math.trunc(
+      (completedLessons / totalLessons) * maxProgress
+    );
 
     return NextResponse.json({ progressPercentage });
   } catch (error: any) {

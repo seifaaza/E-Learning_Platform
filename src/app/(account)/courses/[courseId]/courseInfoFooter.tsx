@@ -10,12 +10,14 @@ interface CourseInfoFooterProps {
   totalLessons: number;
   totalArticles: number;
   totalTopics: number;
+  quiz: boolean;
 }
 
 const CourseInfoFooter: React.FC<CourseInfoFooterProps> = ({
   totalLessons,
   totalArticles,
   totalTopics,
+  quiz,
 }) => {
   return (
     <>
@@ -33,10 +35,12 @@ const CourseInfoFooter: React.FC<CourseInfoFooterProps> = ({
           <BsBox className="h-8" />
           <h5 className="capitalize font-medium">{totalTopics} topics</h5>
         </li>
-        <li className="flex items-center gap-2 text-main">
-          <BsPatchQuestion className="h-8" />
-          <h5 className="capitalize font-medium">1 quiz</h5>
-        </li>
+        {quiz && (
+          <li className="flex items-center gap-2 text-main">
+            <BsPatchQuestion className="h-8" />
+            <h5 className="capitalize font-medium">quiz</h5>
+          </li>
+        )}
       </ul>
     </>
   );

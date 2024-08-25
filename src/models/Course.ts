@@ -22,7 +22,8 @@ export interface ICourse extends Document {
   created_at: Date;
   updated_at: Date;
   ratings: IRating[]; // Array of ratings
-  averageRating?: number; // Optional field to store average rating
+  averageRating?: number;
+  isCertified: boolean;
 }
 
 // Define the Course schema
@@ -59,7 +60,11 @@ const courseSchema: Schema<ICourse> = new mongoose.Schema({
       rating: { type: Number, required: true },
     },
   ],
-  averageRating: { type: Number, default: 0 }, // Optional field to store the average rating
+  averageRating: { type: Number, default: 0 },
+  isCertified: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // Middleware to update updated_at before saving
