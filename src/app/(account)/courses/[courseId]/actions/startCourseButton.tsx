@@ -19,7 +19,8 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
   lessonId,
 }) => {
   const { data: session, status } = useSession();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isStarted, setIsStarted] = useState<boolean>(false);
   const router = useRouter();
 
@@ -42,6 +43,8 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
         setIsStarted(courseStarted);
       } catch (error) {
         console.error("Error fetching started courses:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -51,7 +54,7 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
   const handleStartCourse = async () => {
     if (status === "loading") return;
 
-    setIsLoading(true);
+    setIsProcessing(true);
 
     try {
       await axios.post(
@@ -61,7 +64,7 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
     } catch (error) {
       console.error("Error starting course:", error);
     } finally {
-      setIsLoading(false);
+      setIsProcessing(false);
     }
   };
 
@@ -77,10 +80,10 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
       ) : (
         <Button
           onClick={handleStartCourse}
-          disabled={isLoading}
+          disabled={isLoading || isProcessing}
           className="hover:!bg-main brightness-90"
         >
-          {isLoading ? (
+          {isProcessing ? (
             <>
               Starting...
               <Loader2 className="ml-2 h-4 animate-spin" />

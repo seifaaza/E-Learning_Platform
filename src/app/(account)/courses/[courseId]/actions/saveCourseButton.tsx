@@ -14,7 +14,8 @@ interface SaveCourseButtonProps {
 const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
   const { data: session, status } = useSession();
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
 
   const username = session?.user?.username;
@@ -34,6 +35,8 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
         setIsSaved(courseIsSaved);
       } catch (error) {
         console.error("Error fetching saved courses:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -41,14 +44,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
   }, [status, username, courseId]);
 
   const handleSaveCourse = async () => {
-    if (status === "loading") return;
-
-    if (!username) {
-      console.error("Username not available");
-      return;
-    }
-
-    setIsLoading(true);
+    setIsProcessing(true);
 
     try {
       await axios.post(
@@ -58,15 +54,12 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
     } catch (error) {
       console.error("Error saving course:", error);
     } finally {
-      setIsLoading(false);
+      setIsProcessing(false);
     }
   };
 
   const handleUnsaveCourse = async () => {
-    if (status === "loading") return;
-
-    setIsLoading(true);
-
+    setIsProcessing(true);
     try {
       await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
@@ -75,7 +68,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
     } catch (error) {
       console.error("Error unsaving course:", error);
     } finally {
-      setIsLoading(false);
+      setIsProcessing(false);
     }
   };
 
@@ -84,9 +77,9 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
       onClick={isSaved ? handleUnsaveCourse : handleSaveCourse}
       variant="link"
       className="hover:!no-underline !border-[1px] !border-main hover:!bg-main hover:!text-white"
-      disabled={isLoading}
+      disabled={isLoading || isProcessing}
     >
-      {isLoading ? (
+      {isProcessing ? (
         <>
           {isSaved ? "Unsaving..." : "Saving..."}
           <Loader2 className="ml-2 h-4 animate-spin" />
