@@ -34,11 +34,7 @@ const fetchStartedCourses = async (url: string) => {
 };
 
 const StartedCoursesList = ({ username }: StartedCoursesListProps) => {
-  const {
-    data: startedCourses,
-    error,
-    mutate,
-  } = useSWR(
+  const { data: startedCourses, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start`,
     fetchStartedCourses
   );
@@ -61,7 +57,6 @@ const StartedCoursesList = ({ username }: StartedCoursesListProps) => {
               key={item._id}
               thumbnail={item.thumbnail}
               title={item.title}
-              lessonsCount={item.lessonsCount}
               progress={
                 item.progressPercentage === 0 ? 0.1 : item.progressPercentage
               }

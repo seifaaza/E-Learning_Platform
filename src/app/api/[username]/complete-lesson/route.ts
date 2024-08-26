@@ -1,9 +1,53 @@
 import dbConnect from "@/lib/dbConnect";
-import User from "@/models/User";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
+import User from "@/models/User";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
+
+export async function GET(
+  request: Request,
+  { params }: { params: { username: string } }
+) {
+  await dbConnect();
+
+  const { username } = params;
+  const url = new URL(request.url);
+  const courseId = url.searchParams.get("courseId");
+
+  try {
+    if (!courseId || !username) {
+      return NextResponse.json(
+        { errorMsg: "Missing course ID or username" },
+        { status: 400 }
+      );
+    }
+
+    // Find the user
+    const user = await User.findOne({ username }).exec();
+
+    if (!user) {
+      return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
+    }
+
+    // Check if the user's progress for the course exists
+    const courseProgress = user.progress.get(courseId);
+
+    if (!courseProgress) {
+      return NextResponse.json(
+        { errorMsg: "Course progress not found" },
+        { status: 404 }
+      );
+    }
+
+    // Get all completed lesson IDs for the course
+    const completedLessonIds = courseProgress.completedLessons;
+
+    return NextResponse.json(completedLessonIds);
+  } catch (error: any) {
+    return NextResponse.json({ errorMsg: error.message }, { status: 500 });
+  }
+}
 
 export async function POST(
   request: Request,
@@ -74,6 +118,19 @@ export async function POST(
     if (!courseProgress.completedLessons.includes(lessonObjectId)) {
       courseProgress.completedLessons.push(lessonObjectId);
 
+      // Calculate the progress percentage
+      const totalLessons = course.lessons.length;
+      const completedLessons = courseProgress.completedLessons.length || 0;
+
+      // Determine the max progress based on course certification
+      const maxProgress = course.isCertified ? 80 : 100;
+      const progressPercentage = Math.trunc(
+        (completedLessons / totalLessons) * maxProgress
+      );
+
+      // Update the progressPercentage
+      courseProgress.progressPercentage = progressPercentage;
+
       user.progress.set(courseId, courseProgress);
       await user.save();
 
@@ -82,10 +139,9 @@ export async function POST(
         progress: courseProgress,
       });
     } else {
-      return NextResponse.json(
-        { message: "Lesson already marked as completed" },
-        { status: 400 }
-      );
+      return NextResponse.json({
+        message: "Lesson already marked as completed",
+      });
     }
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });

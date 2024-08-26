@@ -49,6 +49,7 @@ const LessonData: React.FC<LessonDataProps> = async ({
         <LessonPlayer
           username={username}
           courseId={courseId}
+          lessonId={lessonId}
           video={lesson.video}
           thumbnail={lesson.thumbnail}
           title={lesson.title}
@@ -59,7 +60,11 @@ const LessonData: React.FC<LessonDataProps> = async ({
 
         <section className=" mt-4 lg:mt-0 flex flex-col gap-4 xl:gap-5 lg:w-2/3">
           <CancelCourseButton username={username} courseId={courseId} />
-          <CourseProgress username={username} courseId={courseId} />
+          <CourseProgress
+            username={username}
+            courseId={courseId}
+            lessonId={lessonId}
+          />
           <LessonArticles articles={lesson.articles} />
         </section>
       </ul>

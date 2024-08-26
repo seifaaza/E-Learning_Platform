@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { BsXLg } from "react-icons/bs";
-import { useSession } from "next-auth/react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -17,13 +16,10 @@ const CancelCourseButton: React.FC<CancelCourseButtonProps> = ({
   username,
   courseId,
 }) => {
-  const { data: session, status } = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleCancelCourse = async () => {
-    if (status === "loading") return;
-
     setIsLoading(true);
 
     try {

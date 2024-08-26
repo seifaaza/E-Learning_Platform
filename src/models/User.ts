@@ -4,6 +4,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 interface CourseProgress {
   totalLessons: number;
   completedLessons: mongoose.Types.ObjectId[];
+  progressPercentage: number; // Add progressPercentage
 }
 
 export interface IUser extends Document {
@@ -40,10 +41,13 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
   ],
   progress: {
     type: Map,
-    of: {
-      totalLessons: Number,
-      completedLessons: [mongoose.Schema.Types.ObjectId],
-    },
+    of: new mongoose.Schema({
+      totalLessons: { type: Number, required: true },
+      completedLessons: [
+        { type: mongoose.Schema.Types.ObjectId, ref: "Lesson" },
+      ],
+      progressPercentage: { type: Number, required: true }, // Add progressPercentage
+    }),
   },
 });
 

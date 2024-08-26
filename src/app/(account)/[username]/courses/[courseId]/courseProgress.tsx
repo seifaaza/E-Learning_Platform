@@ -1,16 +1,23 @@
 "use client";
 
 import { Progress } from "@/components/ui/progress";
+import { lessonStore } from "@/store/lessonStore";
 import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface CourseProgressProps {
   username: string;
   courseId: string;
+  lessonId: string;
 }
 
-export function CourseProgress({ username, courseId }: CourseProgressProps) {
+export function CourseProgress({
+  username,
+  courseId,
+  lessonId,
+}: CourseProgressProps) {
   const [progress, setProgress] = useState(0);
+  const { completedLessons } = lessonStore();
 
   useEffect(() => {
     // Fetch progress from the API
@@ -39,7 +46,7 @@ export function CourseProgress({ username, courseId }: CourseProgressProps) {
     }
 
     fetchProgress();
-  }, [username, courseId]);
+  }, [username, courseId, lessonId, completedLessons]);
 
   return (
     <section className="w-full mb-2">

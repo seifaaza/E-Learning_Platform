@@ -7,7 +7,7 @@ interface CardProps {
   thumbnail: string;
   title: string;
   averageRating?: number;
-  isCertified: boolean;
+  isCertified?: boolean;
   btn?: React.ReactNode;
   link?: boolean;
   progress?: number;

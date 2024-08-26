@@ -1,11 +1,16 @@
 import { create } from "zustand";
 
-interface LessonStore {
-  isVideoEnded: boolean;
-  setIsVideoEnded: (ended: boolean) => void;
+interface LessonState {
+  completedLessons: Set<string>;
+  markLessonComplete: (lessonId: string) => void;
 }
 
-export const lessonStore = create<LessonStore>((set) => ({
-  isVideoEnded: false,
-  setIsVideoEnded: (ended) => set({ isVideoEnded: ended }),
+export const lessonStore = create<LessonState>((set) => ({
+  completedLessons: new Set(),
+  markLessonComplete: (lessonId) =>
+    set((state) => {
+      const newCompletedLessons = new Set(state.completedLessons);
+      newCompletedLessons.add(lessonId);
+      return { completedLessons: newCompletedLessons };
+    }),
 }));

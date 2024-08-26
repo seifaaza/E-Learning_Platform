@@ -107,6 +107,7 @@ export async function POST(
       user.progress.set(courseId, {
         totalLessons: course.lessons.length,
         completedLessons: [],
+        progressPercentage: 0, // Initialize progressPercentage to 0
       });
     }
 
@@ -117,6 +118,7 @@ export async function POST(
       { status: 200 }
     );
   } catch (error: any) {
+    console.log(error);
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }
 }
