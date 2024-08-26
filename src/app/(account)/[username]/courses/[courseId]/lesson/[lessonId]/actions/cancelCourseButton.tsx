@@ -28,7 +28,7 @@ const CancelCourseButton: React.FC<CancelCourseButtonProps> = ({
 
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/start?username=${username}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start?courseId=${courseId}`
       );
       router.push("/courses");
     } catch (error) {

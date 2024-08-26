@@ -39,7 +39,7 @@ const SavedCoursesList = ({ username }: SavedCoursesListProps) => {
     error,
     mutate,
   } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/saved`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save`,
     fetchSavedCourses
   );
 

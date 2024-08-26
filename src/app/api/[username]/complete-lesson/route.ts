@@ -7,14 +7,14 @@ import { NextResponse } from "next/server";
 
 export async function POST(
   request: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { username: string } }
 ) {
   await dbConnect();
 
-  const { courseId } = params;
+  const { username } = params;
   const url = new URL(request.url);
+  const courseId = url.searchParams.get("courseId");
   const lessonId = url.searchParams.get("lessonId");
-  const username = url.searchParams.get("username");
 
   try {
     if (!courseId || !lessonId || !username) {

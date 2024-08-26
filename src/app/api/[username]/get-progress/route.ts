@@ -6,13 +6,13 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { username: string } }
 ) {
   await dbConnect();
 
-  const { courseId } = params;
+  const { username } = params;
   const url = new URL(request.url);
-  const username = url.searchParams.get("username");
+  const courseId = url.searchParams.get("courseId");
 
   try {
     if (!courseId || !username) {

@@ -6,15 +6,15 @@ import { NextResponse } from "next/server";
 // The 'id' parameter will be extracted from the request URL
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { categoryId: string } }
 ) {
   await dbConnect();
 
-  const { id } = params;
+  const { categoryId } = params;
 
   try {
     // Find the category by its ID
-    const category = await Category.findById(id);
+    const category = await Category.findById(categoryId);
 
     return NextResponse.json(category);
   } catch (error: any) {

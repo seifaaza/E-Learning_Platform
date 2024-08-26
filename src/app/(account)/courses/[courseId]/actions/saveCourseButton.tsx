@@ -23,7 +23,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
     const fetchSavedCourses = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/saved`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save`
         );
         const savedCourses = response.data;
 
@@ -52,7 +52,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
 
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/save?username=${username}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
       );
       setIsSaved(true);
     } catch (error) {
@@ -69,7 +69,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
 
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/save?username=${username}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
       );
       setIsSaved(false);
     } catch (error) {

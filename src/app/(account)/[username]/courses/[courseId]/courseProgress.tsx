@@ -17,7 +17,7 @@ export function CourseProgress({ username, courseId }: CourseProgressProps) {
     async function fetchProgress() {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/get-progress?username=${username}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/get-progress?courseId=${courseId}`
         );
         const data = await response.json();
 

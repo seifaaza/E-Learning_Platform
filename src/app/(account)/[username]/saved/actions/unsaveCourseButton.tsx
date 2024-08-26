@@ -26,7 +26,7 @@ const UnsaveCourseButton: React.FC<UnsaveCourseButtonProps> = ({
 
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/save?username=${username}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
       );
       mutate(); // Trigger revalidation
     } catch (error) {
@@ -40,6 +40,7 @@ const UnsaveCourseButton: React.FC<UnsaveCourseButtonProps> = ({
     <Button
       variant="link"
       onClick={handleUnsaveCourse}
+      disabled={isLoading}
       className="!pl-[.65rem] hover:!no-underline hover:!bg-main hover:!text-white "
     >
       {isLoading ? (

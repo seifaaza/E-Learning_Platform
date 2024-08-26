@@ -31,7 +31,7 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
         if (!username) return;
 
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/started`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start`
         );
         const startedCourses = response.data;
 
@@ -55,8 +55,7 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
 
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/courses/${courseId}/start?username=${username}`,
-        {}
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start?courseId=${courseId}`
       );
       router.push(`/${username}/courses/${courseId}?lesson=${lessonId}`);
     } catch (error) {

@@ -39,7 +39,7 @@ const StartedCoursesList = ({ username }: StartedCoursesListProps) => {
     error,
     mutate,
   } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/started`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start`,
     fetchStartedCourses
   );
 
