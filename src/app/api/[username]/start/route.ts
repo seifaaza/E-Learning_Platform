@@ -1,10 +1,9 @@
 import dbConnect from "@/lib/dbConnect";
-import Course from "@/models/Course";
 import User from "@/models/User";
-import { NextRequest, NextResponse } from "next/server";
+import Course from "@/models/Course";
 import mongoose from "mongoose";
+import { NextRequest, NextResponse } from "next/server";
 
-// Handle GET requests
 export async function GET(
   req: NextRequest,
   { params }: { params: { username: string } }
@@ -17,7 +16,7 @@ export async function GET(
     // Find the user by username and populate startedCourses with selected fields
     const user = await User.findOne({ username }).populate({
       path: "startedCourses",
-      select: "_id title thumbnail isCertified", // Select the fields you need, including isCertified
+      select: "_id title thumbnail", // Select the fields you need, including isCertified
     });
 
     // If the user does not exist
@@ -25,28 +24,28 @@ export async function GET(
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
     }
 
-    // Extract the course details along with progress
-    const startedCourses = user.startedCourses.map((course) => {
-      const courseId = course._id.toString();
-      const courseProgress = user.progress.get(courseId);
+    // Create a map of courseId to progressPercentage for easy lookup
+    const progressMap = new Map(
+      user.progress.map((progress) => [
+        progress.courseId.toString(),
+        progress.progressPercentage,
+      ])
+    );
 
-      // Calculate progress percentage based on whether the course is certified
-      const totalLessons = courseProgress?.totalLessons || 0;
-      const completedLessons = courseProgress?.completedLessons.length || 0;
-      const maxProgress = course.isCertified ? 80 : 100;
-      const progressPercentage =
-        totalLessons > 0 ? (completedLessons / totalLessons) * maxProgress : 0;
+    // Prepare the response with course progress
+    const coursesWithProgress = user.startedCourses.map((course) => {
+      const courseId = course._id.toString();
+      const progressPercentage = progressMap.get(courseId) || 0;
 
       return {
         _id: course._id,
         title: course.title,
         thumbnail: course.thumbnail,
-        progressPercentage: Math.trunc(progressPercentage),
+        progressPercentage: progressPercentage,
       };
     });
 
-    // Return the started courses with progress
-    return NextResponse.json(startedCourses);
+    return NextResponse.json(coursesWithProgress);
   } catch (error) {
     // Handle any errors that occur
     if (error instanceof Error) {
@@ -77,7 +76,6 @@ export async function POST(
       );
     }
 
-    // Find the course and user by their respective IDs
     const courseObjectId = new mongoose.Types.ObjectId(courseId);
     const user = await User.findOne({ username });
 
@@ -85,7 +83,6 @@ export async function POST(
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
     }
 
-    // Check if the course is already started
     if (user.startedCourses.includes(courseObjectId)) {
       return NextResponse.json(
         { errorMsg: "Course already started" },
@@ -93,22 +90,26 @@ export async function POST(
       );
     }
 
-    // Add the course to the user's startedCourses array
     user.startedCourses.push(courseObjectId);
 
-    // Initialize the course progress for this user
     const course = await Course.findById(courseObjectId);
     if (course) {
-      // Ensure progress is a Map before setting the course progress
-      if (!user.progress) {
-        user.progress = new Map();
-      }
-
-      user.progress.set(courseId, {
+      // Initialize the course progress for this user
+      const progressEntry: CourseProgress = {
+        courseId: courseObjectId,
         totalLessons: course.lessons.length,
         completedLessons: [],
         progressPercentage: 0, // Initialize progressPercentage to 0
-      });
+      };
+
+      // Check if progress for this course already exists
+      const existingProgressIndex = user.progress.findIndex(
+        (progress) => progress.courseId.toString() === courseObjectId.toString()
+      );
+
+      if (existingProgressIndex === -1) {
+        user.progress.push(progressEntry);
+      }
     }
 
     await user.save();
@@ -123,7 +124,7 @@ export async function POST(
   }
 }
 
-export async function DELETE(
+export async function PUT(
   request: Request,
   { params }: { params: { username: string } }
 ) {
@@ -150,22 +151,17 @@ export async function DELETE(
 
     const courseObjectId = new mongoose.Types.ObjectId(courseId);
 
-    // Remove the course from the startedCourses array and progress field
-    const updatedUser = await User.findByIdAndUpdate(
-      user._id,
-      {
-        $pull: { startedCourses: courseObjectId },
-        $unset: { [`progress.${courseId}`]: "" }, // Remove the specific course progress
-      },
-      { new: true }
+    // Remove the course from the startedCourses array
+    user.startedCourses = user.startedCourses.filter(
+      (id) => !id.equals(courseObjectId)
     );
 
-    if (!updatedUser) {
-      return NextResponse.json(
-        { errorMsg: "Failed to update started courses" },
-        { status: 500 }
-      );
-    }
+    // Remove the course progress from the progress array
+    user.progress = user.progress.filter(
+      (progress) => !progress.courseId.equals(courseObjectId)
+    );
+
+    await user.save();
 
     return NextResponse.json({
       message: "Course removed from started courses and progress successfully",

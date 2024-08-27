@@ -46,7 +46,7 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
         <img
           src={`https://res.cloudinary.com/depztpide/image/upload/${thumbnail}`}
           alt={`${title} poster`}
-          className="aspect-video object-cover rounded-lg"
+          className="aspect-video object-cover rounded-lg border-[1px] !border-main/20"
         />
         <ul className="flex flex-wrap lg:justify-between items-center gap-4 sm:gap-3">
           <li className="flex items-center gap-2 text-gray-900">

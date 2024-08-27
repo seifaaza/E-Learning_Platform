@@ -3,6 +3,7 @@ import User from "@/models/User";
 import Course from "@/models/Course";
 import { NextRequest, NextResponse } from "next/server";
 import Article from "@/models/Article";
+import Lesson from "@/models/Lesson";
 
 export async function GET(
   req: NextRequest,
@@ -15,6 +16,7 @@ export async function GET(
 
   try {
     await Article.init();
+    await Lesson.init();
     if (!lessonId) {
       return NextResponse.json(
         { errorMsg: "Lesson ID is missing" },

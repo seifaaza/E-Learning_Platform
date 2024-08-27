@@ -131,6 +131,20 @@ export async function POST(
       // Update the progressPercentage
       courseProgress.progressPercentage = progressPercentage;
 
+      // Check if the progressPercentage has reached 100
+      if (progressPercentage === 100) {
+        // Add to completedCourses if not already present
+        if (!user.completedCourses.includes(courseObjectId)) {
+          user.completedCourses.push(courseObjectId);
+        }
+
+        // Remove from startedCourses if present
+        const startedCourseIndex = user.startedCourses.indexOf(courseObjectId);
+        if (startedCourseIndex !== -1) {
+          user.startedCourses.splice(startedCourseIndex, 1);
+        }
+      }
+
       user.progress.set(courseId, courseProgress);
       await user.save();
 

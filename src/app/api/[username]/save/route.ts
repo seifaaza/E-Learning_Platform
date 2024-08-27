@@ -1,8 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
-import Course from "@/models/Course";
 import User from "@/models/User";
-import { NextResponse } from "next/server";
 import mongoose from "mongoose";
+import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
@@ -11,10 +10,8 @@ export async function GET(
   await dbConnect();
 
   try {
-    await Course.init();
     const { username } = params;
 
-    // Ensure username is provided
     if (!username) {
       return NextResponse.json(
         { errorMsg: "Username is required" },
@@ -22,30 +19,24 @@ export async function GET(
       );
     }
 
-    // Find the user by username and populate savedCourses with necessary fields
     const user = await User.findOne({ username }).populate({
       path: "savedCourses",
-      select: "title thumbnail lessons", // Select these fields from the Course model
+      select: "title thumbnail lessons",
     });
 
-    // If the user does not exist
     if (!user) {
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
     }
 
-    // Extract the course details
-    const coursesWithDetails = user.savedCourses.map((course) => {
-      return {
-        _id: course._id,
-        title: course.title,
-        thumbnail: course.thumbnail,
-        lessonsCount: course.lessons.length,
-      };
-    });
+    const coursesWithDetails = user.savedCourses.map((course) => ({
+      _id: course._id,
+      title: course.title,
+      thumbnail: course.thumbnail,
+      lessonsCount: course.lessons.length,
+    }));
 
-    // Return the courses with details
     return NextResponse.json(coursesWithDetails);
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }
 }
@@ -68,7 +59,6 @@ export async function POST(
       );
     }
 
-    // Find the user by their username
     const user = await User.findOne({ username });
 
     if (!user) {
@@ -77,7 +67,6 @@ export async function POST(
 
     const courseObjectId = new mongoose.Types.ObjectId(courseId);
 
-    // Check if the course is already saved
     if (user.savedCourses.includes(courseObjectId)) {
       return NextResponse.json(
         { errorMsg: "Course already saved" },
@@ -85,7 +74,6 @@ export async function POST(
       );
     }
 
-    // Add the course to the user's savedCourses array
     user.savedCourses.push(courseObjectId);
 
     await user.save();
@@ -94,12 +82,12 @@ export async function POST(
       { successMsg: "Course saved successfully" },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }
 }
 
-export async function DELETE(
+export async function PUT(
   request: Request,
   { params }: { params: { username: string } }
 ) {
@@ -117,7 +105,6 @@ export async function DELETE(
       );
     }
 
-    // Find the user by their username
     const user = await User.findOne({ username });
 
     if (!user) {
@@ -126,7 +113,6 @@ export async function DELETE(
 
     const courseObjectId = new mongoose.Types.ObjectId(courseId);
 
-    // Check if the course is in the savedCourses array
     const courseIndex = user.savedCourses.indexOf(courseObjectId);
     if (courseIndex === -1) {
       return NextResponse.json(
@@ -135,7 +121,6 @@ export async function DELETE(
       );
     }
 
-    // Remove the course from the user's savedCourses array
     user.savedCourses.splice(courseIndex, 1);
 
     await user.save();
@@ -144,7 +129,7 @@ export async function DELETE(
       { successMsg: "Course removed from saved courses successfully" },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }
 }

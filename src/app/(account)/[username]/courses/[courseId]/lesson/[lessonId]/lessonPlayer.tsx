@@ -54,7 +54,7 @@ const LessonPlayer: React.FC<LessonPlayerProps> = ({
           poster={`https://res.cloudinary.com/depztpide/image/upload/${thumbnail}`}
           primaryColor="#ffffff"
           accentColor="#4b2dd1"
-          className="w-full rounded-lg aspect-video overflow-hidden"
+          className="w-full rounded-lg aspect-video overflow-hidden border-[1.5px] !border-main/20"
           autoPlay
           onEnded={handleIsVideoEnded}
         />

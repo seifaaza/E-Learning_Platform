@@ -6,7 +6,6 @@ import { CourseProgress } from "../../courseProgress";
 import LessonInfo from "./lessonInfo";
 import LessonArticles from "./lessonArticles";
 import { Separator } from "@radix-ui/react-separator";
-import LessonControl from "./actions/lessonControl";
 
 // Define the type for the fetched
 interface LessonDataProps {

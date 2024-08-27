@@ -1,10 +1,11 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-// Define the interface for user progress
+// Define the interface for course progress
 interface CourseProgress {
+  courseId: mongoose.Types.ObjectId;
   totalLessons: number;
   completedLessons: mongoose.Types.ObjectId[];
-  progressPercentage: number; // Add progressPercentage
+  progressPercentage: number;
 }
 
 export interface IUser extends Document {
@@ -14,8 +15,19 @@ export interface IUser extends Document {
   startedCourses: mongoose.Types.ObjectId[];
   savedCourses: mongoose.Types.ObjectId[];
   completedCourses: mongoose.Types.ObjectId[];
-  progress: Record<string, CourseProgress>;
+  progress: CourseProgress[]; // Change to array of CourseProgress
 }
+
+const courseProgressSchema: Schema<CourseProgress> = new mongoose.Schema({
+  courseId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Course",
+    required: true,
+  },
+  totalLessons: { type: Number, required: true },
+  completedLessons: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lesson" }],
+  progressPercentage: { type: Number, required: true },
+});
 
 const userSchema: Schema<IUser> = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
@@ -39,16 +51,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
       ref: "Course",
     },
   ],
-  progress: {
-    type: Map,
-    of: new mongoose.Schema({
-      totalLessons: { type: Number, required: true },
-      completedLessons: [
-        { type: mongoose.Schema.Types.ObjectId, ref: "Lesson" },
-      ],
-      progressPercentage: { type: Number, required: true }, // Add progressPercentage
-    }),
-  },
+  progress: [courseProgressSchema], // Change to an array of courseProgressSchema
 });
 
 const User: Model<IUser> =
