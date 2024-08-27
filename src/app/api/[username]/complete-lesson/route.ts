@@ -2,6 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
 import User from "@/models/User";
+import CourseProgress from "@/models/CourseProgress";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
@@ -30,8 +31,11 @@ export async function GET(
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
     }
 
-    // Check if the user's progress for the course exists
-    const courseProgress = user.progress.get(courseId);
+    // Find the course progress for the specified courseId
+    const courseProgress = await CourseProgress.findOne({
+      userId: user._id,
+      courseId: courseId,
+    });
 
     if (!courseProgress) {
       return NextResponse.json(
@@ -49,7 +53,7 @@ export async function GET(
   }
 }
 
-export async function POST(
+export async function PUT(
   request: Request,
   { params }: { params: { username: string } }
 ) {
@@ -89,29 +93,28 @@ export async function POST(
       );
     }
 
-    // Find the user and update progress
+    // Find the user
     const user = await User.findOne({ username }).exec();
 
     if (!user) {
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
     }
 
-    // Initialize progress for the course if it doesn't exist
-    if (!user.progress.has(courseId)) {
-      user.progress.set(courseId, {
-        completedLessons: [],
-        totalLessons: course.lessons.length,
-        progressPercentage: 0,
-      });
-    }
-
-    const courseProgress = user.progress.get(courseId);
+    // Find or create course progress for the user
+    let courseProgress = await CourseProgress.findOne({
+      userId: user._id,
+      courseId: courseObjectId,
+    });
 
     if (!courseProgress) {
-      return NextResponse.json(
-        { errorMsg: "Course progress not found" },
-        { status: 404 }
-      );
+      // Initialize progress for the course if it doesn't exist
+      courseProgress = new CourseProgress({
+        userId: user._id,
+        courseId: courseObjectId,
+        totalLessons: course.lessons.length,
+        completedLessons: [],
+        progressPercentage: 0,
+      });
     }
 
     // Add lesson to completedLessons if not already present
@@ -123,7 +126,7 @@ export async function POST(
       const completedLessons = courseProgress.completedLessons.length || 0;
 
       // Determine the max progress based on course certification
-      const maxProgress = course.isCertified ? 80 : 100;
+      const maxProgress = course.isCertified ? 80 : 99;
       const progressPercentage = Math.trunc(
         (completedLessons / totalLessons) * maxProgress
       );
@@ -131,26 +134,11 @@ export async function POST(
       // Update the progressPercentage
       courseProgress.progressPercentage = progressPercentage;
 
-      // Check if the progressPercentage has reached 100
-      if (progressPercentage === 100) {
-        // Add to completedCourses if not already present
-        if (!user.completedCourses.includes(courseObjectId)) {
-          user.completedCourses.push(courseObjectId);
-        }
-
-        // Remove from startedCourses if present
-        const startedCourseIndex = user.startedCourses.indexOf(courseObjectId);
-        if (startedCourseIndex !== -1) {
-          user.startedCourses.splice(startedCourseIndex, 1);
-        }
-      }
-
-      user.progress.set(courseId, courseProgress);
-      await user.save();
+      // Save the updated course progress
+      await courseProgress.save();
 
       return NextResponse.json({
         message: "Lesson marked as completed",
-        progress: courseProgress,
       });
     } else {
       return NextResponse.json({

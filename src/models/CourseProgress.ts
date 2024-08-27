@@ -31,3 +31,12 @@ const CourseProgress: Model<ICourseProgress> =
   mongoose.model<ICourseProgress>("CourseProgress", courseProgressSchema);
 
 export default CourseProgress;
+
+
+
+
+
+
+
+
+

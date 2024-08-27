@@ -25,7 +25,7 @@ const UnsaveCourseButton: React.FC<UnsaveCourseButtonProps> = ({
     setIsLoading(true);
 
     try {
-      await axios.delete(
+      await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
       );
       mutate(); // Trigger revalidation

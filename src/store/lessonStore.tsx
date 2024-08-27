@@ -1,16 +1,23 @@
 import { create } from "zustand";
 
 interface LessonState {
-  completedLessons: Set<string>;
+  completedLessons: string[];
+  isLoading: boolean;
   markLessonComplete: (lessonId: string) => void;
+  clearCompletedLessons: () => void; // Add this method
+  setLoading: (loading: boolean) => void;
 }
 
 export const lessonStore = create<LessonState>((set) => ({
-  completedLessons: new Set(),
+  completedLessons: [],
+  isLoading: false,
   markLessonComplete: (lessonId) =>
     set((state) => {
-      const newCompletedLessons = new Set(state.completedLessons);
-      newCompletedLessons.add(lessonId);
-      return { completedLessons: newCompletedLessons };
+      if (!state.completedLessons.includes(lessonId)) {
+        return { completedLessons: [...state.completedLessons, lessonId] };
+      }
+      return state;
     }),
+  clearCompletedLessons: () => set({ completedLessons: [] }), // Implement this method
+  setLoading: (loading) => set({ isLoading: loading }),
 }));

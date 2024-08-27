@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import RestartCourseButton from "./restartCourseButton";
 
 interface StartCourseButtonProps {
   courseId: string;
@@ -21,35 +22,49 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [isStarted, setIsStarted] = useState<boolean>(false);
+  const [currentLessonId, setCurrentLessonId] = useState<string | null>(null);
   const router = useRouter();
 
   const username = session?.user?.username;
 
   useEffect(() => {
-    const fetchStartedCourses = async () => {
+    const checkCourseCompletion = async () => {
+      if (!username) return;
       try {
-        if (!username) return;
-
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start`
+        const completionResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/complete-course?courseId=${courseId}`
         );
-        const startedCourses = response.data;
-
-        // Check if the current course is in the started courses
-        const courseStarted = startedCourses.some(
-          (course: { _id: string }) => course._id === courseId
-        );
-        setIsStarted(courseStarted);
+        setIsCompleted(completionResponse.data.isCompleted);
       } catch (error) {
-        console.error("Error fetching started courses:", error);
+        console.error("Error fetching course completion status:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchStartedCourses();
+    checkCourseCompletion();
   }, [username, courseId]);
+
+  useEffect(() => {
+    const checkCourseStarted = async () => {
+      if (!username || isCompleted) return; // No need to check if it's completed
+      try {
+        const startedCoursesResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start?courseId=${courseId}`
+        );
+        setIsStarted(startedCoursesResponse.data.isStarted);
+        setCurrentLessonId(startedCoursesResponse.data.currentLessonId);
+      } catch (error) {
+        console.error("Error fetching course start status:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkCourseStarted();
+  }, [username, courseId, isCompleted]);
 
   const handleStartCourse = async () => {
     if (status === "loading") return;
@@ -68,10 +83,23 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
     }
   };
 
+  if (isLoading) {
+    return (
+      <Button className="hover:!bg-main brightness-90" disabled>
+        Loading...
+        <Loader2 className="ml-2 h-4 animate-spin" />
+      </Button>
+    );
+  }
+
   return (
     <>
-      {isStarted ? (
-        <Link href={`/${username}/courses/${courseId}?lesson=${lessonId}`}>
+      {isCompleted ? (
+        <RestartCourseButton courseId={courseId} lessonId={lessonId} />
+      ) : isStarted ? (
+        <Link
+          href={`/${username}/courses/${courseId}?lesson=${currentLessonId}`}
+        >
           <Button className="hover:!bg-main brightness-90">
             Continue
             <BsArrowRight className="ml-2 h-4" />
@@ -90,7 +118,7 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
             </>
           ) : (
             <>
-              Start
+              Start Course
               <BsArrowRight className="ml-2 h-4" />
             </>
           )}

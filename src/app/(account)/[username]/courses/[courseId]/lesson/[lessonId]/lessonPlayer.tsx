@@ -4,7 +4,7 @@ import React from "react";
 import MuxPlayer from "@mux/mux-player-react";
 import axios from "axios";
 import { lessonStore } from "@/store/lessonStore";
-import LessonControl from "./actions/lessonControl";
+import LessonControl from "./lessonControl";
 
 interface LessonPlayerProps {
   username: string;
@@ -30,15 +30,19 @@ const LessonPlayer: React.FC<LessonPlayerProps> = ({
   lessonsLength,
 }) => {
   const markLessonComplete = lessonStore((state) => state.markLessonComplete);
+  const setLoading = lessonStore((state) => state.setLoading);
 
   const handleIsVideoEnded = async () => {
+    setLoading(true);
     try {
-      await axios.post(
+      await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/complete-lesson?courseId=${courseId}&lessonId=${lessonId}`
       );
       markLessonComplete(lessonId);
     } catch (error) {
       console.error("Failed to complete the lesson", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +58,7 @@ const LessonPlayer: React.FC<LessonPlayerProps> = ({
           poster={`https://res.cloudinary.com/depztpide/image/upload/${thumbnail}`}
           primaryColor="#ffffff"
           accentColor="#4b2dd1"
-          className="w-full rounded-lg aspect-video overflow-hidden border-[1.5px] !border-main/20"
+          className="w-full rounded-lg aspect-video overflow-hidden"
           autoPlay
           onEnded={handleIsVideoEnded}
         />

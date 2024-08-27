@@ -10,6 +10,7 @@ import {
 import StartCourseButton from "./actions/startCourseButton";
 import { CommentRatings } from "@/components/main/rating";
 import SaveCourseButton from "./actions/saveCourseButton";
+import RestartCourseButton from "./actions/restartCourseButton";
 
 interface CourseInfoHeaderProps {
   firstLessonId: string;

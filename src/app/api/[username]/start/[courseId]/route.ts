@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import Course from "@/models/Course";
+import CourseProgress from "@/models/CourseProgress";
 import { NextRequest, NextResponse } from "next/server";
 import Article from "@/models/Article";
 import Lesson from "@/models/Lesson";
@@ -17,6 +18,7 @@ export async function GET(
   try {
     await Article.init();
     await Lesson.init();
+
     if (!lessonId) {
       return NextResponse.json(
         { errorMsg: "Lesson ID is missing" },
@@ -24,14 +26,21 @@ export async function GET(
       );
     }
 
-    const user = await User.findOne({
-      username,
-      startedCourses: courseId,
-    });
+    const user = await User.findOne({ username });
 
     if (!user) {
+      return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
+    }
+
+    // Check if the user has started the course by looking into courseProgresses
+    const courseProgress = await CourseProgress.findOne({
+      userId: user._id,
+      courseId: courseId,
+    });
+
+    if (!courseProgress) {
       return NextResponse.json(
-        { errorMsg: "User not found or course not started" },
+        { errorMsg: "Course not started" },
         { status: 404 }
       );
     }
@@ -55,7 +64,7 @@ export async function GET(
     // Find the index of the current lesson
     const currentLessonIndex = lessonIds.indexOf(lessonId) + 1;
 
-    if (currentLessonIndex === -1) {
+    if (currentLessonIndex === 0) {
       return NextResponse.json(
         { errorMsg: "Lesson ID does not match any lesson in the course" },
         { status: 404 }

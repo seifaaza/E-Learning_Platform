@@ -1,8 +1,9 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
-import Course from "@/models/Course";
-import mongoose from "mongoose";
+import CourseProgress from "@/models/CourseProgress";
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
+import Course from "@/models/Course";
 
 export async function GET(
   req: NextRequest,
@@ -11,43 +12,135 @@ export async function GET(
   await dbConnect();
 
   const { username } = params;
+  const courseId = req.nextUrl.searchParams.get("courseId"); // Get courseId from query parameters
 
   try {
-    // Find the user by username and populate startedCourses with selected fields
-    const user = await User.findOne({ username }).populate({
-      path: "startedCourses",
-      select: "_id title thumbnail", // Select the fields you need, including isCertified
-    });
+    // Find the user by username
+    const user = await User.findOne({ username });
 
-    // If the user does not exist
     if (!user) {
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
     }
 
-    // Create a map of courseId to progressPercentage for easy lookup
-    const progressMap = new Map(
-      user.progress.map((progress) => [
-        progress.courseId.toString(),
-        progress.progressPercentage,
-      ])
-    );
+    if (courseId) {
+      // Find the user's progress for the specified course
+      const courseProgress = await CourseProgress.findOne({
+        userId: user._id,
+        courseId: new mongoose.Types.ObjectId(courseId),
+      }).populate({
+        path: "completedLessons",
+        select: "_id",
+      });
 
-    // Prepare the response with course progress
-    const coursesWithProgress = user.startedCourses.map((course) => {
-      const courseId = course._id.toString();
-      const progressPercentage = progressMap.get(courseId) || 0;
+      // Get the course details
+      const course = await Course.findById(courseId).populate({
+        path: "lessons",
+        select: "_id",
+      });
 
-      return {
-        _id: course._id,
-        title: course.title,
-        thumbnail: course.thumbnail,
-        progressPercentage: progressPercentage,
-      };
-    });
+      if (!course) {
+        return NextResponse.json(
+          { errorMsg: "Course not found" },
+          { status: 404 }
+        );
+      }
 
-    return NextResponse.json(coursesWithProgress);
+      const lessons = course.lessons;
+      const completedLessons = new Set(
+        courseProgress?.completedLessons.map((lesson) =>
+          lesson._id.toString()
+        ) || []
+      );
+
+      let currentLessonId: string | null = null;
+      let lastLessonId: string | null = null;
+
+      // Determine if the course is considered started
+      if (courseProgress) {
+        // Find the next lesson that hasn't been completed
+        for (const lesson of lessons) {
+          if (!completedLessons.has(lesson._id.toString())) {
+            currentLessonId = lesson._id.toString();
+            break;
+          }
+        }
+
+        // If no current lesson is found, check if all lessons are completed
+        if (!currentLessonId) {
+          currentLessonId = lessons[lessons.length - 1]?._id.toString() || null;
+        }
+      }
+
+      // Check if the current lesson is the last lesson
+      if (currentLessonId) {
+        const currentLessonIndex = lessons.findIndex(
+          (lesson) => lesson._id.toString() === currentLessonId
+        );
+        if (currentLessonIndex === lessons.length - 1) {
+          lastLessonId = currentLessonId;
+        }
+      } else {
+        lastLessonId = lessons[lessons.length - 1]?._id.toString() || null;
+      }
+
+      // Determine if the course is started
+      const isStarted = !!currentLessonId;
+
+      return NextResponse.json({
+        isStarted,
+        currentLessonId: isStarted ? currentLessonId : null,
+      });
+    } else {
+      // If no courseId is provided, return all courses with their progress
+      const courseProgresses = await CourseProgress.find({
+        userId: user._id,
+      }).populate({
+        path: "courseId",
+        select: "_id title thumbnail",
+      });
+
+      const coursesWithProgress = await Promise.all(
+        courseProgresses.map(async (progress) => {
+          const course = await Course.findById(progress.courseId._id).populate({
+            path: "lessons",
+            select: "_id",
+          });
+
+          const lessons = course?.lessons || [];
+          const completedLessons = new Set(
+            progress.completedLessons.map((lesson) => lesson._id.toString()) ||
+              []
+          );
+
+          let currentLessonId: string | null = null;
+
+          // Find the next lesson that hasn't been completed
+          for (const lesson of lessons) {
+            if (!completedLessons.has(lesson._id.toString())) {
+              currentLessonId = lesson._id.toString();
+              break;
+            }
+          }
+
+          // If no current lesson is found, check if all lessons are completed
+          if (!currentLessonId && lessons.length > 0) {
+            currentLessonId =
+              lessons[lessons.length - 1]?._id.toString() || null;
+          }
+
+          return {
+            _id: progress.courseId._id,
+            title: progress.courseId.title,
+            thumbnail: progress.courseId.thumbnail,
+            progressPercentage: progress.progressPercentage,
+            currentLessonId: currentLessonId || null,
+          };
+        })
+      );
+
+      return NextResponse.json(coursesWithProgress);
+    }
   } catch (error) {
-    // Handle any errors that occur
     if (error instanceof Error) {
       return NextResponse.json({ errorMsg: error.message }, { status: 500 });
     }
@@ -83,39 +176,41 @@ export async function POST(
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
     }
 
-    if (user.startedCourses.includes(courseObjectId)) {
+    // Check if course progress already exists for this course
+    const existingProgress = await CourseProgress.findOne({
+      courseId: courseObjectId,
+      userId: user._id,
+    });
+
+    if (existingProgress) {
       return NextResponse.json(
         { errorMsg: "Course already started" },
         { status: 400 }
       );
     }
 
-    user.startedCourses.push(courseObjectId);
-
     const course = await Course.findById(courseObjectId);
     if (course) {
       // Initialize the course progress for this user
-      const progressEntry: CourseProgress = {
+      const progressEntry = new CourseProgress({
         courseId: courseObjectId,
+        userId: user._id,
         totalLessons: course.lessons.length,
         completedLessons: [],
         progressPercentage: 0, // Initialize progressPercentage to 0
-      };
+      });
 
-      // Check if progress for this course already exists
-      const existingProgressIndex = user.progress.findIndex(
-        (progress) => progress.courseId.toString() === courseObjectId.toString()
-      );
+      // Save the course progress entry
+      await progressEntry.save();
 
-      if (existingProgressIndex === -1) {
-        user.progress.push(progressEntry);
-      }
+      // Add the reference to the user's courseProgresses array
+      user.courseProgresses.push(progressEntry._id);
     }
 
     await user.save();
 
     return NextResponse.json(
-      { successMsg: "Course started successfully" },
+      { message: "Course started successfully" },
       { status: 200 }
     );
   } catch (error: any) {
@@ -151,20 +246,23 @@ export async function PUT(
 
     const courseObjectId = new mongoose.Types.ObjectId(courseId);
 
-    // Remove the course from the startedCourses array
-    user.startedCourses = user.startedCourses.filter(
-      (id) => !id.equals(courseObjectId)
-    );
+    // Find and remove the course progress document
+    const progress = await CourseProgress.findOneAndDelete({
+      courseId: courseObjectId,
+      userId: user._id,
+    });
 
-    // Remove the course progress from the progress array
-    user.progress = user.progress.filter(
-      (progress) => !progress.courseId.equals(courseObjectId)
-    );
+    if (progress) {
+      // Remove the course progress from the user's courseProgresses array
+      user.courseProgresses = user.courseProgresses.filter(
+        (progressId) => !progressId.equals(progress._id)
+      );
+    }
 
     await user.save();
 
     return NextResponse.json({
-      message: "Course removed from started courses and progress successfully",
+      message: "Course removed from progress successfully",
     });
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });

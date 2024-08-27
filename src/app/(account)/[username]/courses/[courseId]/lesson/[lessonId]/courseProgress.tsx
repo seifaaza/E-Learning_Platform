@@ -4,6 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { lessonStore } from "@/store/lessonStore";
 import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface CourseProgressProps {
   username: string;
@@ -19,24 +20,22 @@ export function CourseProgress({
   const [progress, setProgress] = useState(0);
   const { completedLessons } = lessonStore();
 
+  const router = useRouter();
   useEffect(() => {
     // Fetch progress from the API
     async function fetchProgress() {
       try {
-        const response = await fetch(
+        const progressResponse = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/get-progress?courseId=${courseId}`
         );
-        const data = await response.json();
+        const data = await progressResponse.json();
 
-        if (response.ok) {
-          setProgress(data.progressPercentage);
-        } else {
-          console.error(data.errorMsg || "Failed to fetch progress");
-        }
+        setProgress(data.progressPercentage);
       } catch (error: any) {
         if (
-          error.response &&
-          (error.response.status === 404 || error.response.status === 500)
+          error.progressResponse &&
+          (error.progressResponse.status === 404 ||
+            error.progressResponse.status === 500)
         ) {
           notFound();
         } else {

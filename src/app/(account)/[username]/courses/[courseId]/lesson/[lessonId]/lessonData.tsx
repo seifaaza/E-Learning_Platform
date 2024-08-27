@@ -2,10 +2,11 @@ import { notFound } from "next/navigation";
 import axios from "axios";
 import LessonPlayer from "./lessonPlayer";
 import CancelCourseButton from "./actions/cancelCourseButton";
-import { CourseProgress } from "../../courseProgress";
+
 import LessonInfo from "./lessonInfo";
 import LessonArticles from "./lessonArticles";
 import { Separator } from "@radix-ui/react-separator";
+import { CourseProgress } from "./courseProgress";
 
 // Define the type for the fetched
 interface LessonDataProps {

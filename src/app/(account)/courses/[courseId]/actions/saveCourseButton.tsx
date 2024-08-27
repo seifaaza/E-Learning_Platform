@@ -61,7 +61,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
   const handleUnsaveCourse = async () => {
     setIsProcessing(true);
     try {
-      await axios.delete(
+      await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
       );
       setIsSaved(false);

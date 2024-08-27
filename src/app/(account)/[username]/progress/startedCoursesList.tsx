@@ -17,6 +17,7 @@ import CoursesListLoader from "@/components/main/loaders/coursesListLoader";
 interface StartedCourse {
   _id: string;
   initialLessonId: string;
+  currentLessonId: string;
   thumbnail: string;
   title: string;
   lessonsCount: number;
@@ -65,7 +66,7 @@ const StartedCoursesList = ({ username }: StartedCoursesListProps) => {
                   <Tooltip>
                     <TooltipTrigger asChild className="cursor-pointer">
                       <Link
-                        href={`/${username}/courses/${item._id}?lesson=66be2c9466fa2fd282a325b5`}
+                        href={`/${username}/courses/${item._id}?lesson=${item.currentLessonId}`}
                       >
                         <BsArrowRight className="h-4 text-main" />
                       </Link>
