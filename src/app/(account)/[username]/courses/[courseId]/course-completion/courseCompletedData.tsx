@@ -7,7 +7,6 @@ import { Progress } from "@/components/ui/progress";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { BsArrowRight, BsCheck2 } from "react-icons/bs";
-import RestartCourseButton from "@/app/(account)/courses/[courseId]/actions/restartCourseButton";
 import CompletedCourseLoader from "@/components/main/loaders/completedCourseLoader";
 
 interface CourseCompletedDataProps {
@@ -45,8 +44,8 @@ const CourseCompletedData: React.FC<CourseCompletedDataProps> = ({
   }
 
   return (
-    <ul className="w-full mt-4 mb-2 flex flex-col justify-center items-center sm:flex-row gap-6 md:gap-8 lg:gap-10">
-      <li className="h-fit w-full sm:w-1/2 xl:w-2/5 flex flex-col">
+    <ul className="w-full mt-4 mb-2 flex flex-col justify-center items-center sm:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12">
+      <li className="h-fit w-full sm:w-1/2 xl:w-1/3 flex flex-col">
         <img
           src={`https://res.cloudinary.com/depztpide/image/upload/${course.thumbnail}`}
           alt={`${course.title} poster`}

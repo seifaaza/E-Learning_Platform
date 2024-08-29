@@ -1,4 +1,4 @@
-import CompletedCourseModal from "./courseCompletedModal";
+import CompletedCourseModal from "./courseCompletedDrawer";
 
 interface CourseCompletedProps {
   username: string;

@@ -34,7 +34,7 @@
 
 
   * {
-      @apply border-border font-primary antialiased !important;
+      @apply font-primary antialiased !important;
   }
 
   html{
@@ -88,5 +88,4 @@
 
 .focus-visible\:ring-2:focus-visible, .focus-visible\:ring-2:focus-visible{
   box-shadow: none !important;
-
 }

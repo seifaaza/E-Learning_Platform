@@ -101,19 +101,25 @@ function SignUpForm() {
           description: "You have successfully signed up.",
         });
       }
-
-      setIsLoading(false);
     } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 400) {
-          setErrors({ server: "Email or username already exists" });
-        } else if (error.response?.status === 500) {
-          setErrors({ server: "An error occurred. Please try again later." });
-        } else {
-          setErrors({ server: "An unexpected error occurred." });
-        }
+      if (error.response?.status === 400) {
+        setErrors({ server: "Email or username already exists" });
+      } else if (
+        error.response?.status === 500 ||
+        error.response?.status === 401
+      ) {
+        toast({
+          title: "Server Error",
+          description:
+            "An error occurred on the server. Please try again later.",
+          variant: "destructive",
+        });
       } else {
-        setErrors({ server: "Failed to sign up." });
+        toast({
+          variant: "destructive",
+          title: "Server Error",
+          description: "Failed to sign up. Please try again later.",
+        });
       }
     } finally {
       setIsLoading(false);

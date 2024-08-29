@@ -51,7 +51,20 @@ function SignInForm() {
     });
 
     if (response?.error) {
-      setErrors({ server: "Email or password incorrect" });
+      console.log(response);
+
+      if (
+        response.error === "Incorrect password" ||
+        response.error === "No user found with this email"
+      ) {
+        setErrors({ server: "Email or password incorrect" });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Server Error",
+          description: "Failed to sign in. Please try again later.",
+        });
+      }
     } else if (response?.ok) {
       // Reset form and close the dialog on successful sign in
       setEmail("");
@@ -59,7 +72,6 @@ function SignInForm() {
       setErrors({});
       router.replace("/courses");
 
-      // Show the toast notification on successful sign in
       toast({
         title: "Welcome Back",
         description: "You have successfully signed in",
@@ -102,7 +114,7 @@ function SignInForm() {
         </div>
       </div>
 
-      <h6 className=" text-white font-medium  my-2 ml-1">{errors.server}</h6>
+      <h6 className="text-white font-medium my-2 ml-1">{errors.server}</h6>
 
       <DialogFooter>
         <Button
