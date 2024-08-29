@@ -2,9 +2,7 @@
 
 import { Progress } from "@/components/ui/progress";
 import { lessonStore } from "@/store/lessonStore";
-import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 interface CourseProgressProps {
   username: string;
@@ -20,7 +18,6 @@ export function CourseProgress({
   const [progress, setProgress] = useState(0);
   const { completedLessons } = lessonStore();
 
-  const router = useRouter();
   useEffect(() => {
     // Fetch progress from the API
     async function fetchProgress() {
@@ -32,15 +29,7 @@ export function CourseProgress({
 
         setProgress(data.progressPercentage);
       } catch (error: any) {
-        if (
-          error.progressResponse &&
-          (error.progressResponse.status === 404 ||
-            error.progressResponse.status === 500)
-        ) {
-          notFound();
-        } else {
-          throw error;
-        }
+        throw error;
       }
     }
 

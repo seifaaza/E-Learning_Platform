@@ -65,7 +65,7 @@ export async function PUT(
       );
     }
 
-    // Find the course to initialize progress
+    // Remove the user's rating from the course
     const course = await Course.findById(courseObjectId);
     if (!course) {
       return NextResponse.json(
@@ -74,25 +74,28 @@ export async function PUT(
       );
     }
 
-    // Initialize the course progress for this user
-    const progressEntry = new CourseProgress({
-      courseId: courseObjectId,
-      userId: user._id,
-      totalLessons: course.lessons.length,
-      completedLessons: [],
-      progressPercentage: 0, // Initialize progressPercentage to 0
-    });
+    // Remove the user's rating from the ratings array
+    course.ratings = course.ratings.filter(
+      (rating) => !rating.user.equals(user._id)
+    );
 
-    // Save the course progress entry
-    await progressEntry.save();
+    // Recalculate the average rating
+    if (course.ratings.length > 0) {
+      const totalRating = course.ratings.reduce(
+        (sum, rating) => sum + rating.rating,
+        0
+      );
+      const avgRating = totalRating / course.ratings.length;
+      course.averageRating = Math.round(avgRating * 2) / 2; // Round to nearest 0.5
+    } else {
+      course.averageRating = 0;
+    }
 
-    // Add the reference to the user's courseProgresses array
-    user.courseProgresses.push(progressEntry._id);
-
+    await course.save();
     await user.save();
 
     return NextResponse.json(
-      { message: "Course started successfully" },
+      { message: "User rating deleted and course progress reset successfully" },
       { status: 200 }
     );
   } catch (error: any) {

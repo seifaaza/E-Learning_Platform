@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import axios from "axios";
 import LessonPlayer from "./lessonPlayer";
 import CancelCourseButton from "./actions/cancelCourseButton";
-
 import LessonInfo from "./lessonInfo";
 import LessonArticles from "./lessonArticles";
 import { Separator } from "@radix-ui/react-separator";
@@ -28,6 +27,8 @@ const LessonData: React.FC<LessonDataProps> = async ({
 
       return response.data;
     } catch (error: any) {
+      console.log(error);
+
       if (
         error.response &&
         (!lessonId ||
@@ -45,7 +46,7 @@ const LessonData: React.FC<LessonDataProps> = async ({
 
   return (
     <>
-      <ul className="mt-4 xl:mt-6 flex flex-col gap-6 xl:gap-12 lg:flex-row lg:justify-between">
+      <ul className="mt-4 xl:mt-6 flex flex-col gap-6 lg:gap-10 xl:gap-12 lg:flex-row lg:justify-between">
         <LessonPlayer
           username={username}
           courseId={courseId}

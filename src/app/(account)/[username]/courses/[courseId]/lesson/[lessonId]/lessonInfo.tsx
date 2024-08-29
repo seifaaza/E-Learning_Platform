@@ -39,7 +39,7 @@ const LessonInfo: React.FC<LessonInfoProps> = ({
   ));
 
   return (
-    <section className="mt-4 lg:mt-6 xl:mt-8 flex flex-col md:flex-row gap-4 md:gap-16 lg:gap-20 xl:gap-24 ">
+    <section className="mt-4 lg:mt-6 xl:mt-8 flex flex-col md:flex-row gap-4 md:gap-16 lg:gap-28 xl:gap-32 ">
       <ul className="md:w-1/2 flex flex-col gap-4 xl:gap-6">
         <li className="flex flex-col gap-1">
           <h6 className="text-gray-900 font-medium flex items-center gap-2">

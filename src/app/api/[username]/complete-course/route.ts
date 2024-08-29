@@ -29,11 +29,11 @@ export async function GET(
       const courseObjectId = new mongoose.Types.ObjectId(courseId);
 
       // Check if the courseId is in the user's completedCourses
-      const isCompleted = user.completedCourses.some((completedCourseId) =>
+      const completedCourse = user.completedCourses.find((completedCourseId) =>
         completedCourseId.equals(courseObjectId)
       );
 
-      if (!isCompleted) {
+      if (!completedCourse) {
         // Check if the course exists
         const courseExists = await Course.findById(courseObjectId).exec();
         if (!courseExists) {
@@ -43,22 +43,52 @@ export async function GET(
           );
         }
 
-        return NextResponse.json({ isCompleted: false }, { status: 404 });
+        return NextResponse.json({ isCompleted: false }, { status: 400 });
       }
 
-      return NextResponse.json({ isCompleted }, { status: 200 });
+      // Fetch course details if completed
+      const courseDetails = await Course.findById(courseObjectId)
+        .select("title thumbnail lessons")
+        .exec();
+
+      if (!courseDetails) {
+        return NextResponse.json(
+          { errorMsg: "Course details not found" },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json(
+        {
+          isCompleted: true,
+          title: courseDetails.title,
+          thumbnail: courseDetails.thumbnail,
+          firstLessonId: courseDetails.lessons[0],
+        },
+        { status: 200 }
+      );
     } else {
       // Find all completed courses for the user
       const completedCourses = await Course.find({
         _id: { $in: user.completedCourses },
-      }).select("_id title thumbnail");
+      })
+        .select("_id title thumbnail initialLessonId")
+        .exec();
 
       if (completedCourses.length === 0) {
-        return NextResponse.json({ isCompleted: false }, { status: 404 });
+        return NextResponse.json({ isCompleted: false }, { status: 400 });
       }
 
       // Return the completed courses with details
-      return NextResponse.json(completedCourses, { status: 200 });
+      return NextResponse.json(
+        completedCourses.map((course) => ({
+          _id: course._id,
+          title: course.title,
+          thumbnail: course.thumbnail,
+          firstLessonId: course.initialLessonId,
+        })),
+        { status: 200 }
+      );
     }
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });

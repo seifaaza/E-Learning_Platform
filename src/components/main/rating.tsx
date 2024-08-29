@@ -80,7 +80,7 @@ export const CommentRatings = ({
       {...props}
     >
       <span
-        className="flex items-center"
+        className={`flex items-center ${interactive && "cursor-pointer"}`}
         onMouseEnter={interactive ? handleMouseEnter : undefined}
       >
         {[...Array(fullStars)].map((_, i) =>

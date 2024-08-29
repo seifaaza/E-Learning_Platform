@@ -64,7 +64,7 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
     };
 
     checkCourseStarted();
-  }, [username, courseId, isCompleted]);
+  }, [username, courseId, lessonId, isCompleted]);
 
   const handleStartCourse = async () => {
     if (status === "loading") return;

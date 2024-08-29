@@ -11,7 +11,7 @@ const StartedCourses: React.FC<StartedCoursesProps> = ({
   params: { username },
 }) => {
   return (
-    <section className="bg-blue-50 min-h-[100vh]">
+    <section className="bg-blue-50 min-h-[calc(100vh-56px)]">
       <article className="container px-3 pt-4 pb-14 ">
         <StartedCoursesList username={username} />
       </article>

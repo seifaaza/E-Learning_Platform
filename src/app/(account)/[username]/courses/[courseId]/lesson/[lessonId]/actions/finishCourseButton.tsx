@@ -1,3 +1,5 @@
+"use state";
+
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -8,9 +10,9 @@ import {
 import { lessonStore } from "@/store/lessonStore";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import React from "react";
 import { BsChevronRight, BsFillLockFill } from "react-icons/bs";
+import { mainStore } from "@/store/mainStore";
 
 interface FinishCourseButtonProps {
   isNextDisabled: boolean;
@@ -27,8 +29,9 @@ const FinishCourseButton: React.FC<FinishCourseButtonProps> = ({
   const setLoading = lessonStore((state) => state.setLoading);
   const clearCompletedLessons = lessonStore(
     (state) => state.clearCompletedLessons
-  ); // Get the clear method
-  const router = useRouter();
+  );
+
+  const { setDialogOpen } = mainStore();
 
   const handleFinishCourse = async () => {
     setLoading(true);
@@ -37,10 +40,10 @@ const FinishCourseButton: React.FC<FinishCourseButtonProps> = ({
       await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/complete-course?courseId=${courseId}`
       );
-      clearCompletedLessons(); // Clear completed lessons
-      router.push("complete");
+      clearCompletedLessons();
+      setDialogOpen(true); // Open the modal when course is completed successfully
     } catch (error) {
-      console.error("Error finish course:", error);
+      console.error("Error finishing course:", error);
     } finally {
       setLoading(false);
     }
@@ -66,7 +69,11 @@ const FinishCourseButton: React.FC<FinishCourseButtonProps> = ({
                 className="hover:!bg-main brightness-90"
               >
                 Finish
-                <BsChevronRight className="ml-2 h-4" />
+                {isLoading ? (
+                  <Loader2 className="ml-2 h-4 animate-spin" />
+                ) : (
+                  <BsChevronRight className="ml-2 h-4" />
+                )}
               </Button>
             )}
           </ul>

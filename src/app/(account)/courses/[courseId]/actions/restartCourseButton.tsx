@@ -25,7 +25,6 @@ const RestartCourseButton: React.FC<RestartCourseButtonProps> = ({
 
   const handleRestartCourse = async () => {
     setIsProcessing(true);
-
     try {
       await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/restart-course?courseId=${courseId}`

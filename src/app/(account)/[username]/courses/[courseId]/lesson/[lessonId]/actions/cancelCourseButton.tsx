@@ -37,8 +37,8 @@ const CancelCourseButton: React.FC<CancelCourseButtonProps> = ({
   return (
     <Button
       onClick={handleCancelCourse}
-      variant="destructive"
-      className="w-fit self-end"
+      variant="link"
+      className="hover:!no-underline !border-[1px] !text-red-600 !border-red-600 hover:!bg-red-600 hover:!text-white w-fit self-end"
       disabled={isLoading}
     >
       {isLoading ? (

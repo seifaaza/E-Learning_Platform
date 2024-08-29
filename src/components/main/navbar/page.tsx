@@ -53,7 +53,7 @@ export default function Navbar() {
     >
       <nav className="container px-4 lg:px-6 py-2 h-14 flex justify-between items-center">
         <Link href="/">
-          <Logo className="h-8" />
+          <Logo className="h-[1.9rem]" />
         </Link>
 
         {isLoading && pathname !== "/" ? (
