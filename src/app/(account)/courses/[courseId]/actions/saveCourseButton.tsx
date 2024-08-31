@@ -24,25 +24,20 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
 
   useEffect(() => {
     const fetchSavedCourses = async () => {
-      if (!username) {
-        toast({
-          title: "Connection Issue",
-          description: "Please check your internet connection.",
-        });
-        return;
-      }
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
         );
         setIsSaved(response.data.isSaved);
       } catch (error: any) {
-        toast({
-          title: "Server Error",
-          description:
-            "An error occurred on the server. Please try again later.",
-          variant: "destructive",
-        });
+        if (username) {
+          toast({
+            title: "Server Error",
+            description:
+              "An error occurred on the server. Please try again later.",
+            variant: "destructive",
+          });
+        }
       } finally {
         setIsLoading(false);
       }
@@ -59,12 +54,20 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
       );
       setIsSaved(true);
     } catch (error: any) {
-      toast({
-        title: "Server Error",
-        description:
-          "Failed to save course. Please refresh the page or try again later.",
-        variant: "destructive",
-      });
+      if (error.response && error.response.status === 500) {
+        toast({
+          title: "Server Error",
+          description:
+            "An error occurred on the server. Please refresh the page or try again later.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Course Already saved",
+          description: "Please go to Saved section to complete it.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsProcessing(false);
     }

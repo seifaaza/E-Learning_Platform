@@ -36,7 +36,7 @@ const Card: React.FC<CardProps> = ({
         />
       </article>
       <ul className="gap-8 pl-1 pb-1 pt-2 flex justify-between items-center">
-        <h4 className="text-gray-700 font-medium truncate text-sm md:text-base">
+        <h4 className="text-gray-700 font-medium truncate text-base">
           {title}
         </h4>
         {btn
@@ -51,7 +51,7 @@ const Card: React.FC<CardProps> = ({
       {!btn && (
         <CommentRatings
           rating={averageRating ?? 0}
-          size={16}
+          size={18}
           className="pl-1 w-fit"
         />
       )}

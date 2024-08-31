@@ -49,10 +49,9 @@ const Header: React.FC = () => {
   ];
 
   const features = featuresList.map((feature, index) => (
-    <ul key={index} className="sm:w-1/2 mt-4 lg:mt-5 xl:mt-6 rounded-lg">
+    <ul key={index} className="sm:w-1/2 mt-4 mx-2 lg:mt-5 xl:mt-6 rounded-lg">
       <li className="flex items-center gap-3 mb-2 md:mb-3">
         {feature.icon}
-
         <h3 className="text-white font-bold">{feature.title}</h3>
       </li>
       <li>

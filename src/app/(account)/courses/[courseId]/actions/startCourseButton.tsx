@@ -33,13 +33,6 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
 
   useEffect(() => {
     const checkCourseCompletion = async () => {
-      if (!username) {
-        toast({
-          title: "Connection Issue",
-          description: "Please check your internet connection.",
-        });
-        return;
-      }
       try {
         const completionResponse = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/complete-course?courseId=${courseId}`
@@ -50,12 +43,14 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
           setCurrentLessonId(completionResponse.data.currentLessonId);
         }
       } catch (error: any) {
-        toast({
-          title: "Server Error",
-          description:
-            "An error occurred on the server. Please try again later.",
-          variant: "destructive",
-        });
+        if (username) {
+          toast({
+            title: "Server Error",
+            description:
+              "An error occurred on the server. Please try again later.",
+            variant: "destructive",
+          });
+        }
       } finally {
         setIsLoading(false);
       }
@@ -71,17 +66,17 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
       );
       router.push(`/${username}/courses/${courseId}?lesson=${lessonId}`);
     } catch (error: any) {
-      if (error.response && error.response.status === 400) {
-        toast({
-          title: "Course Already Started",
-          description: "Please go to In Progress section to complete it.",
-          variant: "destructive",
-        });
-      } else {
+      if (error.response && error.response.status === 500) {
         toast({
           title: "Server Error",
           description:
             "An error occurred on the server. Please try again later.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Course Already Started",
+          description: "Please go to In Progress section to complete it.",
           variant: "destructive",
         });
       }
