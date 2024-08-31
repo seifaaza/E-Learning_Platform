@@ -48,21 +48,20 @@ const LessonPlayer: React.FC<LessonPlayerProps> = ({
 
   return (
     <section className="w-full flex flex-col gap-2">
-      <article className="aspect-video">
-        <h3 className="text-main mb-2 xl:mb-4">
-          Lesson {index}: {title}
-        </h3>
-        <MuxPlayer
-          streamType="on-demand"
-          src={`https://res.cloudinary.com/depztpide/video/upload/${video}`}
-          poster={`https://res.cloudinary.com/depztpide/image/upload/${thumbnail}`}
-          primaryColor="#ffffff"
-          accentColor="#4b2dd1"
-          className="w-full rounded-lg overflow-hidden"
-          autoPlay
-          onEnded={handleIsVideoEnded}
-        />
-      </article>
+      <h3 className="text-main mb-2 xl:mb-4">
+        Lesson {index}: {title}
+      </h3>
+      <MuxPlayer
+        streamType="on-demand"
+        src={`https://res.cloudinary.com/depztpide/video/upload/${video}`}
+        poster={`https://res.cloudinary.com/depztpide/image/upload/${thumbnail}`}
+        primaryColor="#ffffff"
+        accentColor="#4b2dd1"
+        className="w-full rounded-lg aspect-video overflow-hidden"
+        autoPlay
+        onEnded={handleIsVideoEnded}
+      />
+
       <ul className="flex gap-4 justify-between items-center">
         <p className="ml-2 text-gray-700">
           Lesson {index} of {lessonsLength}
