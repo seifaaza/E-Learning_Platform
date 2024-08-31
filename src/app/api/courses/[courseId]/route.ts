@@ -30,6 +30,7 @@ export async function GET(
   try {
     await Category.init();
     await Article.init();
+    await Lesson.init();
 
     if (!courseId) {
       return NextResponse.json(
