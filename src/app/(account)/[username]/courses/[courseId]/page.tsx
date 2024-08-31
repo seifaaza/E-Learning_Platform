@@ -1,5 +1,4 @@
 import CourseCompleted from "./course-completion/page";
-import TestModal from "./course-completion/page";
 import Lesson from "./lesson/[lessonId]/page";
 import BackButton from "@/components/main/backButton";
 

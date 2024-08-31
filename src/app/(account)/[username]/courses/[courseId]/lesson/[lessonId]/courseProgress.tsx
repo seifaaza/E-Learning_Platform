@@ -3,6 +3,7 @@
 import { Progress } from "@/components/ui/progress";
 import { lessonStore } from "@/store/lessonStore";
 import { useEffect, useState } from "react";
+import { BsFillFlagFill } from "react-icons/bs";
 
 interface CourseProgressProps {
   username: string;
@@ -38,8 +39,14 @@ export function CourseProgress({
 
   return (
     <section className="w-full mb-2">
-      <p className="text-sm font-medium text-main mb-2">{progress}% complete</p>
-      <Progress value={progress} className="w-full h-[.2rem] bg-main/20" />
+      <p className="text-sm font-medium text-main">{progress}% complete</p>
+      <ul className="w-full flex items-end gap-2">
+        <Progress
+          value={progress}
+          className="w-full h-[.2rem] bg-main/20 mb-[.3rem]"
+        />
+        <BsFillFlagFill className="h-6 text-main" />
+      </ul>
     </section>
   );
 }

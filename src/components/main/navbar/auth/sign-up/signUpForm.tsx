@@ -35,9 +35,6 @@ const validatePassword = (password: string) => {
 };
 
 function SignUpForm() {
-  const router = useRouter();
-  const { toast } = useToast();
-
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -69,6 +66,8 @@ function SignUpForm() {
     !errors.email &&
     !errors.password;
 
+  const router = useRouter();
+  const { toast } = useToast();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);

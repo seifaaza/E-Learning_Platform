@@ -94,7 +94,7 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
         </ul>
       </li>
       <li className="-order-1 md:order-none ml-auto self-start text-main bg-main/10 rounded-lg py-2 px-4 whitespace-nowrap">
-        <h5 className="!font-medium">{category}</h5>
+        <h6 className="!font-medium">{category}</h6>
       </li>
     </ul>
   );

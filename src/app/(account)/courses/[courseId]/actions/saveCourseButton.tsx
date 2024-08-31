@@ -6,6 +6,7 @@ import axios from "axios";
 import { BsBookmarkXFill, BsBookmarkFill } from "react-icons/bs";
 import { useSession } from "next-auth/react";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface SaveCourseButtonProps {
   courseId: string;
@@ -19,22 +20,29 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
   const [isSaved, setIsSaved] = useState<boolean>(false);
 
   const username = session?.user?.username;
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchSavedCourses = async () => {
+      if (!username) {
+        toast({
+          title: "Connection Issue",
+          description: "Please check your internet connection.",
+        });
+        return;
+      }
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
         );
-        const savedCourses = response.data;
-
-        // Check if the current course is already saved
-        const courseIsSaved = savedCourses.some(
-          (course: { _id: string }) => course._id === courseId
-        );
-        setIsSaved(courseIsSaved);
-      } catch (error) {
-        console.error("Error fetching saved courses:", error);
+        setIsSaved(response.data.isSaved);
+      } catch (error: any) {
+        toast({
+          title: "Server Error",
+          description:
+            "An error occurred on the server. Please try again later.",
+          variant: "destructive",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -45,14 +53,18 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
 
   const handleSaveCourse = async () => {
     setIsProcessing(true);
-
     try {
       await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
       );
       setIsSaved(true);
-    } catch (error) {
-      console.error("Error saving course:", error);
+    } catch (error: any) {
+      toast({
+        title: "Server Error",
+        description:
+          "Failed to save course. Please refresh the page or try again later.",
+        variant: "destructive",
+      });
     } finally {
       setIsProcessing(false);
     }
@@ -65,19 +77,26 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
       );
       setIsSaved(false);
-    } catch (error) {
-      console.error("Error unsaving course:", error);
+    } catch (error: any) {
+      toast({
+        title: "Server Error",
+        description:
+          "Failed to remove course from saved courses. Please refresh the page or try again later.",
+        variant: "destructive",
+      });
     } finally {
       setIsProcessing(false);
     }
   };
+
+  const isButtonDisabled = isLoading || isProcessing;
 
   return (
     <Button
       onClick={isSaved ? handleUnsaveCourse : handleSaveCourse}
       variant="link"
       className="hover:!no-underline !border-[1px] !border-main hover:!bg-main hover:!text-white"
-      disabled={isLoading || isProcessing}
+      disabled={isButtonDisabled}
     >
       {isProcessing ? (
         <>

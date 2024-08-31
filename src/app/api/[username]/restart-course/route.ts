@@ -39,12 +39,18 @@ export async function PUT(
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
     }
 
-    // Remove the course from completedCourses if it exists
-    if (user.completedCourses.includes(courseObjectId)) {
-      user.completedCourses = user.completedCourses.filter(
-        (course) => !course.equals(courseObjectId)
+    // Check if the course exists in completedCourses
+    if (!user.completedCourses.includes(courseObjectId)) {
+      return NextResponse.json(
+        { errorMsg: "Course is not completed" },
+        { status: 400 }
       );
     }
+
+    // Remove the course from completedCourses
+    user.completedCourses = user.completedCourses.filter(
+      (course) => !course.equals(courseObjectId as mongoose.Types.ObjectId)
+    );
 
     // Remove the course progress entry if it exists
     const existingProgress = await CourseProgress.findOne({
@@ -56,12 +62,13 @@ export async function PUT(
       // Delete the CourseProgress entry
       await CourseProgress.deleteOne({
         courseId: courseObjectId,
-        userId: user._id,
+        userId: user._id as mongoose.Types.ObjectId,
       });
 
       // Remove the reference from the user's courseProgresses array
       user.courseProgresses = user.courseProgresses.filter(
-        (progress) => !progress.equals(existingProgress._id)
+        (progress) =>
+          !progress.equals(existingProgress._id as mongoose.Types.ObjectId)
       );
     }
 
@@ -76,7 +83,7 @@ export async function PUT(
 
     // Remove the user's rating from the ratings array
     course.ratings = course.ratings.filter(
-      (rating) => !rating.user.equals(user._id)
+      (rating) => !rating.user.equals(user._id as mongoose.Types.ObjectId)
     );
 
     // Recalculate the average rating
@@ -91,15 +98,34 @@ export async function PUT(
       course.averageRating = 0;
     }
 
+    // Initialize the course progress for this user
+    const progressEntry = new CourseProgress({
+      courseId: courseObjectId,
+      userId: user._id,
+      totalLessons: course.lessons.length,
+      completedLessons: [],
+      progressPercentage: 0, // Initialize progressPercentage to 0
+    });
+
+    // Save the course progress entry
+    await progressEntry.save();
+
+    // Type assertion to ensure _id is treated as ObjectId
+    const progressEntryId = progressEntry._id as mongoose.Types.ObjectId;
+
+    // Add the reference to the user's courseProgresses array
+    user.courseProgresses.push(progressEntryId);
+
     await course.save();
     await user.save();
 
     return NextResponse.json(
-      { message: "User rating deleted and course progress reset successfully" },
+      {
+        message: "Course restarted successfully",
+      },
       { status: 200 }
     );
   } catch (error: any) {
-    console.error("Error processing request:", error);
     return NextResponse.json(
       { errorMsg: "Internal server error" },
       { status: 500 }

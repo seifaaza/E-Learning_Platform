@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import RestartCourseButton from "./restartCourseButton";
+import { useToast } from "@/components/ui/use-toast";
 
 interface StartCourseButtonProps {
   courseId: string;
@@ -19,65 +20,71 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
   courseId,
   lessonId,
 }) => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [isStarted, setIsStarted] = useState<boolean>(false);
   const [currentLessonId, setCurrentLessonId] = useState<string | null>(null);
-  const router = useRouter();
 
+  const router = useRouter();
   const username = session?.user?.username;
+  const { toast } = useToast();
 
   useEffect(() => {
     const checkCourseCompletion = async () => {
-      if (!username) return;
+      if (!username) {
+        toast({
+          title: "Connection Issue",
+          description: "Please check your internet connection.",
+        });
+        return;
+      }
       try {
         const completionResponse = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/complete-course?courseId=${courseId}`
         );
         setIsCompleted(completionResponse.data.isCompleted);
-      } catch (error) {
-        console.error("Error fetching course completion status:", error);
+        if (completionResponse.data.isStarted) {
+          setIsStarted(true);
+          setCurrentLessonId(completionResponse.data.currentLessonId);
+        }
+      } catch (error: any) {
+        toast({
+          title: "Server Error",
+          description:
+            "An error occurred on the server. Please try again later.",
+          variant: "destructive",
+        });
       } finally {
         setIsLoading(false);
       }
     };
-
     checkCourseCompletion();
   }, [username, courseId]);
 
-  useEffect(() => {
-    const checkCourseStarted = async () => {
-      if (!username || isCompleted) return; // No need to check if it's completed
-      try {
-        const startedCoursesResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start?courseId=${courseId}`
-        );
-        setIsStarted(startedCoursesResponse.data.isStarted);
-        setCurrentLessonId(startedCoursesResponse.data.currentLessonId);
-      } catch (error) {
-        console.error("Error fetching course start status:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkCourseStarted();
-  }, [username, courseId, lessonId, isCompleted]);
-
   const handleStartCourse = async () => {
-    if (status === "loading") return;
-
     setIsProcessing(true);
-
     try {
       await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start?courseId=${courseId}`
       );
       router.push(`/${username}/courses/${courseId}?lesson=${lessonId}`);
-    } catch (error) {
-      console.error("Error starting course:", error);
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        toast({
+          title: "Course Already Started",
+          description: "Please go to In Progress section to complete it.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Server Error",
+          description:
+            "An error occurred on the server. Please try again later.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsProcessing(false);
     }

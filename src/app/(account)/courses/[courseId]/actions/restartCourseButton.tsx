@@ -7,6 +7,8 @@ import { BsArrowCounterclockwise } from "react-icons/bs";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { mainStore } from "@/store/mainStore";
 
 interface RestartCourseButtonProps {
   courseId: string;
@@ -23,15 +25,32 @@ const RestartCourseButton: React.FC<RestartCourseButtonProps> = ({
 
   const username = session?.user?.username;
 
+  const { toast } = useToast();
+  const { setDialogOpen } = mainStore();
+
   const handleRestartCourse = async () => {
     setIsProcessing(true);
     try {
       await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/restart-course?courseId=${courseId}`
       );
+      setDialogOpen(false);
       router.push(`/${username}/courses/${courseId}?lesson=${lessonId}`);
-    } catch (error) {
-      console.error("Error restarting course:", error);
+    } catch (error: any) {
+      if (error.response && error.response.status === 500) {
+        toast({
+          title: "Server Error",
+          description:
+            "An error occurred on the server. Please refresh the page or try again later.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Course Already Started",
+          description: "Please go to In Progress section to complete it.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsProcessing(false);
     }

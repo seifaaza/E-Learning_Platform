@@ -45,10 +45,15 @@ export async function GET(
       );
     }
 
+    // Fetch the course with lessons and populated articles
     const course = await Course.findById(courseId).populate({
       path: "lessons",
-      select: "title description topics tips objective video thumbnail",
-      populate: { path: "articles", select: "title content" },
+      select:
+        "title description topics tips objective video thumbnail articles",
+      populate: {
+        path: "articles",
+        select: "title content",
+      },
     });
 
     if (!course || !course.lessons || course.lessons.length === 0) {
@@ -71,27 +76,27 @@ export async function GET(
       );
     }
 
-    // Find the current lesson data
-    const lesson = course.lessons.find(
-      (lesson) => lesson._id.toString() === lessonId
-    );
+    // Find the current lesson and populate articles
+    const lessonDocument = await Lesson.findById(lessonId).populate({
+      path: "articles",
+      select: "title content",
+    });
 
-    if (!lesson) {
+    if (!lessonDocument) {
       return NextResponse.json(
         { errorMsg: "Current lesson not found" },
         { status: 404 }
       );
     }
 
-    // Combine lesson details with additional data
     const responseData = {
-      ...lesson.toObject(),
+      ...lessonDocument.toObject(),
       lessonIds,
       currentLessonIndex,
     };
 
     return NextResponse.json(responseData);
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof Error) {
       return NextResponse.json({ errorMsg: error.message }, { status: 500 });
     }

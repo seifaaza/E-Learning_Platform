@@ -47,7 +47,20 @@ export async function GET(
     // Get all completed lesson IDs for the course
     const completedLessonIds = courseProgress.completedLessons;
 
-    return NextResponse.json(completedLessonIds);
+    // Get the course details including isCertified
+    const course = await Course.findById(courseId).exec();
+
+    if (!course) {
+      return NextResponse.json(
+        { errorMsg: "Course not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      completedLessonIds,
+      isCertified: course.isCertified,
+    });
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }

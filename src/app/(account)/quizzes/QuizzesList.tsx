@@ -1,6 +1,5 @@
 import DataNotFound from "@/components/main/errors/dataNotFound";
 import React from "react";
-import { BsExclamationCircleFill } from "react-icons/bs";
 
 const QuizzesList = () => {
   return (

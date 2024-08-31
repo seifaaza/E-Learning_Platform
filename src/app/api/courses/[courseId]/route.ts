@@ -1,8 +1,23 @@
 import dbConnect from "@/lib/dbConnect";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
+import Category, { ICategory } from "@/models/Category";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
+import Article from "@/models/Article";
+
+type Article = {
+  _id: mongoose.Types.ObjectId;
+  title: string;
+  content: string;
+};
+
+type Lesson = {
+  _id: mongoose.Types.ObjectId;
+  title: string;
+  articles?: Article[];
+  topics: string[];
+};
 
 export async function GET(
   request: Request,
@@ -13,7 +28,9 @@ export async function GET(
   const { courseId } = params;
 
   try {
-    await Lesson.init();
+    await Category.init();
+    await Article.init();
+
     if (!courseId) {
       return NextResponse.json(
         { errorMsg: "Course ID is missing" },
@@ -24,8 +41,18 @@ export async function GET(
     const courseObjectId = new mongoose.Types.ObjectId(courseId);
 
     const course = await Course.findById(courseObjectId)
-      .populate("lessons", "_id title articles topics")
-      .populate("category", "name") // Populate the category name
+      .populate({
+        path: "lessons",
+        select: "_id title articles topics",
+        populate: {
+          path: "articles",
+          select: "_id title content",
+        },
+      })
+      .populate({
+        path: "category",
+        select: "name",
+      })
       .select("-ratings");
 
     if (!course) {
@@ -35,17 +62,20 @@ export async function GET(
       );
     }
 
-    // Calculate total articles and total topics
-    const totalArticles = course.lessons.reduce(
-      (sum, lesson) => sum + lesson.articles.length,
+    // Assert the type of category to ICategory
+    const category = course.category as ICategory;
+
+    const lessons = course.lessons as unknown as Lesson[];
+
+    const totalArticles = lessons.reduce(
+      (sum, lesson) => sum + (lesson.articles?.length || 0),
       0
     );
-    const totalTopics = course.lessons.reduce(
-      (sum, lesson) => sum + lesson.topics.length,
+    const totalTopics = lessons.reduce(
+      (sum, lesson) => sum + (lesson.topics.length || 0),
       0
     );
 
-    // Prepare the course response object
     const courseResponse = {
       _id: course._id,
       title: course.title,
@@ -58,11 +88,11 @@ export async function GET(
       isCertified: course.isCertified,
       objectives: course.objectives,
       created_at: course.created_at,
-      firstLessonId: course.lessons[0]?._id || null,
-      lessonsTitles: course.lessons.map((lesson) => lesson.title),
+      firstLessonId: lessons[0]?._id || null,
+      lessonsTitles: lessons.map((lesson) => lesson.title),
       totalArticles,
       totalTopics,
-      categoryName: course.category.name, // Add category name to the response
+      categoryName: category.name, // Use the asserted type
     };
 
     return NextResponse.json(courseResponse);

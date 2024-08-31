@@ -13,6 +13,7 @@ import { Loader2 } from "lucide-react";
 import React from "react";
 import { BsChevronRight, BsFillLockFill } from "react-icons/bs";
 import { mainStore } from "@/store/mainStore";
+import { useToast } from "@/components/ui/use-toast";
 
 interface FinishCourseButtonProps {
   isNextDisabled: boolean;
@@ -32,18 +33,32 @@ const FinishCourseButton: React.FC<FinishCourseButtonProps> = ({
   );
 
   const { setDialogOpen } = mainStore();
+  const { toast } = useToast();
 
   const handleFinishCourse = async () => {
     setLoading(true);
-
     try {
       await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/complete-course?courseId=${courseId}`
       );
       clearCompletedLessons();
       setDialogOpen(true); // Open the modal when course is completed successfully
-    } catch (error) {
-      console.error("Error finishing course:", error);
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        toast({
+          title: "Server Error",
+          description:
+            "Failed to finish course. Please refresh the page or try again later.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Server Error",
+          description:
+            "An error occurred on the server. Please try again later.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -55,7 +70,7 @@ const FinishCourseButton: React.FC<FinishCourseButtonProps> = ({
         <TooltipTrigger asChild>
           <ul>
             {isNextDisabled ? (
-              <Button disabled className="hover:!bg-main brightness-90">
+              <Button disabled className="hover:!bg-main ">
                 Finish
                 {isLoading ? (
                   <Loader2 className="ml-2 h-4 animate-spin" />
@@ -67,6 +82,7 @@ const FinishCourseButton: React.FC<FinishCourseButtonProps> = ({
               <Button
                 onClick={handleFinishCourse}
                 className="hover:!bg-main brightness-90"
+                disabled={isLoading}
               >
                 Finish
                 {isLoading ? (

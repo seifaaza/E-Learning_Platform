@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { BsFillSendFill, BsCheck2 } from "react-icons/bs";
 import axios from "axios";
-import { notFound } from "next/navigation";
 import CourseRatingLoader from "@/components/main/loaders/courseRatingLoader";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CourseRatingProps {
   username: string;
@@ -20,6 +20,7 @@ const CourseRating: React.FC<CourseRatingProps> = ({ username, courseId }) => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const { toast } = useToast();
 
   // Fetch the existing rating when the component mounts
   useEffect(() => {
@@ -34,14 +35,12 @@ const CourseRating: React.FC<CourseRatingProps> = ({ username, courseId }) => {
           setIsSubmitted(true); // Prevent submission if already rated
         }
       } catch (error: any) {
-        if (
-          error.response &&
-          (error.response.status === 404 || error.response.status === 500)
-        ) {
-          notFound();
-        } else {
-          throw error;
-        }
+        toast({
+          title: "Server Error",
+          description:
+            "An error occurred on the server. Please try again later.",
+          variant: "destructive",
+        });
       } finally {
         setLoading(false);
       }
@@ -58,10 +57,22 @@ const CourseRating: React.FC<CourseRatingProps> = ({ username, courseId }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/rating?courseId=${courseId}`,
         { ratingValue }
       );
-      console.log("Rating submitted successfully:", response.data);
       setIsSubmitted(true); // Mark as submitted successfully
-    } catch (error) {
-      console.error("Failed to submit rating:", error);
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        toast({
+          title: "Rating Failed",
+          description: "Failed to submit rating",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Server Error",
+          description:
+            "An error occurred on the server. Please try again later.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsProcessing(false);
     }

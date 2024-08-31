@@ -19,9 +19,7 @@ const validateEmail = (email: string) => {
 };
 
 function SignInForm() {
-  const router = useRouter();
-  const { toast } = useToast();
-
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<{
@@ -29,7 +27,7 @@ function SignInForm() {
     server?: string;
   }>({});
   const [isLoading, setIsLoading] = useState(false);
-
+  
   useEffect(() => {
     const emailError = validateEmail(email);
 
@@ -40,19 +38,21 @@ function SignInForm() {
 
   const isFormValid = !!email && !!password && !errors.email;
 
+  const router = useRouter();
+  const { toast } = useToast();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
+    
     const response = await signIn("credentials", {
       redirect: false,
       email,
       password,
     });
-
+    
     if (response?.error) {
       console.log(response);
-
+      
       if (
         response.error === "Incorrect password" ||
         response.error === "No user found with this email"

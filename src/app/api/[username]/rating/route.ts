@@ -37,7 +37,7 @@ export async function GET(
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
     }
 
-    const userId = user._id;
+    const userId = user._id as mongoose.Types.ObjectId;
 
     // Check if the user has already rated the course
     const existingRating = course.ratings.find((rating) =>
@@ -106,6 +106,14 @@ export async function POST(
     }
 
     const userId = user._id;
+
+    // Ensure that userId is treated as an ObjectId
+    if (!(userId instanceof mongoose.Types.ObjectId)) {
+      return NextResponse.json(
+        { errorMsg: "Invalid user ID" },
+        { status: 400 }
+      );
+    }
 
     // Check if the user has already rated the course
     const existingRating = course.ratings.find((rating) =>

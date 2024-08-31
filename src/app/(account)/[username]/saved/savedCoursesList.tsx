@@ -61,7 +61,6 @@ const SavedCoursesList = ({ username }: SavedCoursesListProps) => {
               key={item._id}
               thumbnail={item.thumbnail}
               title={item.title}
-              lessonsCount={item.lessonsCount}
               btn={
                 <Popover>
                   <PopoverTrigger asChild>

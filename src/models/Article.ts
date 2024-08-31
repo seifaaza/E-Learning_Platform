@@ -1,4 +1,3 @@
-// models/Article.ts
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface IArticle extends Document {

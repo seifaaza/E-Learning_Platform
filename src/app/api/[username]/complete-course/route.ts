@@ -1,9 +1,9 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import Course from "@/models/Course";
+import CourseProgress from "@/models/CourseProgress";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
-import CourseProgress from "@/models/CourseProgress";
 
 export async function GET(
   request: Request,
@@ -16,10 +16,7 @@ export async function GET(
   const courseId = url.searchParams.get("courseId");
 
   try {
-    // Find the user by username
-    const user = await User.findOne({ username })
-      .populate("completedCourses")
-      .exec();
+    const user = await User.findOne({ username });
 
     if (!user) {
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
@@ -28,64 +25,126 @@ export async function GET(
     if (courseId) {
       const courseObjectId = new mongoose.Types.ObjectId(courseId);
 
-      // Check if the courseId is in the user's completedCourses
-      const completedCourse = user.completedCourses.find((completedCourseId) =>
-        completedCourseId.equals(courseObjectId)
+      const isCompleted = user.completedCourses.some(
+        (completedCourseId: any) =>
+          completedCourseId && completedCourseId.equals(courseObjectId)
       );
 
-      if (!completedCourse) {
-        // Check if the course exists
-        const courseExists = await Course.findById(courseObjectId).exec();
-        if (!courseExists) {
+      if (isCompleted) {
+        const course = await Course.findById(courseObjectId)
+          .select("_id title thumbnail lessons")
+          .exec();
+
+        if (!course) {
           return NextResponse.json(
             { errorMsg: "Course not found" },
             { status: 404 }
           );
         }
 
-        return NextResponse.json({ isCompleted: false }, { status: 400 });
-      }
-
-      // Fetch course details if completed
-      const courseDetails = await Course.findById(courseObjectId)
-        .select("title thumbnail lessons")
-        .exec();
-
-      if (!courseDetails) {
         return NextResponse.json(
-          { errorMsg: "Course details not found" },
-          { status: 404 }
+          {
+            isCompleted,
+            _id: course._id,
+            title: course.title,
+            thumbnail: course.thumbnail,
+          },
+          { status: 200 }
         );
       }
 
+      const courseProgress = await CourseProgress.findOne({
+        courseId: courseObjectId,
+        userId: user._id,
+      });
+
+      if (courseProgress) {
+        const courseProgress = await CourseProgress.findOne({
+          userId: user._id,
+          courseId: new mongoose.Types.ObjectId(courseId),
+        }).populate({
+          path: "completedLessons",
+          select: "_id",
+        });
+
+        // Get the course details
+        const course = await Course.findById(courseId).populate({
+          path: "lessons",
+          select: "_id",
+        });
+
+        if (!course) {
+          return NextResponse.json(
+            { errorMsg: "Course not found" },
+            { status: 404 }
+          );
+        }
+
+        const lessons = course.lessons;
+        const completedLessons = new Set(
+          courseProgress?.completedLessons.map((lesson) =>
+            lesson._id.toString()
+          ) || []
+        );
+
+        let currentLessonId: string | null = null;
+        let lastLessonId: string | null = null;
+
+        // Determine if the course is considered started
+        if (courseProgress) {
+          // Find the next lesson that hasn't been completed
+          for (const lesson of lessons) {
+            if (!completedLessons.has(lesson._id.toString())) {
+              currentLessonId = lesson._id.toString();
+              break;
+            }
+          }
+
+          // If no current lesson is found, check if all lessons are completed
+          if (!currentLessonId) {
+            currentLessonId =
+              lessons[lessons.length - 1]?._id.toString() || null;
+          }
+        }
+
+        // Check if the current lesson is the last lesson
+        if (currentLessonId) {
+          const currentLessonIndex = lessons.findIndex(
+            (lesson) => lesson._id.toString() === currentLessonId
+          );
+          if (currentLessonIndex === lessons.length - 1) {
+            lastLessonId = currentLessonId;
+          }
+        } else {
+          lastLessonId = lessons[lessons.length - 1]?._id.toString() || null;
+        }
+
+        // Determine if the course is started
+        const isStarted = !!currentLessonId;
+
+        return NextResponse.json({
+          isStarted,
+          currentLessonId: isStarted ? currentLessonId : null,
+        });
+      }
+
       return NextResponse.json(
-        {
-          isCompleted: true,
-          title: courseDetails.title,
-          thumbnail: courseDetails.thumbnail,
-          firstLessonId: courseDetails.lessons[0],
-        },
+        { isStarted: false, isCompleted: false },
         { status: 200 }
       );
     } else {
-      // Find all completed courses for the user
       const completedCourses = await Course.find({
         _id: { $in: user.completedCourses },
       })
-        .select("_id title thumbnail initialLessonId")
+        .select("_id title thumbnail lessons")
         .exec();
 
-      if (completedCourses.length === 0) {
-        return NextResponse.json({ isCompleted: false }, { status: 400 });
-      }
-
-      // Return the completed courses with details
       return NextResponse.json(
         completedCourses.map((course) => ({
           _id: course._id,
           title: course.title,
           thumbnail: course.thumbnail,
-          firstLessonId: course.initialLessonId,
+          firstLessonId: course.lessons[0],
         })),
         { status: 200 }
       );

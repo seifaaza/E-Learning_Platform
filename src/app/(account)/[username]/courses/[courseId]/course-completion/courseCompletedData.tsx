@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { BsArrowRight, BsCheck2 } from "react-icons/bs";
 import CompletedCourseLoader from "@/components/main/loaders/completedCourseLoader";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CourseCompletedDataProps {
   username: string;
@@ -21,6 +22,7 @@ const CourseCompletedData: React.FC<CourseCompletedDataProps> = ({
   const [course, setCourse] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchCourseData = async () => {
@@ -30,7 +32,12 @@ const CourseCompletedData: React.FC<CourseCompletedDataProps> = ({
         );
         setCourse(response.data);
       } catch (error: any) {
-        router.push(`/${username}/courses/${courseId}`);
+        toast({
+          title: "Server Error",
+          description:
+            "An error occurred on the server. Please try again later.",
+          variant: "destructive",
+        });
       } finally {
         setLoading(false);
       }

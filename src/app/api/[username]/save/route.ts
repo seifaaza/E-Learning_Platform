@@ -28,15 +28,34 @@ export async function GET(
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
     }
 
-    const coursesWithDetails = user.savedCourses.map((course) => ({
+    const url = new URL(req.url);
+    const courseId = url.searchParams.get("courseId");
+
+    if (courseId) {
+      // Handle the case when courseId is provided
+      const courseObjectId = new mongoose.Types.ObjectId(courseId);
+
+      const isSaved = user.savedCourses.some((savedCourseId: any) =>
+        savedCourseId._id.equals(courseObjectId)
+      );
+
+      return NextResponse.json({ isSaved });
+    }
+
+    // Handle the case when courseId is not provided
+    const coursesWithDetails = user.savedCourses.map((course: any) => ({
       _id: course._id,
       title: course.title,
       thumbnail: course.thumbnail,
-      lessonsCount: course.lessons.length,
     }));
 
-    return NextResponse.json(coursesWithDetails);
-  } catch (error) {
+    // If there are no saved courses, return an empty array
+    if (coursesWithDetails.length === 0) {
+      return NextResponse.json([], { status: 200 });
+    }
+
+    return NextResponse.json(coursesWithDetails, { status: 200 });
+  } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }
 }
@@ -82,7 +101,7 @@ export async function POST(
       { successMsg: "Course saved successfully" },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }
 }
@@ -129,7 +148,7 @@ export async function PUT(
       { successMsg: "Course removed from saved courses successfully" },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }
 }

@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Link from "next/link";
@@ -7,6 +9,8 @@ import { BsChevronLeft } from "react-icons/bs";
 import { lessonStore } from "@/store/lessonStore";
 import NextLessonButton from "./actions/nextLessonButton";
 import FinishCourseButton from "./actions/finishCourseButton";
+import GoToQuizButton from "./actions/goToQuizButton";
+import { Loader2 } from "lucide-react";
 
 interface LessonControlProps {
   username: string;
@@ -25,11 +29,12 @@ const LessonControl: React.FC<LessonControlProps> = ({
 }) => {
   const completedLessons = lessonStore((state) => state.completedLessons);
   const setLoading = lessonStore((state) => state.setLoading);
+  const [isCertified, setIsCertified] = useState<boolean>(false);
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (!lessonIds || lessonIds.length === 0) {
       notFound();
-      return;
     }
 
     const checkLessonCompletion = async () => {
@@ -38,7 +43,8 @@ const LessonControl: React.FC<LessonControlProps> = ({
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/complete-lesson?courseId=${courseId}`
         );
-        const completedLessonIds = response.data; // Response is an array of IDs
+        const completedLessonIds = response.data.completedLessonIds;
+        setIsCertified(response.data.isCertified);
 
         completedLessonIds.forEach((id: string) => {
           lessonStore.getState().markLessonComplete(id);
@@ -47,6 +53,8 @@ const LessonControl: React.FC<LessonControlProps> = ({
         console.error("Failed to check lesson completion", error);
       } finally {
         setLoading(false);
+        setInitialLoading(false);
+        setInitialLoading(false); // Set loading state to false after data is fetched
       }
     };
 
@@ -80,12 +88,23 @@ const LessonControl: React.FC<LessonControlProps> = ({
         </Link>
       )}
 
-      {nextLessonId ? (
+      {initialLoading ? (
+        <Button disabled className="hover:!bg-main brightness-90">
+          Loading...
+          <Loader2 className="ml-2 h-4 animate-spin" />
+        </Button>
+      ) : nextLessonId ? (
         <NextLessonButton
           isNextDisabled={isNextDisabled}
           username={username}
           courseId={courseId}
           nextLessonId={nextLessonId}
+        />
+      ) : isCertified ? (
+        <GoToQuizButton
+          isNextDisabled={isNextDisabled}
+          username={username}
+          testId={"testId"}
         />
       ) : (
         <FinishCourseButton

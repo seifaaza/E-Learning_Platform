@@ -64,7 +64,7 @@ const FooterContent: React.FC<FooterContentProps> = ({ username, signOut }) => {
       <DialogFooter>
         <Button
           variant="secondary"
-          className="capitalize text-main"
+          className="text-main"
           onClick={handleDeleteAccount}
           disabled={isLoading}
         >

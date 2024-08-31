@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { BsBookmarkDash } from "react-icons/bs";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface UnsaveCourseButtonProps {
   courseId: string;
@@ -18,6 +19,7 @@ const UnsaveCourseButton: React.FC<UnsaveCourseButtonProps> = ({
   mutate,
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { toast } = useToast();
 
   const handleUnsaveCourse = async () => {
     if (isLoading) return;
@@ -29,8 +31,13 @@ const UnsaveCourseButton: React.FC<UnsaveCourseButtonProps> = ({
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
       );
       mutate(); // Trigger revalidation
-    } catch (error) {
-      console.error("Error unsaving course:", error);
+    } catch (error: any) {
+      toast({
+        title: "Server Error",
+        description:
+          "Failed to remove course from saved courses. Please refresh the page or try again later.",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }

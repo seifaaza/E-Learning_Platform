@@ -5,10 +5,7 @@ const LessonLoader = () => {
     <ul className="mt-4 xl:mt-6 flex flex-col gap-6 xl:gap-12 lg:flex-row lg:justify-between">
       <section className="w-full flex flex-col gap-2">
         <article className="aspect-video">
-          <ul className="flex flex-col md:flex-row gap-1 justify-between md:items-end mb-2 xl:mb-4">
-            <Skeleton className="w-48 h-5 bg-main/10 rounded-lg " />
-            <Skeleton className="w-16 h-5 bg-main/10 rounded-lg " />
-          </ul>
+          <Skeleton className="w-16 h-5 bg-main/10 rounded-lg mb-2 xl:mb-4" />
           <Skeleton className="w-full aspect-video bg-main/10 rounded-lg " />
         </article>
       </section>
