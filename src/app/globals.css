@@ -61,7 +61,7 @@
   }
 
   h6{
-    @apply text-sm lg:text-base
+    @apply text-base
     
   }
 
