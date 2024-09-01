@@ -103,7 +103,7 @@ const CancelCourseButton: React.FC<CancelCourseButtonProps> = ({
       <DialogTrigger asChild>
         <Button
           variant="link"
-          className="hover:!no-underline !border-[1px] !text-red-600 !border-red-600 hover:!bg-red-600 hover:!text-white w-fit self-end md:order-first"
+          className="hover:!no-underline !border-[1px] !text-red-600 !border-red-600 hover:!bg-red-600 hover:!text-white w-fit self-end md:order-first mt-2 md:mt-0"
         >
           Cancel Course
           <BsXLg className="ml-2 h-4" />
