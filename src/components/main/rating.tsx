@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Variants for different styles
 const ratingVariants = {
   yellow: {
     star: "text-yellow-500",
@@ -39,11 +38,16 @@ export const CommentRatings = ({
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const [currentRating, setCurrentRating] = useState(initialRating);
 
-  const isTouchDevice = () =>
-    "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  const isMobileDevice = () => {
+    return window.matchMedia("(max-width: 767px)").matches;
+  };
+
+  console.log(
+    isMobileDevice() ? "This device is mobile." : "This device is not mobile."
+  );
 
   const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!interactive || isTouchDevice()) return;
+    if (!interactive) return;
     const starIndex = parseInt(
       (event.currentTarget as HTMLDivElement).dataset.starIndex || "0"
     );
@@ -51,7 +55,7 @@ export const CommentRatings = ({
   };
 
   const handleMouseLeave = () => {
-    if (!interactive || isTouchDevice()) return;
+    if (!interactive) return;
     setHoverRating(null);
   };
 
@@ -81,14 +85,14 @@ export const CommentRatings = ({
     <section
       className="flex w-fit items-center gap-2"
       onMouseLeave={
-        !isTouchDevice() && interactive ? handleMouseLeave : undefined
+        interactive && !isMobileDevice() ? handleMouseLeave : undefined
       }
       {...props}
     >
       <span
         className={`flex items-center ${interactive && "cursor-pointer"}`}
         onMouseEnter={
-          !isTouchDevice() && interactive ? handleMouseEnter : undefined
+          interactive && !isMobileDevice() ? handleMouseEnter : undefined
         }
       >
         {[...Array(fullStars)].map((_, i) =>
@@ -100,6 +104,8 @@ export const CommentRatings = ({
               ratingVariants[variant].star
             ),
             onClick: interactive ? handleClick : undefined,
+            onMouseEnter:
+              interactive && !isMobileDevice() ? handleMouseEnter : undefined,
             "data-star-index": i + 1,
           })
         )}
@@ -112,6 +118,8 @@ export const CommentRatings = ({
             size,
             className: cn("stroke-1", ratingVariants[variant].emptyStar),
             onClick: interactive ? handleClick : undefined,
+            onMouseEnter:
+              interactive && !isMobileDevice() ? handleMouseEnter : undefined,
             "data-star-index": i + fullStars + 1,
           })
         )}

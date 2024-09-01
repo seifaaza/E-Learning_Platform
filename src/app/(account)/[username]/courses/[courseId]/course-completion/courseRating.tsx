@@ -49,13 +49,10 @@ const CourseRating: React.FC<CourseRatingProps> = ({ username, courseId }) => {
   };
 
   return (
-    <ul className="w-fit mx-auto flex flex-col items-center text-center">
-      <h3 className="text-gray-900 font-medium mb-2 max-w-xl normal-case">
+    <ul className="w-fit mx-auto flex flex-col items-center text-center mt-2">
+      <h3 className="text-gray-900 font-medium max-w-xl normal-case mb-4 xl:mb-6">
         How would you rate the course?
       </h3>
-      <h6 className="text-gray-700 max-w-xl mb-4 xl:mb-6 normal-case">
-        We value your feedback!
-      </h6>
       <CommentRatings
         rating={ratingValue}
         size={36}

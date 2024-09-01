@@ -14,7 +14,7 @@ interface LessonArticlesProps {
 
 const LessonArticles: React.FC<LessonArticlesProps> = ({ articles }) => {
   return (
-    <ScrollArea className="h-60 lg:h-72 xl:h-96 w-full bg-main/5 p-3 xl:p-4 rounded-lg">
+    <ScrollArea className="h-72 xl:h-96 w-full bg-main/5 p-3 xl:p-4 rounded-lg">
       <ul className="flex flex-col gap-4">
         {articles.map((article, index) => (
           <li key={article._id}>
