@@ -4,10 +4,8 @@ const LessonLoader = () => {
   return (
     <ul className="mt-4 xl:mt-6 flex flex-col gap-6 xl:gap-12 lg:flex-row lg:justify-between">
       <section className="w-full flex flex-col gap-2">
-        <article className="aspect-video">
-          <Skeleton className="w-16 h-5 bg-main/10 rounded-lg mb-2 xl:mb-4" />
-          <Skeleton className="w-full aspect-video bg-main/10 rounded-lg " />
-        </article>
+        <Skeleton className="w-32 h-5 bg-main/10 rounded-lg mb-2 invisible md:visible" />
+        <Skeleton className="w-full aspect-video bg-main/10 rounded-lg " />
       </section>
 
       <section className=" mt-4 lg:mt-0 flex flex-col gap-4 xl:gap-5 lg:w-2/3">

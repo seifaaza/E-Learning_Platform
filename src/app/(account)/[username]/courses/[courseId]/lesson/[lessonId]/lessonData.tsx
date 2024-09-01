@@ -46,7 +46,7 @@ const LessonData: React.FC<LessonDataProps> = async ({
 
   return (
     <>
-      <ul className="mt-4 xl:mt-6 flex flex-col gap-6 lg:gap-10 xl:gap-12 lg:flex-row lg:justify-between">
+      <ul className="mt-4 xl:mt-6 flex flex-col gap-4 lg:gap-10 xl:gap-12 lg:flex-row lg:justify-between">
         <LessonPlayer
           username={username}
           courseId={courseId}
@@ -59,14 +59,14 @@ const LessonData: React.FC<LessonDataProps> = async ({
           lessonIds={lesson.lessonIds}
         />
 
-        <section className=" mt-4 lg:mt-0 flex flex-col gap-4 xl:gap-5 lg:w-2/3">
-          <CancelCourseButton username={username} courseId={courseId} />
+        <section className="flex flex-col gap-2 xl:gap-5 lg:w-2/3">
           <CourseProgress
             username={username}
             courseId={courseId}
             lessonId={lessonId}
           />
           <LessonArticles articles={lesson.articles} />
+          <CancelCourseButton username={username} courseId={courseId} />
         </section>
       </ul>
       <Separator

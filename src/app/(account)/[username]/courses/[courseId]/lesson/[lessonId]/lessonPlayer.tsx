@@ -47,23 +47,20 @@ const LessonPlayer: React.FC<LessonPlayerProps> = ({
   };
 
   return (
-    <section className="w-full flex flex-col gap-2">
-      <h3 className="text-main mb-2 xl:mb-4">
-        Lesson {index}: {title}
-      </h3>
+    <section className="w-full flex flex-col gap-4">
       <MuxPlayer
         streamType="on-demand"
         src={`https://res.cloudinary.com/depztpide/video/upload/${video}`}
         poster={`https://res.cloudinary.com/depztpide/image/upload/${thumbnail}`}
         primaryColor="#ffffff"
         accentColor="#4b2dd1"
-        className="w-full rounded-lg aspect-video overflow-hidden"
+        className="w-full rounded-lg aspect-video overflow-hidden "
         autoPlay
         onEnded={handleIsVideoEnded}
       />
 
-      <ul className="flex gap-4 justify-between items-center">
-        <p className="ml-2 text-gray-700">
+      <ul className="flex gap-4 justify-between md:items-center">
+        <p className=" text-gray-700">
           Lesson {index} of {lessonsLength}
         </p>
         <LessonControl
@@ -74,6 +71,9 @@ const LessonPlayer: React.FC<LessonPlayerProps> = ({
           lessonIds={lessonIds}
         />
       </ul>
+      <h3 className="text-main md:order-first">
+        Lesson {index}: {title}
+      </h3>
     </section>
   );
 };

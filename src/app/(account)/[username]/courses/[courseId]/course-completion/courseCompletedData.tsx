@@ -51,7 +51,7 @@ const CourseCompletedData: React.FC<CourseCompletedDataProps> = ({
   }
 
   return (
-    <ul className="w-full mt-4 mb-2 flex flex-col justify-center items-center sm:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12">
+    <ul className="w-full mb-2 flex flex-col justify-center items-center sm:flex-row gap-4 md:gap-8 lg:gap-10 xl:gap-12">
       <li className="h-fit w-full sm:w-1/2 xl:w-1/3 flex flex-col">
         <img
           src={`https://res.cloudinary.com/depztpide/image/upload/${course.thumbnail}`}

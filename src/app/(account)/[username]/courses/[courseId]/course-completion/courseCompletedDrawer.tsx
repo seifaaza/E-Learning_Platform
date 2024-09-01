@@ -20,11 +20,11 @@ const CourseCompletedDrawer: React.FC<CourseCompletedDrawerProps> = ({
   return (
     <Drawer open={isDialogOpen}>
       <DrawerContent className="bg-blue-50 border-none rounded-t-lg">
-        <article className="container mb-2 md:mb-4 lg:mb-6 xl:mb-8">
+        <article className="container !px-3 pb-2 md:pb-4 lg:pb-6 xl:pb-8">
           <CourseCompletedData username={username} courseId={courseId} />
           <Separator
             orientation="vertical"
-            className="h-[1px] w-2/3 md:w-1/2 mx-auto bg-gray-800 opacity-20 my-4 md:my-6 xl:my-8"
+            className="h-[1px] w-2/3 md:w-1/2 mx-auto md:bg-gray-800 opacity-20 my-2 md:my-4 xl:my-8"
           />
           <CourseRating username={username} courseId={courseId} />
         </article>
