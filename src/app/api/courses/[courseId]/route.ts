@@ -54,7 +54,8 @@ export async function GET(
         path: "category",
         select: "name",
       })
-      .select("-ratings");
+      .select("-ratings")
+      .lean();
 
     if (!course) {
       return NextResponse.json(
@@ -96,7 +97,14 @@ export async function GET(
       categoryName: category.name, // Use the asserted type
     };
 
-    return NextResponse.json(courseResponse);
+    return NextResponse.json(courseResponse, {
+      headers: {
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
   }
