@@ -3,7 +3,6 @@ import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
 import { NextResponse } from "next/server";
 
-// Handle GET requests
 export async function GET() {
   await dbConnect();
 
@@ -34,8 +33,17 @@ export async function GET() {
       };
     });
 
-    // Return the courses with details
-    return NextResponse.json(coursesWithDetails);
+    // Return the courses with details with cache-control headers
+    return new NextResponse(JSON.stringify(coursesWithDetails), {
+      status: 200,
+      headers: {
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+        "Surrogate-Control": "no-store",
+      },
+    });
   } catch (error) {
     // Handle any errors that occur
     if (error instanceof Error) {
