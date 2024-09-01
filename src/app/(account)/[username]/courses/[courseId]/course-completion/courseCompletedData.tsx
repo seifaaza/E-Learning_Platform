@@ -72,10 +72,6 @@ const CourseCompletedData: React.FC<CourseCompletedDataProps> = ({
         <h4 className="text-gray-900 font-medium normal-case !leading-normal">
           You’ve successfully completed the {course.title} course!
         </h4>
-        <h6 className="text-gray-700 max-w-xl mt-1">
-          Keep up the great work, and continue to reach for new heights!
-        </h6>
-
         <ul className="flex gap-2 md:gap-4 mt-3 xl:mt-5">
           <Link href="/courses">
             <Button className="hover:!bg-main brightness-90">

@@ -16,42 +16,13 @@ interface CourseRatingProps {
 
 const CourseRating: React.FC<CourseRatingProps> = ({ username, courseId }) => {
   const [ratingValue, setRatingValue] = useState<number>(0);
-  const [hasRated, setHasRated] = useState<boolean>(false);
-  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const { toast } = useToast();
-
-  // Fetch the existing rating when the component mounts
-  useEffect(() => {
-    const fetchRating = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/rating?courseId=${courseId}`
-        );
-        if (response.data.hasRated) {
-          setRatingValue(response.data.ratingValue);
-          setHasRated(true);
-          setIsSubmitted(true); // Prevent submission if already rated
-        }
-      } catch (error: any) {
-        toast({
-          title: "Server Error",
-          description:
-            "An error occurred on the server. Please try again later.",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRating();
-  }, [username, courseId, isSubmitted]);
 
   // Handle rating submission
   const handleRatingCourse = async () => {
-    setIsProcessing(true);
+    setLoading(true);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/rating?courseId=${courseId}`,
@@ -74,13 +45,9 @@ const CourseRating: React.FC<CourseRatingProps> = ({ username, courseId }) => {
         });
       }
     } finally {
-      setIsProcessing(false);
+      setLoading(false);
     }
   };
-
-  if (loading) {
-    return <CourseRatingLoader />;
-  }
 
   return (
     <ul className="w-fit mx-auto flex flex-col items-center text-center">
@@ -93,12 +60,12 @@ const CourseRating: React.FC<CourseRatingProps> = ({ username, courseId }) => {
       <CommentRatings
         rating={ratingValue}
         size={36}
-        interactive={!hasRated}
+        interactive={!isSubmitted}
         onRatingChange={setRatingValue} // Update the ratingValue when the user changes it
       />
       <Button
         onClick={handleRatingCourse}
-        disabled={isProcessing || isSubmitted || ratingValue === 0}
+        disabled={loading || isSubmitted || ratingValue === 0}
         variant="link"
         className="hover:!no-underline !border-[1px] !border-main hover:!bg-main hover:!text-white mt-4"
       >
@@ -107,7 +74,7 @@ const CourseRating: React.FC<CourseRatingProps> = ({ username, courseId }) => {
             Sent
             <BsCheck2 className="ml-2 h-4" />
           </>
-        ) : isProcessing ? (
+        ) : loading ? (
           <>
             Submitting...
             <Loader2 className="ml-2 h-4 animate-spin" />
