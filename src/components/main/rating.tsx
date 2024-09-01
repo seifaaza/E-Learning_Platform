@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Variants for different styles
 const ratingVariants = {
   yellow: {
     star: "text-yellow-500",
@@ -38,8 +39,11 @@ export const CommentRatings = ({
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const [currentRating, setCurrentRating] = useState(initialRating);
 
+  const isTouchDevice = () =>
+    "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
   const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!interactive) return;
+    if (!interactive || isTouchDevice()) return;
     const starIndex = parseInt(
       (event.currentTarget as HTMLDivElement).dataset.starIndex || "0"
     );
@@ -47,7 +51,7 @@ export const CommentRatings = ({
   };
 
   const handleMouseLeave = () => {
-    if (!interactive) return;
+    if (!interactive || isTouchDevice()) return;
     setHoverRating(null);
   };
 
@@ -61,40 +65,13 @@ export const CommentRatings = ({
     onRatingChange?.(starIndex);
   };
 
-  // Touch event handlers for mobile devices
-  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
-    if (!interactive) return;
-    const starIndex = parseInt(
-      (event.currentTarget as HTMLDivElement).dataset.starIndex || "0"
-    );
-    setHoverRating(starIndex);
-  };
-
-  const handleTouchEnd = () => {
-    if (!interactive) return;
-    setHoverRating(null);
-  };
-
-  const handleTouchClick = (event: React.TouchEvent<HTMLDivElement>) => {
-    if (!interactive) return;
-    const starIndex = parseInt(
-      (event.currentTarget as HTMLDivElement).dataset.starIndex || "0"
-    );
-    setCurrentRating(starIndex);
-    setHoverRating(null);
-    onRatingChange?.(starIndex);
-  };
-
-  const isMobile = window.innerWidth < 768;
-  const iconSize = isMobile ? size * 1.5 : size;
-
   const displayRating = hoverRating ?? currentRating;
   const fullStars = Math.floor(displayRating);
   const partialStar =
     displayRating % 1 > 0 ? (
       <PartialStar
         fillPercentage={displayRating % 1}
-        size={iconSize}
+        size={size}
         className={cn(ratingVariants[variant].star)}
         Icon={Icon}
       />
@@ -103,24 +80,26 @@ export const CommentRatings = ({
   return (
     <section
       className="flex w-fit items-center gap-2"
-      onMouseLeave={interactive ? handleMouseLeave : undefined}
-      onTouchEnd={interactive ? handleTouchEnd : undefined}
+      onMouseLeave={
+        !isTouchDevice() && interactive ? handleMouseLeave : undefined
+      }
       {...props}
     >
       <span
         className={`flex items-center ${interactive && "cursor-pointer"}`}
-        onMouseEnter={interactive ? handleMouseEnter : undefined}
-        onTouchStart={interactive ? handleTouchStart : undefined}
-        onClick={interactive ? handleTouchClick : undefined}
+        onMouseEnter={
+          !isTouchDevice() && interactive ? handleMouseEnter : undefined
+        }
       >
         {[...Array(fullStars)].map((_, i) =>
           React.cloneElement(Icon, {
             key: i,
-            size: iconSize,
+            size,
             className: cn(
               fill ? "fill-current stroke-1" : "fill-transparent",
               ratingVariants[variant].star
             ),
+            onClick: interactive ? handleClick : undefined,
             "data-star-index": i + 1,
           })
         )}
@@ -130,8 +109,9 @@ export const CommentRatings = ({
         ].map((_, i) =>
           React.cloneElement(Icon, {
             key: i + fullStars + 1,
-            size: iconSize,
+            size,
             className: cn("stroke-1", ratingVariants[variant].emptyStar),
+            onClick: interactive ? handleClick : undefined,
             "data-star-index": i + fullStars + 1,
           })
         )}

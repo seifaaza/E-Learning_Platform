@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { BsFillSendFill, BsCheck2 } from "react-icons/bs";
 import axios from "axios";
-import CourseRatingLoader from "@/components/main/loaders/courseRatingLoader";
 import { useToast } from "@/components/ui/use-toast";
 
 interface CourseRatingProps {
