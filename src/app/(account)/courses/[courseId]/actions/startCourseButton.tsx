@@ -43,7 +43,7 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
           setCurrentLessonId(completionResponse.data.currentLessonId);
         }
       } catch (error: any) {
-        if (username) {
+        if (username && error.response && error.response.status === 500) {
           toast({
             title: "Server Error",
             description:
