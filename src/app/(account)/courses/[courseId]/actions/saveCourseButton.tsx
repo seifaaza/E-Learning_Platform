@@ -30,7 +30,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
         );
         setIsSaved(response.data.isSaved);
       } catch (error: any) {
-        if (username) {
+        if (username && error.response && error.response.status === 500) {
           toast({
             title: "Server Error",
             description:
