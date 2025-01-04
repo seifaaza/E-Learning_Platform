@@ -18,8 +18,8 @@ const config = {
     },
     extend: {
       colors: {
-        main: "#4b2dd1",
-        least: "#5736e6",
+        main: "#5125BC",
+        least: "#6429E2",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         background: "hsl(var(--background))",
