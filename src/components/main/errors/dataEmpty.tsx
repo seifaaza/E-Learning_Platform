@@ -7,14 +7,16 @@ interface EmptyDataProps {
 
 const EmptyData: React.FC<EmptyDataProps> = ({ imgSrc, text }) => {
   return (
-    <article className="px-4 mx-auto max-w-screen-sm flex flex-col items-center gap-8 my-10 md:my-16 lg:my-20">
-      <img
-        src={imgSrc}
-        alt="Empty data"
-        className="h-64 md:h-72 lg:h-80 xl:h-96"
-      />
-      <p className="text-main max-w-md !text-center">{text}</p>
-    </article>
+    <div className="w-full h-[calc(100vh-124px)]">
+      <div className="flex flex-col justify-center items-center gap-6 md:gap-8 h-full">
+        <img
+          src={imgSrc}
+          alt="Empty data"
+          className="h-44 md:h-52 lg:h-64 xl:h-72"
+        />
+        <p className="text-main max-w-xs md:max-w-md !text-center">{text}</p>
+      </div>
+    </div>
   );
 };
 

@@ -4,8 +4,8 @@ import TestsList from "./testsList";
 
 const Tests: React.FC = () => {
   return (
-    <section className="bg-blue-50 min-h-[100vh]">
-      <article className="container px-3 pt-4 pb-14">
+    <section className="bg-blue-50">
+      <article className="container px-3 pt-4 pb-14 min-h-[calc(100vh-56px)]">
         <Suspense fallback={<CoursesListLoader count={12} />}>
           <TestsList />
         </Suspense>
