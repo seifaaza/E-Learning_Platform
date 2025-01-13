@@ -12,7 +12,7 @@ const Learning: React.FC<LearningProps> = ({ params: { username } }) => {
     <section className="bg-blue-50">
       <article className="container px-3 pt-4 pb-14 min-h-[calc(100vh-56px)]">
         <EmptyData
-          imgSrc="/no-started.svg"
+          imgSrc="/no-learning.svg"
           text="Oops! Your learning progress is empty. Start a course or take a test to begin tracking your achievements!"
         />
       </article>
