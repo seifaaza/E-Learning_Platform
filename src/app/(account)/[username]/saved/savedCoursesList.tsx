@@ -10,7 +10,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import UnsaveCourseButton from "./actions/unsaveCourseButton";
-import { BsArrowRight, BsThreeDotsVertical } from "react-icons/bs";
+import {
+  BsArrowRight,
+  BsBookmarkCheckFill,
+  BsThreeDotsVertical,
+} from "react-icons/bs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import CoursesListLoader from "@/components/main/loaders/coursesListLoader";
@@ -55,43 +59,49 @@ const SavedCoursesList = ({ username }: SavedCoursesListProps) => {
   return (
     <>
       {savedCourses.length > 0 ? (
-        <ul className="mt-4 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {savedCourses.map((item) => (
-            <Card
-              key={item._id}
-              thumbnail={item.thumbnail}
-              title={item.title}
-              btn={
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="ghost" className="!p-0 cursor-pointer">
-                      <BsThreeDotsVertical className="text-xl text-main " />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-fit">
-                    <ul className="flex flex-col gap-3">
-                      <UnsaveCourseButton
-                        courseId={item._id}
-                        username={username}
-                        mutate={mutate} // Pass mutate function here
-                      />
-                      <Link href={`/courses/${item._id}`}>
-                        <Button
-                          variant="link"
-                          className="!pl-[.65rem] hover:!no-underline hover:!bg-main hover:!text-white "
-                        >
-                          <BsArrowRight className="mr-2 h-4" />
-                          Go To Course
-                        </Button>
-                      </Link>
-                    </ul>
-                  </PopoverContent>
-                </Popover>
-              }
-              link={false}
-            />
-          ))}
-        </ul>
+        <>
+          <ul className="flex lg:items-center gap-[.6rem] mt-4 ml-4">
+            <BsBookmarkCheckFill className="text-gray-700 mt-1 lg:mt-[1px] text-sm" />
+            <p className="text-gray-700 text-base">Your Saved Courses</p>
+          </ul>
+          <ul className="mt-4 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            {savedCourses.map((item) => (
+              <Card
+                key={item._id}
+                thumbnail={item.thumbnail}
+                title={item.title}
+                btn={
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" className="!p-0 cursor-pointer">
+                        <BsThreeDotsVertical className="text-xl text-main " />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-fit">
+                      <ul className="flex flex-col gap-3">
+                        <UnsaveCourseButton
+                          courseId={item._id}
+                          username={username}
+                          mutate={mutate} // Pass mutate function here
+                        />
+                        <Link href={`/courses/${item._id}`}>
+                          <Button
+                            variant="link"
+                            className="!pl-[.65rem] hover:!no-underline hover:!bg-main hover:!text-white "
+                          >
+                            <BsArrowRight className="mr-2 h-4" />
+                            Go To Course
+                          </Button>
+                        </Link>
+                      </ul>
+                    </PopoverContent>
+                  </Popover>
+                }
+                link={false}
+              />
+            ))}
+          </ul>
+        </>
       ) : (
         <EmptyData
           imgSrc="/no-saved.svg"
