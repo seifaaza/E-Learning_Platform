@@ -44,7 +44,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
     };
 
     fetchSavedCourses();
-  }, [status, username, courseId]);
+  }, [status, username, courseId, toast]);
 
   const handleSaveCourse = async () => {
     setIsProcessing(true);

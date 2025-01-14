@@ -1,7 +1,7 @@
 import React from "react";
 import { Separator } from "@radix-ui/react-separator";
 import axios from "axios";
-import { notFound } from "next/navigation";
+
 import CourseInfoHeader from "./courseInfoHeader";
 import CourseInfoBody from "./courseInfoBody";
 import CourseInfoFooter from "./courseInfoFooter";
@@ -22,7 +22,7 @@ const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
         error.response &&
         (error.response.status === 404 || error.response.status === 500)
       ) {
-        notFound();
+        error();
       } else {
         throw error;
       }
@@ -30,10 +30,6 @@ const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
   };
 
   const course = await fetchCourseById(courseId);
-
-  if (!course) {
-    notFound();
-  }
 
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {

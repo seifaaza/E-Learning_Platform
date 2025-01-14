@@ -2,7 +2,6 @@ import axios from "axios";
 import Link from "next/link";
 import Card from "@/components/main/card/page";
 import DataNotFound from "@/components/main/errors/dataNotFound";
-import { notFound } from "next/navigation";
 
 interface Course {
   _id: string;
@@ -34,7 +33,7 @@ const CoursesList = async () => {
       error.response &&
       (error.response.status === 404 || error.response.status === 500)
     ) {
-      notFound();
+      error();
     } else {
       throw error;
     }
