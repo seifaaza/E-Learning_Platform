@@ -7,7 +7,7 @@ const Preloader: React.FC = () => {
       <div className="loader w-40 h-44 flex gap-6 flex-col items-center ">
         <div className="flex justify-center items-center gap-2">
           <Logo className="h-7 " />
-          <span className="text-white text-3xl xl:text-4xl font-black">
+          <span className="text-white text-3xl xl:text-4xl font-black selection:!bg-transparent">
             Learnify
           </span>
         </div>
