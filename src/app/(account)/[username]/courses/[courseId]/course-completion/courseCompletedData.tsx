@@ -44,7 +44,7 @@ const CourseCompletedData: React.FC<CourseCompletedDataProps> = ({
     };
 
     fetchCourseData();
-  }, [username, courseId, router]);
+  }, [username, courseId, router, toast]);
 
   if (loading) {
     return <CompletedCourseLoader />;
