@@ -2,7 +2,6 @@
 
 import { Separator } from "@radix-ui/react-separator";
 import CourseRating from "./courseRating";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import CourseCompletedData from "./courseCompletedData";
 import { mainStore } from "@/store/mainStore";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";

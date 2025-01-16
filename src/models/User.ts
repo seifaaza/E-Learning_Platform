@@ -22,8 +22,8 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
   ],
   completedCourses: [
     {
-      course: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
-      created_at: { type: Date, default: Date.now },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CompletedCourse",
     },
   ],
   courseProgresses: [

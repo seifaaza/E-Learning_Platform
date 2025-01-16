@@ -67,17 +67,17 @@ const CourseRating: React.FC<CourseRatingProps> = ({ username, courseId }) => {
       >
         {isSubmitted ? (
           <>
-            Sent
+            Rated
             <BsCheck2 className="ml-2 h-4" />
           </>
         ) : loading ? (
           <>
-            Submitting...
+            Rating...
             <Loader2 className="ml-2 h-4 animate-spin" />
           </>
         ) : (
           <>
-            Submit
+            Rate
             <BsFillSendFill className="ml-2 h-4" />
           </>
         )}
