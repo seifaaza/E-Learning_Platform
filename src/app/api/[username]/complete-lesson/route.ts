@@ -59,7 +59,7 @@ export async function GET(
 
     return NextResponse.json({
       completedLessonIds,
-      isCertified: course.isCertified,
+      isCertified: course.test !== null,
     });
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });
@@ -85,6 +85,7 @@ export async function PUT(
       );
     }
 
+    // Convert IDs to ObjectId
     const courseObjectId = new mongoose.Types.ObjectId(courseId);
     const lessonObjectId = new mongoose.Types.ObjectId(lessonId);
 
@@ -130,18 +131,23 @@ export async function PUT(
       });
     }
 
+    // Ensure `completedLessons` is an array of ObjectIds
+    const completedLessons = courseProgress.completedLessons.map(
+      (id) => new mongoose.Types.ObjectId(id)
+    );
+
     // Add lesson to completedLessons if not already present
-    if (!courseProgress.completedLessons.includes(lessonObjectId)) {
+    if (!completedLessons.some((id) => id.equals(lessonObjectId))) {
       courseProgress.completedLessons.push(lessonObjectId);
 
       // Calculate the progress percentage
       const totalLessons = course.lessons.length;
-      const completedLessons = courseProgress.completedLessons.length || 0;
+      const updatedCompletedLessons = courseProgress.completedLessons.length;
 
       // Determine the max progress based on course certification
-      const maxProgress = course.isCertified ? 80 : 99;
+      const maxProgress = course.test ? 80 : 99;
       const progressPercentage = Math.trunc(
-        (completedLessons / totalLessons) * maxProgress
+        (updatedCompletedLessons / totalLessons) * maxProgress
       );
 
       // Update the progressPercentage

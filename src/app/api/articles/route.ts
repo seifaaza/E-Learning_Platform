@@ -11,10 +11,7 @@ export async function GET() {
 
     if (articles.length === 0) {
       // If no articles are found, return a 404 response with a message
-      return NextResponse.json(
-        { errorMsg: "articles list is empty" },
-        { status: 404 }
-      );
+      return NextResponse.json({ articles: [] });
     }
 
     // If articles are found, return them with a 200 status

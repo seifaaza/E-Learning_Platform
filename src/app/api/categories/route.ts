@@ -11,11 +11,7 @@ export async function GET() {
     const categories = await Category.find({}).exec();
 
     if (categories.length === 0) {
-      // If no categories are found, return a 404 response with a message
-      return NextResponse.json(
-        { errorMsg: "Categories list is empty" },
-        { status: 404 }
-      );
+      return NextResponse.json({ categories: [] });
     }
 
     // If categories are found, return them with a 200 status

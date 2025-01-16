@@ -72,7 +72,7 @@ const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
         totalLessons={course.lessonsTitles.length}
         totalArticles={course.totalArticles}
         totalTopics={course.totalTopics}
-        quiz={course.isCertified}
+        quiz={course.test ? true : false}
       />
     </section>
   );

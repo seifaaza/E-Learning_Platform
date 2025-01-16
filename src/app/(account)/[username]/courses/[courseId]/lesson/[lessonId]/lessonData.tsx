@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import axios from "axios";
 import LessonPlayer from "./lessonPlayer";
 import CancelCourseButton from "./actions/cancelCourseButton";
@@ -35,7 +34,7 @@ const LessonData: React.FC<LessonDataProps> = async ({
           error.response.status === 404 ||
           error.response.status === 500)
       ) {
-        notFound();
+        error();
       } else {
         throw error;
       }

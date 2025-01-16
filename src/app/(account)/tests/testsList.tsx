@@ -27,18 +27,7 @@ const TestsList = async () => {
   return (
     <>
       {tests && tests.length > 0 ? (
-        <ul className="mt-4 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {tests.map((item) => (
-            <Link key={item.title} href={`/courses/${item._id}`}>
-              <Card
-                thumbnail={item.thumbnail}
-                title={item.title}
-                averageRating={item.averageRating}
-                isCertified={item.isCertified}
-              />
-            </Link>
-          ))}
-        </ul>
+        <ul className="mt-4 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"></ul>
       ) : (
         dataNotFound
       )}

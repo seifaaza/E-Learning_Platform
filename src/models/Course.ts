@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { ICategory } from "./Category";
 import { ILesson } from "./Lesson";
+import { ITest } from "./Test";
 
 // Define the Rating interface
 export interface IRating {
@@ -23,7 +24,7 @@ export interface ICourse extends Document {
   updated_at: Date;
   ratings: IRating[]; // Array of ratings
   averageRating?: number;
-  isCertified: boolean;
+  test: ITest | mongoose.Types.ObjectId | null;
 }
 
 // Define the Course schema
@@ -61,9 +62,11 @@ const courseSchema: Schema<ICourse> = new mongoose.Schema({
     },
   ],
   averageRating: { type: Number, default: 0 },
-  isCertified: {
-    type: Boolean,
-    default: false,
+
+  test: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Test",
+    default: null,
   },
 });
 

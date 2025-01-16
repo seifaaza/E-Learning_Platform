@@ -172,6 +172,9 @@ export async function PUT(
   }
 
   try {
+    // Convert courseId to ObjectId
+    const courseObjectId = new mongoose.Types.ObjectId(courseId);
+
     // Find the user by username to get the user's ObjectId
     const user = await User.findOne({ username });
 
@@ -184,7 +187,7 @@ export async function PUT(
     // Fetch the user's progress for the specific course
     const courseProgress = await CourseProgress.findOne({
       userId,
-      courseId,
+      courseId: courseObjectId, // Use the converted ObjectId
     });
 
     if (!courseProgress) {
@@ -203,7 +206,7 @@ export async function PUT(
         { _id: userId },
         {
           $pull: { courseProgresses: courseProgress._id },
-          $addToSet: { completedCourses: courseId },
+          $addToSet: { completedCourses: courseObjectId }, // Use the ObjectId
         }
       );
 

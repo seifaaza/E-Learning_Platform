@@ -87,14 +87,14 @@ export async function GET(
       language: course.language,
       source: course.source,
       creator: course.creator,
-      isCertified: course.isCertified,
+      isCertified: course.test ? true : false,
       objectives: course.objectives,
       created_at: course.created_at,
       firstLessonId: lessons[0]?._id || null,
       lessonsTitles: lessons.map((lesson) => lesson.title),
       totalArticles,
       totalTopics,
-      categoryName: category.name, // Use the asserted type
+      categoryName: category.name,
     };
 
     return NextResponse.json(courseResponse, {
@@ -106,6 +106,8 @@ export async function GET(
       },
     });
   } catch (error: any) {
-    return NextResponse.json({ errorMsg: error.message }, { status: 500 });
+    console.log(error);
+
+    return NextResponse.json({ errorMsg: error }, { status: 500 });
   }
 }
