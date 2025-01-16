@@ -4,6 +4,7 @@ import Course from "@/models/Course";
 import CourseProgress from "@/models/CourseProgress";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
+import CompletedCourse from "@/models/CompletedCourse";
 
 export async function PUT(
   request: Request,
@@ -15,65 +16,87 @@ export async function PUT(
   const url = new URL(request.url);
   const courseId = url.searchParams.get("courseId");
 
+  if (!courseId || !username) {
+    return NextResponse.json(
+      { errorMsg: "Course ID or username is missing" },
+      { status: 400 }
+    );
+  }
+
+  let courseObjectId: mongoose.Types.ObjectId;
   try {
-    if (!courseId || !username) {
-      return NextResponse.json(
-        { errorMsg: "Course ID or username is missing" },
-        { status: 400 }
-      );
-    }
+    courseObjectId = new mongoose.Types.ObjectId(courseId);
+  } catch (err) {
+    return NextResponse.json(
+      { errorMsg: "Invalid course ID format" },
+      { status: 400 }
+    );
+  }
 
-    let courseObjectId;
-    try {
-      courseObjectId = new mongoose.Types.ObjectId(courseId);
-    } catch (err) {
-      return NextResponse.json(
-        { errorMsg: "Invalid course ID format" },
-        { status: 400 }
-      );
-    }
-
-    const user = await User.findOne({ username });
-
+  try {
+    // Find the user
+    const user = await User.findOne({ username }).exec();
     if (!user) {
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
     }
 
-    // Check if the course exists in completedCourses
-    if (!user.completedCourses.includes(courseObjectId)) {
+    const userId = user._id as mongoose.Types.ObjectId;
+
+    console.log("User found:", user);
+
+    // Check if the course is in the completedCourses collection
+    const completedCourse = await CompletedCourse.findOne({
+      courseId: courseObjectId,
+      userId: userId,
+    }).exec();
+
+    if (!completedCourse) {
       return NextResponse.json(
-        { errorMsg: "Course is not completed" },
-        { status: 400 }
+        { errorMsg: "Course is not completed or does not exist" },
+        { status: 404 }
       );
     }
 
-    // Remove the course from completedCourses
-    user.completedCourses = user.completedCourses.filter(
-      (course) => !course.equals(courseObjectId as mongoose.Types.ObjectId)
-    );
+    console.log("Completed course found:", completedCourse);
 
-    // Remove the course progress entry if it exists
-    const existingProgress = await CourseProgress.findOne({
+    // Remove course from CompletedCourse collection
+    const deleteResult = await CompletedCourse.deleteOne({
       courseId: courseObjectId,
-      userId: user._id,
+      userId: userId,
     });
 
-    if (existingProgress) {
-      // Delete the CourseProgress entry
-      await CourseProgress.deleteOne({
-        courseId: courseObjectId,
-        userId: user._id as mongoose.Types.ObjectId,
-      });
-
-      // Remove the reference from the user's courseProgresses array
-      user.courseProgresses = user.courseProgresses.filter(
-        (progress) =>
-          !progress.equals(existingProgress._id as mongoose.Types.ObjectId)
-      );
+    if (deleteResult.deletedCount === 0) {
+      console.error("Course deletion failed: No document was deleted");
+    } else {
+      console.log("Course removed from CompletedCourse:", courseId);
     }
 
-    // Remove the user's rating from the course
-    const course = await Course.findById(courseObjectId);
+    // Remove the course from the completedCourses array in User model
+    const originalCompletedCourses = user.completedCourses;
+    user.completedCourses = user.completedCourses.filter(
+      (courseId) => !courseId.equals(courseObjectId)
+    );
+
+    console.log("Completed courses before update:", originalCompletedCourses);
+    console.log("Completed courses after update:", user.completedCourses);
+
+    // Save the user after updating completedCourses
+    await user.save();
+
+    // Remove progress for the course from CourseProgress
+    const existingProgress = await CourseProgress.findOne({
+      courseId: courseObjectId,
+      userId: userId,
+    }).exec();
+
+    if (existingProgress) {
+      // Delete the progress entry from CourseProgress
+      await existingProgress.deleteOne();
+      console.log("Progress entry deleted for course:", courseId);
+    }
+
+    // Find the course and remove the user's rating
+    const course = await Course.findById(courseObjectId).exec();
     if (!course) {
       return NextResponse.json(
         { errorMsg: "Course not found" },
@@ -81,51 +104,49 @@ export async function PUT(
       );
     }
 
-    // Remove the user's rating from the ratings array
+    // Remove user's rating for the course
     course.ratings = course.ratings.filter(
-      (rating) => !rating.user.equals(user._id as mongoose.Types.ObjectId)
+      (rating) => !rating.user.equals(userId)
     );
 
-    // Recalculate the average rating
+    // Recalculate average rating
     if (course.ratings.length > 0) {
       const totalRating = course.ratings.reduce(
         (sum, rating) => sum + rating.rating,
         0
       );
-      const avgRating = totalRating / course.ratings.length;
-      course.averageRating = Math.round(avgRating * 2) / 2; // Round to nearest 0.5
+      course.averageRating =
+        Math.round((totalRating / course.ratings.length) * 2) / 2;
     } else {
-      course.averageRating = 0;
+      course.averageRating = 0; // If no ratings, set average rating to 0
     }
 
-    // Initialize the course progress for this user
+    // Save the updated course after removing ratings and updating average rating
+    await course.save();
+
+    // Create a new progress entry for the user
     const progressEntry = new CourseProgress({
       courseId: courseObjectId,
-      userId: user._id,
+      userId: userId,
       totalLessons: course.lessons.length,
       completedLessons: [],
-      progressPercentage: 0, // Initialize progressPercentage to 0
+      progressPercentage: 0,
     });
 
-    // Save the course progress entry
     await progressEntry.save();
 
-    // Type assertion to ensure _id is treated as ObjectId
-    const progressEntryId = progressEntry._id as mongoose.Types.ObjectId;
+    // Add the new progress entry to the user's courseProgresses
+    user.courseProgresses.push(progressEntry._id as mongoose.Types.ObjectId);
 
-    // Add the reference to the user's courseProgresses array
-    user.courseProgresses.push(progressEntryId);
-
-    await course.save();
+    // Save the user after adding new progress entry
     await user.save();
 
     return NextResponse.json(
-      {
-        message: "Course restarted successfully",
-      },
+      { message: "Course restarted successfully" },
       { status: 200 }
     );
   } catch (error: any) {
+    console.error("Error restarting course:", error);
     return NextResponse.json(
       { errorMsg: "Internal server error" },
       { status: 500 }
