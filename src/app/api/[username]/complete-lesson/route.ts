@@ -145,10 +145,7 @@ export async function PUT(
       const updatedCompletedLessons = courseProgress.completedLessons.length;
 
       // Determine the max progress based on course certification
-      const maxProgress =
-        !course.test || (typeof course.test === "string" && course.test === "")
-          ? 80
-          : 99;
+      const maxProgress = course.test === null ? 99 : 80;
 
       const progressPercentage = Math.trunc(
         (updatedCompletedLessons / totalLessons) * maxProgress

@@ -24,10 +24,16 @@ export async function GET(
       );
     }
 
-    const user = await User.findOne({ username }).populate({
-      path: "courseProgresses",
-      model: "CourseProgress",
-    });
+    const user = await User.findOne({ username })
+      .populate({
+        path: "courseProgresses",
+        model: "CourseProgress",
+      })
+      .populate({
+        path: "completedCourses",
+        model: "CompletedCourse", // Populating to get complete course info
+      })
+      .lean(); // Using .lean() for more efficient data access
 
     if (!user) {
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
@@ -41,8 +47,9 @@ export async function GET(
     );
 
     const isStarted = !!progress;
+    // Check if the course is completed by comparing ObjectIds
     const isCompleted = user.completedCourses.some((completed: any) =>
-      completed.equals(courseObjectId)
+      completed.courseId.equals(courseObjectId)
     );
 
     if (isCompleted) {
