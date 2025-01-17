@@ -42,8 +42,6 @@ export async function PUT(
 
     const userId = user._id as mongoose.Types.ObjectId;
 
-    console.log("User found:", user);
-
     // Check if the course is in the completedCourses collection
     const completedCourse = await CompletedCourse.findOne({
       courseId: courseObjectId,
@@ -56,8 +54,6 @@ export async function PUT(
         { status: 404 }
       );
     }
-
-    console.log("Completed course found:", completedCourse);
 
     // Remove course from CompletedCourse collection
     const deleteResult = await CompletedCourse.deleteOne({
@@ -76,9 +72,6 @@ export async function PUT(
     user.completedCourses = user.completedCourses.filter(
       (courseId) => !courseId.equals(courseObjectId)
     );
-
-    console.log("Completed courses before update:", originalCompletedCourses);
-    console.log("Completed courses after update:", user.completedCourses);
 
     // Save the user after updating completedCourses
     await user.save();

@@ -31,7 +31,6 @@ interface StartedCoursesListProps {
 
 const fetchStartedCourses = async (url: string) => {
   const response = await axios.get<StartedCourse[]>(url);
-  console.log(response.data);
   return response.data;
 };
 

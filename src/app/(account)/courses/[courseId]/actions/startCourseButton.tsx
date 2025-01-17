@@ -37,6 +37,8 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
         const completionResponse = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/complete-course?courseId=${courseId}`
         );
+        console.log(completionResponse);
+
         setIsCompleted(completionResponse.data.isCompleted);
         if (completionResponse.data.isStarted) {
           setIsStarted(true);
@@ -56,7 +58,7 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
       }
     };
     checkCourseCompletion();
-  }, [username, courseId, toast]);
+  }, [username, courseId]);
 
   const handleStartCourse = async () => {
     setIsProcessing(true);
