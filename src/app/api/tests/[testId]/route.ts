@@ -14,7 +14,7 @@ export async function GET(
 
   try {
     await Question.init();
-    // Find the test by ID
+    // Find the test by ID and populate questions
     const test = await Test.findById(testId).populate("questions");
 
     if (!test) {
@@ -24,6 +24,10 @@ export async function GET(
       );
     }
 
+    // Extract the first question ID if available
+    const firstQuestionId =
+      test.questions.length > 0 ? test.questions[0]._id : null;
+
     // Extract required fields
     const responseData = {
       title: test.title,
@@ -32,10 +36,12 @@ export async function GET(
       source: test.source,
       language: test.language,
       objectives: test.objectives,
+      topics: test.topics,
       time: test.time,
       passingScore: test.passingScore,
       createdAt: test.created_at,
       numberOfQuestions: test.questions.length,
+      firstQuestionId, // Add first question ID here
     };
 
     // Return the test details

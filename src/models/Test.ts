@@ -7,6 +7,7 @@ export interface ITest extends Document {
   source: string;
   language?: string;
   objectives: string[];
+  topics: string[];
   time: string;
   questions: mongoose.Types.ObjectId[];
   passingScore: number;
@@ -21,6 +22,7 @@ const testSchema: Schema<ITest> = new mongoose.Schema({
   source: { type: String },
   language: { type: String },
   objectives: { type: [String], default: [] },
+  topics: { type: [String], default: [] },
   time: { type: String },
   questions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Question" }],
   passingScore: { type: Number, required: true, min: 0, max: 100 },
