@@ -12,7 +12,7 @@ const TestsListLoader: React.FC<TestsListLoaderProps> = ({ count = 1 }) => {
         <ul key={index} className="flex gap-4 xl:gap-5 ">
           <Skeleton
             key={index}
-            className="aspect-square h-36 w-36 object-cover rounded-lg bg-main/10 even:delay-500"
+            className="aspect-square h-32 w-32 object-cover rounded-lg bg-main/10 even:delay-500"
           />
           <li className="flex flex-col gap-4 w-full">
             <Skeleton className="w-3/4 h-5 bg-main/10" />

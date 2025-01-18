@@ -40,7 +40,7 @@ const Card: React.FC<CardProps> = ({
           : ""
       }`}
     >
-      <article className={`relative min-w-fit ${miniCard && "h-32"} `}>
+      <article className={`relative min-w-fit ${miniCard && "h-32 w-32"} `}>
         <img
           // src={`https://res.cloudinary.com/depztpide/image/upload/${thumbnail}`}
           src={`https://media.istockphoto.com/id/461863313/vector/blue-geometrical-mosaic-background.jpg?s=612x612&w=0&k=20&c=xwIMaK-eNrqy49rOE1IEGFrUGeHMKK9W9XOxMfah2m4=`}
