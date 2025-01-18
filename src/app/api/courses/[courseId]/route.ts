@@ -5,6 +5,7 @@ import Category, { ICategory } from "@/models/Category";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import Article from "@/models/Article";
+import CompletedCourse from "@/models/CompletedCourse";
 
 type Article = {
   _id: mongoose.Types.ObjectId;
@@ -78,6 +79,11 @@ export async function GET(
       0
     );
 
+    // Count achievers
+    const achieversCount = await CompletedCourse.countDocuments({
+      courseId: courseObjectId,
+    });
+
     const courseResponse = {
       _id: course._id,
       title: course.title,
@@ -88,6 +94,7 @@ export async function GET(
       source: course.source,
       creator: course.creator,
       isCertified: course.test ? true : false,
+      achieversCount,
       objectives: course.objectives,
       created_at: course.created_at,
       firstLessonId: lessons[0]?._id || null,

@@ -11,6 +11,7 @@ interface Course {
   lessonsCount: number;
   averageRating: number;
   isCertified: boolean;
+  achieversCount: number;
 }
 
 const CoursesList = async () => {
@@ -50,6 +51,7 @@ const CoursesList = async () => {
                 title={item.title}
                 averageRating={item.averageRating}
                 isCertified={item.isCertified}
+                achieversCount={item.achieversCount}
               />
             </Link>
           ))}

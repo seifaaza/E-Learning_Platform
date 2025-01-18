@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     const skip = (page - 1) * limit;
 
     // Get all tests with pagination
-    const tests = await Test.find({}, "title thumbnail source createdAt")
+    const tests = await Test.find({}, "title thumbnail time")
       .sort({ createdAt: -1 }) // Sort by most recent
       .skip(skip)
       .limit(limit);
@@ -31,9 +31,9 @@ export async function GET(request: Request) {
       totalPages,
       totalTests,
       tests: tests.map((test) => ({
+        id: test._id,
         title: test.title,
-        thumbnail: test.thumbnail, // Assuming `thumbnail` exists in the Test schema
-        source: test.source,
+        thumbnail: test.thumbnail,
         time: test.time,
       })),
     };

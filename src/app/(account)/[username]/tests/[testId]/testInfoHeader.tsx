@@ -4,8 +4,10 @@ import {
   BsCalendarCheck,
   BsCollection,
   BsGlobe,
+  BsMortarboard,
   BsPatchCheck,
-  BsPerson,
+  BsQuestionCircle,
+  BsStopwatch,
 } from "react-icons/bs";
 import { Separator } from "@radix-ui/react-separator";
 import StartTestButton from "./actions/startTestButton";
@@ -23,6 +25,7 @@ interface TestInfoHeaderProps {
   passingScore: number;
   numberOfQuestions: number;
   firstQuestionId: string;
+  achieversNumber: number;
 }
 
 export default function TestInfoHeader({
@@ -37,6 +40,7 @@ export default function TestInfoHeader({
   numberOfQuestions,
   passingScore,
   firstQuestionId,
+  achieversNumber,
 }: TestInfoHeaderProps) {
   return (
     <>
@@ -53,15 +57,11 @@ export default function TestInfoHeader({
             {title}
           </h2>
           <article className="flex flex-col gap-1">
-            <h5 className="text-gray-900 font-medium">About This Test</h5>
+            <h5 className="text-gray-900 font-medium">About This Test :</h5>
             <h6 className="text-gray-700 max-w-xl">{description}</h6>
           </article>
-          <h6 className="text-gray-900 font-medium flex gap-2">
-            <BsPatchCheck className="h-6" />
-            Certificate of completion
-          </h6>
 
-          <ul className="mt-2 flex flex-wrap items-center gap-4">
+          <ul className="flex flex-wrap items-center gap-4">
             <li className="flex items-center gap-2 text-gray-900">
               <BsGlobe className="h-[.9rem] pt-[1px]" />
               <h6 className="text-gray-900 !text-sm capitalize">{language}</h6>
@@ -75,16 +75,30 @@ export default function TestInfoHeader({
               <h6 className="text-gray-900 !text-sm capitalize">{source}</h6>
             </li>
             <li className="flex items-center gap-[.4rem] text-gray-900">
-              <BsPerson className="h-[.9rem] pt-[1px]" />
+              <BsStopwatch className="h-[.9rem] pt-[1px]" />
               <h6 className="text-gray-900 !text-sm capitalize">{time}</h6>
             </li>
             <li className="flex items-center gap-[.4rem] text-gray-900">
-              <BsPerson className="h-[.9rem] pt-[1px]" />
+              <BsQuestionCircle className="h-[.9rem] pt-[1px]" />
               <h6 className="text-gray-900 !text-sm capitalize">
                 {numberOfQuestions} Questions
               </h6>
             </li>
           </ul>
+          <li className="flex items-center gap-4 xl:gap-6 mt-2">
+            <h6 className="text-gray-900 font-medium flex gap-2">
+              <BsPatchCheck className="h-6" />
+              Certificate of completion
+            </h6>
+            <Separator
+              orientation="horizontal"
+              className="w-[1px] h-5 bg-gray-800 opacity-30"
+            />
+            <h6 className="text-gray-900 font-medium flex gap-2">
+              <BsMortarboard className="h-6" />
+              {achieversNumber} Achievers
+            </h6>
+          </li>
         </li>
         <li className="-order-1 sm:order-none ml-auto self-start ">
           <StartTestButton

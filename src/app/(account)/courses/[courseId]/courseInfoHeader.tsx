@@ -5,11 +5,13 @@ import {
   BsCollection,
   BsGlobe,
   BsPerson,
+  BsMortarboard,
 } from "react-icons/bs";
 
 import StartCourseButton from "./actions/startCourseButton";
 import { CommentRatings } from "@/components/main/rating";
 import SaveCourseButton from "./actions/saveCourseButton";
+import { Separator } from "@radix-ui/react-separator";
 
 interface CourseInfoHeaderProps {
   firstLessonId: string;
@@ -19,6 +21,7 @@ interface CourseInfoHeaderProps {
   rating: number;
   description: string;
   isCertified: boolean;
+  achieversCount: number;
   language: string;
   createdAt: string;
   source: string;
@@ -34,6 +37,7 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
   rating,
   description,
   isCertified,
+  achieversCount,
   language,
   createdAt,
   source,
@@ -72,21 +76,31 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
           {title}
         </h2>
         <article className="flex flex-col gap-1">
-          <h5 className="text-gray-900 font-medium">About This Course</h5>
+          <h5 className="text-gray-900 font-medium">About This Course :</h5>
           <h6 className="text-gray-700 max-w-xl">{description}</h6>
         </article>
         <CommentRatings rating={rating} ratingNumber />
         {isCertified ? (
-          <h6 className="text-gray-900 font-medium flex gap-2">
-            <BsPatchCheck className="h-6" />
-            Certificate of completion
-          </h6>
+          <li className="flex items-center gap-4 xl:gap-6">
+            <h6 className="text-gray-900 font-medium flex gap-2">
+              <BsPatchCheck className="h-6" />
+              Certificate of completion
+            </h6>
+            <Separator
+              orientation="horizontal"
+              className="w-[1px] h-5 bg-gray-800 opacity-30"
+            />
+            <h6 className="text-gray-900 font-medium flex gap-2">
+              <BsMortarboard className="h-6" />
+              {achieversCount} Achievers
+            </h6>
+          </li>
         ) : (
           <h6 className="text-gray-900 font-medium flex gap-2">
             <BsPatchExclamation className="h-6" />
             Without Certificate
           </h6>
-        )}{" "}
+        )}
         <ul className="flex gap-4 mt-2">
           <StartCourseButton courseId={courseId} lessonId={firstLessonId} />
           <SaveCourseButton courseId={courseId} />

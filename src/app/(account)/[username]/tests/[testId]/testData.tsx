@@ -52,6 +52,7 @@ const TestData: React.FC<TestDataProps> = async ({ testId }) => {
         passingScore={test.passingScore}
         numberOfQuestions={test.numberOfQuestions}
         firstQuestionId={test.firstQuestionId}
+        achieversNumber={10}
       />
       <Separator
         orientation="vertical"

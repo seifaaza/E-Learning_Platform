@@ -1,4 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
+import CompletedCourse from "@/models/CompletedCourse";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
 import { NextResponse } from "next/server";
@@ -10,32 +11,36 @@ export async function GET() {
   try {
     await Lesson.init();
 
-    // Find all courses and ensure fresh data by using .lean()
+    // Find all courses
     const courses = await Course.find({})
       .select("title thumbnail averageRating test")
-      .lean(); // Use lean to get raw JavaScript objects and avoid Mongoose's internal caching
+      .lean();
 
     if (courses.length === 0) {
-      // If no courses are found, return a 404 response with a message
       return NextResponse.json(
         { errorMsg: "Courses list is empty" },
         { status: 404 }
       );
     }
 
-    // Extract the course details including average rating
-    const coursesWithDetails = courses.map((course) => {
-      // Return course details including average rating
-      return {
-        _id: course._id,
-        title: course.title,
-        thumbnail: course.thumbnail,
-        averageRating: course.averageRating,
-        isCertified: course.test ? true : false,
-      };
-    });
+    // Map through courses and calculate achievers count for each
+    const coursesWithDetails = await Promise.all(
+      courses.map(async (course) => {
+        const achieversCount = await CompletedCourse.countDocuments({
+          courseId: course._id,
+        });
 
-    // Return the courses with details and force no caching
+        return {
+          _id: course._id,
+          title: course.title,
+          thumbnail: course.thumbnail,
+          averageRating: course.averageRating,
+          isCertified: !!course.test, // Convert to boolean
+          achieversCount,
+        };
+      })
+    );
+
     return NextResponse.json(coursesWithDetails, {
       headers: {
         "Cache-Control":
@@ -45,7 +50,6 @@ export async function GET() {
       },
     });
   } catch (error) {
-    // Handle any errors that occur
     if (error instanceof Error) {
       return NextResponse.json({ errorMsg: error.message }, { status: 500 });
     }

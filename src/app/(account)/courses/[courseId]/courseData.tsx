@@ -49,6 +49,7 @@ const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
         rating={course.averageRating}
         description={course.description}
         isCertified={course.isCertified}
+        achieversCount={course.achieversCount}
         language={course.language}
         createdAt={formatDate(course.created_at)}
         source={course.source}
