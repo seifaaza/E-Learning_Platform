@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { ICategory } from "./Category";
-import { ILesson } from "./Lesson";
 import { ITest } from "./Test";
 
 // Define the Rating interface

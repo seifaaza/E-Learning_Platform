@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(account)/[username]/courses/[courseId]/loading.tsx", "src/components/main/navbar/auth/page.tsx", "src/models/Test.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(account)/[username]/courses/[courseId]/loading.tsx", "src/components/main/navbar/auth/page.tsx", "src/models/Test.js", "src/app/api/tests/[testId]/route.js", "src/app/api/tests/route.js"],
   "exclude": ["node_modules"]
 }
