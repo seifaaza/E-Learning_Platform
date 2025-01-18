@@ -44,22 +44,20 @@ const TestData: React.FC<TestDataProps> = async ({ testId }) => {
         testId={testId}
         title={test.title}
         thumbnail={test.thumbnail}
+        description={test.description}
         time={test.time}
         source={test.source}
         language={test.language}
         createdAt={formatDate(test.created_at)}
+        passingScore={test.passingScore}
+        numberOfQuestions={test.numberOfQuestions}
         firstQuestionId={test.firstQuestionId}
       />
       <Separator
         orientation="vertical"
         className="h-[1px] bg-gray-800 opacity-20 my-10"
       />
-      <TestInfoBody
-        objectives={test.objectives}
-        topics={test.topics}
-        description={test.description}
-        passingScore={test.passingScore}
-      />
+      <TestInfoBody objectives={test.objectives} topics={test.topics} />
     </section>
   );
 };
