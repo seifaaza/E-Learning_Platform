@@ -60,6 +60,7 @@ export async function GET(
     return NextResponse.json({
       completedLessonIds,
       isCertified: course.test !== null,
+      test: course.test,
     });
   } catch (error: any) {
     return NextResponse.json({ errorMsg: error.message }, { status: 500 });

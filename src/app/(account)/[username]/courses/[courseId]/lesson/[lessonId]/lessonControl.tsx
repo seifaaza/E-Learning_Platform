@@ -31,7 +31,7 @@ const LessonControl: React.FC<LessonControlProps> = ({
   const setLoading = lessonStore((state) => state.setLoading);
   const [isCertified, setIsCertified] = useState<boolean>(false);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
-
+  const [testId, setTestId] = useState<string>("");
   useEffect(() => {
     if (!lessonIds || lessonIds.length === 0) {
       notFound();
@@ -45,6 +45,7 @@ const LessonControl: React.FC<LessonControlProps> = ({
         );
         const completedLessonIds = response.data.completedLessonIds;
         setIsCertified(response.data.isCertified);
+        response.data.isCertified && setTestId(response.data.test);
 
         completedLessonIds.forEach((id: string) => {
           lessonStore.getState().markLessonComplete(id);
@@ -104,7 +105,7 @@ const LessonControl: React.FC<LessonControlProps> = ({
         <GoToQuizButton
           isNextDisabled={isNextDisabled}
           username={username}
-          testId={"testId"}
+          testId={testId}
         />
       ) : (
         <FinishCourseButton
