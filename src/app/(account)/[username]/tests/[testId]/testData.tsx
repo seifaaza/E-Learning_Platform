@@ -48,7 +48,7 @@ const TestData: React.FC<TestDataProps> = async ({ testId }) => {
         time={test.time}
         source={test.source}
         language={test.language}
-        createdAt={formatDate(test.created_at)}
+        createdAt={formatDate(test.createdAt)}
         passingScore={test.passingScore}
         numberOfQuestions={test.numberOfQuestions}
         firstQuestionId={test.firstQuestionId}
