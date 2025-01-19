@@ -39,7 +39,7 @@ const TestData: React.FC<TestDataProps> = async ({ testId }) => {
   };
 
   return (
-    <section className="mt-4 xl:mt-6">
+    <section className="mt-6">
       <TestInfoHeader
         testId={testId}
         title={test.title}

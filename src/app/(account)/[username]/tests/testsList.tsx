@@ -37,14 +37,7 @@ const TestsList = async ({ username }: TestsListProps) => {
     );
     tests = response.data.tests; // Access tests array inside the response
   } catch (error: any) {
-    if (
-      error.response &&
-      (error.response.status === 404 || error.response.status === 500)
-    ) {
-      error();
-    } else {
-      throw error;
-    }
+    throw error;
   }
 
   return (

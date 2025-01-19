@@ -1,7 +1,6 @@
 import React from "react";
 import { Separator } from "@radix-ui/react-separator";
 import axios from "axios";
-
 import CourseInfoHeader from "./courseInfoHeader";
 import CourseInfoBody from "./courseInfoBody";
 import CourseInfoFooter from "./courseInfoFooter";
@@ -18,14 +17,7 @@ const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
       );
       return response.data;
     } catch (error: any) {
-      if (
-        error.response &&
-        (error.response.status === 404 || error.response.status === 500)
-      ) {
-        error();
-      } else {
-        throw error;
-      }
+      throw error;
     }
   };
 
@@ -40,7 +32,7 @@ const CourseData: React.FC<CourseDataProps> = async ({ courseId }) => {
   };
 
   return (
-    <section className="mt-4 xl:mt-6">
+    <section className="mt-6">
       <CourseInfoHeader
         courseId={courseId}
         firstLessonId={course.firstLessonId}

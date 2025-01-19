@@ -1,7 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
-import Category, { ICategory } from "@/models/Category";
+import { ICategory } from "@/models/Category";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import Article from "@/models/Article";
@@ -29,13 +29,9 @@ export async function GET(
   const { courseId } = params;
 
   try {
-    await Category.init();
-    await Article.init();
-    await Lesson.init();
-
-    if (!courseId) {
+    if (!courseId || !mongoose.Types.ObjectId.isValid(courseId)) {
       return NextResponse.json(
-        { errorMsg: "Course ID is missing" },
+        { errorMsg: "Invalid Course ID" },
         { status: 400 }
       );
     }
@@ -65,21 +61,18 @@ export async function GET(
       );
     }
 
-    // Assert the type of category to ICategory
-    const category = course.category as ICategory;
-
-    const lessons = course.lessons as unknown as Lesson[];
+    const lessons = (course.lessons as unknown as Lesson[]) || [];
+    const category = (course.category as ICategory) || { name: "Unknown" };
 
     const totalArticles = lessons.reduce(
-      (sum, lesson) => sum + (lesson.articles?.length || 0),
+      (sum, lesson) => sum + (lesson.articles || []).length,
       0
     );
     const totalTopics = lessons.reduce(
-      (sum, lesson) => sum + (lesson.topics.length || 0),
+      (sum, lesson) => sum + (lesson.topics?.length || 0),
       0
     );
 
-    // Count achievers
     const achieversCount = await CompletedCourse.countDocuments({
       courseId: courseObjectId,
     });
@@ -113,8 +106,9 @@ export async function GET(
       },
     });
   } catch (error: any) {
-    console.log(error);
-
-    return NextResponse.json({ errorMsg: error }, { status: 500 });
+    return NextResponse.json(
+      { errorMsg: error.message || "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

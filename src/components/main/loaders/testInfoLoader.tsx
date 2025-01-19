@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const TestInfoLoader = () => {
   return (
     <>
-      <ul className="w-full mt-4 xl:mt-6 mb-2 flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12">
+      <ul className="w-full mt-6 mb-2 flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12">
         <li className="h-fit w-full sm:w-1/3 lg:w-1/6 flex flex-col gap-4 lg:gap-6">
           <Skeleton className="aspect-video sm:aspect-square bg-main/10 rounded-lg" />
         </li>
