@@ -29,6 +29,8 @@ export async function GET(
   const { courseId } = params;
 
   try {
+    await Article.init();
+
     if (!courseId || !mongoose.Types.ObjectId.isValid(courseId)) {
       return NextResponse.json(
         { errorMsg: "Invalid Course ID" },

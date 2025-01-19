@@ -1,6 +1,7 @@
 import Test from "@/models/Test";
 import dbConnect from "@/lib/dbConnect";
 import { NextResponse } from "next/server";
+import CompletedTest from "@/models/CompletedTest";
 
 export async function GET(request: Request) {
   await dbConnect();
@@ -9,40 +10,47 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
 
     // Get query parameters for pagination
-    const page = parseInt(searchParams.get("page") || "1", 10); // Default to page 1
-    const limit = parseInt(searchParams.get("limit") || "10", 10); // Default to 10 items per page
+    const page = parseInt(searchParams.get("page") || "1", 1); // Default to page 1
+    const limit = parseInt(searchParams.get("limit") || "12", 12); // Default to 10 items per page
     const skip = (page - 1) * limit;
 
-    // Get all tests with pagination
+    // Fetch all tests with pagination
     const tests = await Test.find({}, "title thumbnail time")
-      .sort({ createdAt: -1 }) // Sort by most recent
+      .sort({ created_at: -1 }) // Sort by most recent
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .lean(); // Use lean to improve performance since we don't need Mongoose documents
 
-    // Get the total count of tests
-    const totalTests = await Test.countDocuments();
+    // Fetch achievers count for each test
+    const testIds = tests.map((test) => test._id);
+    const achieversCounts = await CompletedTest.aggregate([
+      { $match: { testId: { $in: testIds } } },
+      { $group: { _id: "$testId", count: { $sum: 1 } } },
+    ]);
 
-    // Calculate total pages
-    const totalPages = Math.ceil(totalTests / limit);
+    // Map achieversCount to test data
+    const achieversMap = achieversCounts.reduce((acc, item) => {
+      acc[item._id.toString()] = item.count;
+      return acc;
+    }, {} as Record<string, number>);
 
     // Construct response data
     const responseData = {
       currentPage: page,
-      totalPages,
-      totalTests,
+      totalPages: Math.ceil((await Test.countDocuments()) / limit),
+      totalTests: tests.length,
       tests: tests.map((test) => ({
         id: test._id,
         title: test.title,
         thumbnail: test.thumbnail,
         time: test.time,
+        achieversCount: achieversMap[test._id.toString()] || 0, // Default to 0 if no achievers
       })),
     };
 
     return NextResponse.json(responseData, { status: 200 });
   } catch (error) {
-    if (error instanceof Error) {
-      return NextResponse.json({ errorMsg: error.message }, { status: 500 });
-    }
+    console.error(error);
     return NextResponse.json(
       { errorMsg: "An unexpected error occurred." },
       { status: 500 }

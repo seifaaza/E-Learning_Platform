@@ -85,14 +85,16 @@ const Card: React.FC<CardProps> = ({
                   />
                 </ul>
               )}
-          <ul className="flex items-center gap-2">
-            <h6 className="!text-sm text-gray-600 whitespace-nowrap flex gap-2">
-              {achieversCount} {miniCard && "Achievers"}
-            </h6>
-            <BsMortarboardFill
-              className={`${miniCard && "-order-1"} h-6 text-gray-600`}
-            />
-          </ul>
+          {achieversCount !== undefined && (
+            <ul className="flex items-center gap-2">
+              <h6 className="!text-sm text-gray-600 whitespace-nowrap flex gap-2">
+                {achieversCount} {miniCard && "Achievers"}
+              </h6>
+              <BsMortarboardFill
+                className={`${miniCard && "-order-1"} h-6 text-gray-600`}
+              />
+            </ul>
+          )}
           {time && (
             <ul className="flex items-center gap-2">
               <BsStopwatch className=" h-6 text-gray-600" />

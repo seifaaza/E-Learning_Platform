@@ -26,7 +26,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
     const fetchSavedCourses = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save-course?courseId=${courseId}`
         );
         setIsSaved(response.data.isSaved);
       } catch (error: any) {
@@ -50,7 +50,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
     setIsProcessing(true);
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save-course?courseId=${courseId}`
       );
       setIsSaved(true);
     } catch (error: any) {
@@ -77,7 +77,7 @@ const SaveCourseButton: React.FC<SaveCourseButtonProps> = ({ courseId }) => {
     setIsProcessing(true);
     try {
       await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save-course?courseId=${courseId}`
       );
       setIsSaved(false);
     } catch (error: any) {

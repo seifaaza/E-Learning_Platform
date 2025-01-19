@@ -39,7 +39,7 @@ const GoToQuizButton: React.FC<GoToQuizButtonProps> = ({
                 )}
               </Button>
             ) : (
-              <Link href={`/${username}/tests/${testId}`} passHref>
+              <Link href={`/tests/${testId}`} passHref>
                 <Button className="hover:!bg-main brightness-90">
                   Go To Quiz
                   <BsChevronRight className="ml-2 h-4" />

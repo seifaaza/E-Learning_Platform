@@ -2,6 +2,7 @@ import Test from "@/models/Test";
 import dbConnect from "@/lib/dbConnect";
 import { NextResponse } from "next/server";
 import Question from "@/models/Question";
+import CompletedTest from "@/models/CompletedTest";
 
 // Handle GET request to fetch test details
 export async function GET(
@@ -14,6 +15,7 @@ export async function GET(
 
   try {
     await Question.init();
+
     // Find the test by ID and populate questions
     const test = await Test.findById(testId).populate("questions");
 
@@ -24,11 +26,14 @@ export async function GET(
       );
     }
 
+    // Count the number of achievers for the test
+    const achieversCount = await CompletedTest.countDocuments({ testId });
+
     // Extract the first question ID if available
     const firstQuestionId =
       test.questions.length > 0 ? test.questions[0]._id : null;
 
-    // Extract required fields
+    // Construct response data
     const responseData = {
       title: test.title,
       description: test.description,
@@ -41,7 +46,8 @@ export async function GET(
       passingScore: test.passingScore,
       createdAt: test.created_at,
       numberOfQuestions: test.questions.length,
-      firstQuestionId, // Add first question ID here
+      firstQuestionId, // Include first question ID
+      achieversCount, // Include achievers count
     };
 
     // Return the test details

@@ -14,6 +14,7 @@ interface Test {
   averageRating: number;
   isCertified: boolean;
   initialLessonId: string;
+  achieversCount: number;
 }
 
 // Define the props interface for TestsList component
@@ -50,7 +51,7 @@ const TestsList = async ({ username }: TestsListProps) => {
                 thumbnail={item.thumbnail}
                 title={item.title}
                 time={item.time}
-                achieversCount={10}
+                achieversCount={item.achieversCount}
                 isCertified
                 miniCard
               />

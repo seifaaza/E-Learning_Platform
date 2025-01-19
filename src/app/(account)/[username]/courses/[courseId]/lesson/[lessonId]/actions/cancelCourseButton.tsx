@@ -38,7 +38,7 @@ const CancelCourseButton: React.FC<CancelCourseButtonProps> = ({
     setIsLoading(true);
     try {
       await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start?courseId=${courseId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start-course?courseId=${courseId}`
       );
       router.push("/courses");
       clearCompletedLessons();

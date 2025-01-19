@@ -36,7 +36,7 @@ const fetchStartedCourses = async (url: string) => {
 
 const StartedCoursesList = ({ username }: StartedCoursesListProps) => {
   const { data: startedCourses, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start-course`,
     fetchStartedCourses
   );
 

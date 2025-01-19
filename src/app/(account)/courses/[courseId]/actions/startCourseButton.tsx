@@ -63,7 +63,7 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
     setIsProcessing(true);
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start?courseId=${courseId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start-course?courseId=${courseId}`
       );
       router.push(`/${username}/courses/${courseId}?lesson=${lessonId}`);
     } catch (error: any) {

@@ -21,7 +21,7 @@ const LessonData: React.FC<LessonDataProps> = async ({
   const fetchLessonById = async (courseId: string, lessonId: string) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start/${courseId}?lessonId=${lessonId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/start-course/${courseId}?lessonId=${lessonId}`
       );
 
       return response.data;

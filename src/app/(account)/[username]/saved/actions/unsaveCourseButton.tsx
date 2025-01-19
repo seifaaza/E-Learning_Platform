@@ -28,7 +28,7 @@ const UnsaveCourseButton: React.FC<UnsaveCourseButtonProps> = ({
 
     try {
       await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save?courseId=${courseId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/save-course?courseId=${courseId}`
       );
       mutate(); // Trigger revalidation
     } catch (error: any) {
