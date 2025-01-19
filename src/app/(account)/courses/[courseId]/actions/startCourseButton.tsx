@@ -20,15 +20,15 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
   courseId,
   lessonId,
 }) => {
-  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [isStarted, setIsStarted] = useState<boolean>(false);
   const [currentLessonId, setCurrentLessonId] = useState<string | null>(null);
 
-  const router = useRouter();
+  const { data: session } = useSession();
   const username = session?.user?.username;
+  const router = useRouter();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -37,7 +37,6 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
         const completionResponse = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/${username}/complete-course?courseId=${courseId}`
         );
-        console.log(completionResponse);
 
         setIsCompleted(completionResponse.data.isCompleted);
         if (completionResponse.data.isStarted) {

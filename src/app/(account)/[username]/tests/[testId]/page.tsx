@@ -1,27 +1,26 @@
 import BackButton from "@/components/main/backButton";
 
-import { Suspense } from "react";
-import TestData from "./testData";
-import TestInfoLoader from "@/components/main/loaders/testInfoLoader";
-
 interface TestItemProps {
   params: {
     username: string;
     testId: string;
   };
+  searchParams: {
+    question: string;
+  };
 }
 
 const TestItem: React.FC<TestItemProps> = async ({
   params: { username, testId },
+  searchParams: { question },
 }) => {
   return (
-    <section className="bg-blue-50 ">
-      <article className="container px-3 xl:px-8 pt-6 pb-20 min-h-[calc(100vh-56px)]">
+    <section className="bg-blue-50 min-h-[calc(100vh-56px)]">
+      <article className="container px-3 xl:px-8 pt-6 pb-20">
         <BackButton />
-        <Suspense fallback={<TestInfoLoader />}>
-          <TestData testId={testId} />
-        </Suspense>
+        {/* <Lesson username={username} testId={testId} lessonId={lesson} /> */}
       </article>
+      {/* <CourseCompleted username={username} testId={testId} /> */}
     </section>
   );
 };

@@ -2,8 +2,8 @@ import React from "react";
 import { Separator } from "@radix-ui/react-separator";
 import axios from "axios";
 
-import TestInfoHeader from "./testInfoHeader";
 import TestInfoBody from "./testInfoBody";
+import TestInfoHeader from "./testInfoHeader";
 
 interface TestDataProps {
   testId: string;
