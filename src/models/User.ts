@@ -4,10 +4,11 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  savedCourses: mongoose.Types.ObjectId[]; // Saved courses
-  completedCourses: mongoose.Types.ObjectId[]; // Completed courses
-  courseProgresses: mongoose.Types.ObjectId[]; // Course progress references
-  completedTests: mongoose.Types.ObjectId[]; // Tests that the user has completed
+  savedCourses: mongoose.Types.ObjectId[];
+  courseProgresses: mongoose.Types.ObjectId[];
+  testProgresses: mongoose.Types.ObjectId[];
+  completedCourses: mongoose.Types.ObjectId[];
+  completedTests: mongoose.Types.ObjectId[];
 }
 
 const userSchema: Schema<IUser> = new mongoose.Schema({
@@ -20,23 +21,28 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
       ref: "Course",
     },
   ],
-  completedCourses: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "CompletedCourse",
-    },
-  ],
   courseProgresses: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "CourseProgress",
     },
   ],
+  testProgresses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "TestProgress",
+    },
+  ],
+  completedCourses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CompletedCourse",
+    },
+  ],
   completedTests: [
     {
-      test: { type: mongoose.Schema.Types.ObjectId, ref: "Test" },
-      score: { type: Number, required: true },
-      created_at: { type: Date, default: Date.now },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CompletedTest",
     },
   ],
 });
