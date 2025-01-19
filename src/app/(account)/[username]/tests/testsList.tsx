@@ -50,7 +50,7 @@ const TestsList = async ({ username }: TestsListProps) => {
   return (
     <>
       {tests && tests.length > 0 ? (
-        <ul className="mt-4 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
+        <ul className="mt-6 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
           {tests.map((item) => (
             <Link key={item.title} href={`/${username}/tests/${item.id}`}>
               <Card

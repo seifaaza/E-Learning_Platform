@@ -85,7 +85,7 @@ export default function TestInfoHeader({
               </h6>
             </li>
           </ul>
-          <li className="flex items-center gap-4 xl:gap-6 mt-2">
+          <ul className="flex items-center gap-4 xl:gap-6 mt-2">
             <h6 className="text-gray-900 font-medium flex gap-2">
               <BsPatchCheck className="h-6" />
               Certificate of completion
@@ -98,7 +98,7 @@ export default function TestInfoHeader({
               <BsMortarboard className="h-6" />
               {achieversNumber} Achievers
             </h6>
-          </li>
+          </ul>
         </li>
         <li className="-order-1 sm:order-none ml-auto self-start ">
           <StartTestButton

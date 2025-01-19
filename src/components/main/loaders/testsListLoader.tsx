@@ -7,7 +7,7 @@ interface TestsListLoaderProps {
 
 const TestsListLoader: React.FC<TestsListLoaderProps> = ({ count = 1 }) => {
   return (
-    <ul className="mt-4 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
+    <ul className="mt-6 grid gap-x-6 gap-y-6 lg:gap-y-10 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-8">
       {Array.from({ length: count }).map((_, index) => (
         <ul key={index} className="flex gap-4 xl:gap-5 ">
           <Skeleton

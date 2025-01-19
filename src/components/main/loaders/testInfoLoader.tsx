@@ -10,10 +10,10 @@ const TestInfoLoader = () => {
 
         <li className="flex flex-col gap-6 xl:ml-6">
           <Skeleton className="w-44 h-5 bg-main/10 rounded-lg" />
-          <li className="flex flex-col gap-4">
+          <ul className="flex flex-col gap-4">
             <Skeleton className="w-20 h-5 bg-main/10 rounded-lg" />
             <Skeleton className="w-72 h-5 bg-main/10 rounded-lg" />
-          </li>
+          </ul>
           <ul className="flex flex-wrap lg:justify-between items-center gap-4">
             <Skeleton className="w-16 h-5 bg-main/10 rounded-lg" />
             <Skeleton className="w-16 h-5 bg-main/10 rounded-lg" />
