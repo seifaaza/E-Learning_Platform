@@ -184,8 +184,6 @@ export async function PUT(
     });
 
     if (progress) {
-      // Remove the course progress from the user's courseProgresses array
-      // Remove the course progress from the user's courseProgresses array
       user.courseProgresses = user.courseProgresses.filter(
         (progressId) =>
           !progressId.equals(progress._id as mongoose.Types.ObjectId)
