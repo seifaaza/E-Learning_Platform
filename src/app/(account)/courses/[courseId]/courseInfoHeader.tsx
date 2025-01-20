@@ -76,7 +76,7 @@ const CourseInfoHeader: React.FC<CourseInfoHeaderProps> = ({
           {title}
         </h2>
         <article className="flex flex-col gap-1">
-          <h5 className="text-gray-900 font-medium">About This Course :</h5>
+          <h5 className="text-gray-900 font-medium">About This Course</h5>
           <h6 className="text-gray-700 max-w-xl">{description}</h6>
         </article>
         <CommentRatings rating={rating} ratingNumber />

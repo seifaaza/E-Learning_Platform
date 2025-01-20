@@ -59,6 +59,15 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
     checkCourseCompletion();
   }, [username, courseId]);
 
+  if (isLoading) {
+    return (
+      <Button className="hover:!bg-main brightness-90" disabled>
+        Loading...
+        <Loader2 className="ml-2 h-4 animate-spin" />
+      </Button>
+    );
+  }
+
   const handleStartCourse = async () => {
     setIsProcessing(true);
     try {
@@ -85,15 +94,6 @@ const StartCourseButton: React.FC<StartCourseButtonProps> = ({
       setIsProcessing(false);
     }
   };
-
-  if (isLoading) {
-    return (
-      <Button className="hover:!bg-main brightness-90" disabled>
-        Loading...
-        <Loader2 className="ml-2 h-4 animate-spin" />
-      </Button>
-    );
-  }
 
   return (
     <>

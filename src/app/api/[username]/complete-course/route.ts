@@ -1,7 +1,7 @@
-import CompletedCourse from "@/models/CompletedCourse";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import Course from "@/models/Course";
+import CompletedCourse from "@/models/CompletedCourse";
 import CourseProgress from "@/models/CourseProgress";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";

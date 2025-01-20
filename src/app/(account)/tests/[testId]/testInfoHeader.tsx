@@ -57,7 +57,7 @@ export default function TestInfoHeader({
             {title}
           </h2>
           <article className="flex flex-col gap-1">
-            <h5 className="text-gray-900 font-medium">About This Test :</h5>
+            <h5 className="text-gray-900 font-medium">About This Test</h5>
             <h6 className="text-gray-700 max-w-xl">{description}</h6>
           </article>
 
@@ -101,10 +101,7 @@ export default function TestInfoHeader({
           </ul>
         </li>
         <li className="-order-1 sm:order-none ml-auto self-start ">
-          <StartTestButton
-            testId={firstQuestionId}
-            questionId={firstQuestionId}
-          />
+          <StartTestButton testId={testId} questionId={firstQuestionId} />
         </li>
       </ul>
       <Separator
