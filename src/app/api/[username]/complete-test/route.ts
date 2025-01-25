@@ -4,6 +4,8 @@ import TestProgress from "@/models/TestProgress"; // Make sure this is imported
 import Test from "@/models/Test";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
+import CompletedTest from "@/models/CompletedTest";
+import Question from "@/models/Question";
 
 export async function GET(
   request: Request,
@@ -16,7 +18,9 @@ export async function GET(
   const testId = url.searchParams.get("testId");
 
   try {
+    await Question.init();
     await TestProgress.init();
+    await CompletedTest.init();
 
     if (!testId) {
       return NextResponse.json(
