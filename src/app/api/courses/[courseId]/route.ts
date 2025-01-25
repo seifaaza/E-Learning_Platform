@@ -31,6 +31,7 @@ export async function GET(
   try {
     await Category.init();
     await Article.init();
+    await Lesson.init();
 
     if (!courseId || !mongoose.Types.ObjectId.isValid(courseId)) {
       return NextResponse.json(

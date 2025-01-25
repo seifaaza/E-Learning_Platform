@@ -40,11 +40,7 @@ const QuestionData: React.FC<QuestionDataProps> = async ({
   return (
     <>
       <ul className="mt-4 xl:mt-6 flex flex-col gap-4 lg:gap-10 xl:gap-12 lg:flex-row lg:justify-between"></ul>
-      <ul className="text-black text-2xl">
-        {username}
-        {testId}
-        {questionId}
-      </ul>
+      <ul className="text-black text-2xl"></ul>
       <Separator
         orientation="vertical"
         className="h-[1px] bg-gray-800 opacity-20 my-8"
