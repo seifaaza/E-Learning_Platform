@@ -44,7 +44,7 @@ export async function GET(request: Request) {
         title: test.title,
         thumbnail: test.thumbnail,
         time: test.time,
-        achieversCount: 0, // Default to 0 if no achievers
+        achieversCount: achieversMap[test._id.toString()] || 0, // Default to 0 if no achievers
       })),
     };
 
