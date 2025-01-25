@@ -1,14 +1,15 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
+import TestProgress from "@/models/TestProgress"; // Make sure this is imported
+import Test from "@/models/Test";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
-import Test from "@/models/Test";
 
 export async function GET(
   request: Request,
   { params }: { params: { username: string } }
 ) {
-  await dbConnect();
+  await dbConnect(); // Ensure the DB is connected
 
   const { username } = params;
   const url = new URL(request.url);
@@ -25,13 +26,13 @@ export async function GET(
     const user = await User.findOne({ username })
       .populate({
         path: "testProgresses",
-        model: "TestProgress",
+        model: "TestProgress", // Ensure TestProgress model is used here
       })
       .populate({
         path: "completedTests",
-        model: "CompletedTest", // Populating to get complete test info
+        model: "CompletedTest", // Ensure CompletedTest is registered
       })
-      .lean(); // Using .lean() for more efficient data access
+      .lean();
 
     if (!user) {
       return NextResponse.json({ errorMsg: "User not found" }, { status: 404 });
@@ -45,7 +46,6 @@ export async function GET(
     );
 
     const isStarted = !!progress;
-    // Check if the test is completed by comparing ObjectIds
     const isCompleted = user.completedTests.some((completed: any) =>
       completed.testId.equals(testObjectId)
     );
@@ -74,7 +74,6 @@ export async function GET(
       );
     }
 
-    // If the test is started, determine the current question ID
     if (isStarted && progress) {
       const test = await Test.findById(testObjectId)
         .populate({
@@ -89,6 +88,7 @@ export async function GET(
           { status: 404 }
         );
       }
+
       const testProgress = progress as typeof progress & {
         completedQuestions: mongoose.Types.ObjectId[];
       };
@@ -101,7 +101,6 @@ export async function GET(
 
       let currentQuestionId: string | null = null;
 
-      // Find the next question that hasn't been completed
       for (const question of questions) {
         if (!completedQuestions.has(question._id.toString())) {
           currentQuestionId = question._id.toString();
@@ -109,7 +108,6 @@ export async function GET(
         }
       }
 
-      // If no current question is found, check if all questions are completed
       if (!currentQuestionId && questions.length > 0) {
         currentQuestionId =
           questions[questions.length - 1]?._id.toString() || null;
