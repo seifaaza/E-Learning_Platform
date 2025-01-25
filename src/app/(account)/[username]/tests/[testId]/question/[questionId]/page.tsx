@@ -1,19 +1,18 @@
 import { Suspense } from "react";
-
 import LessonLoader from "@/components/main/loaders/lessonLoader";
 import QuestionData from "./questionData";
 
-interface QuestionItemProps {
-  username: string;
-  testId: string;
-  questionId: string;
+interface PageProps {
+  params: {
+    username: string;
+    testId: string;
+    questionId: string;
+  };
 }
 
-const Question: React.FC<QuestionItemProps> = ({
-  username,
-  testId,
-  questionId,
-}) => {
+const Question = ({ params }: PageProps) => {
+  const { username, testId, questionId } = params;
+
   return (
     <Suspense fallback={<LessonLoader />}>
       <QuestionData
