@@ -1,4 +1,5 @@
 import BackButton from "@/components/main/backButton";
+import Question from "./question/[questionId]/page";
 
 interface TestItemProps {
   params: {
@@ -18,7 +19,7 @@ const TestItem: React.FC<TestItemProps> = async ({
     <section className="bg-blue-50 min-h-[calc(100vh-56px)]">
       <article className="container px-3 xl:px-8 pt-6 pb-20">
         <BackButton />
-        {/* <Lesson username={username} testId={testId} lessonId={lesson} /> */}
+        <Question username={username} testId={testId} questionId={question} />
       </article>
       {/* <CourseCompleted username={username} testId={testId} /> */}
     </section>
