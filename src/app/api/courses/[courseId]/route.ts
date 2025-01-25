@@ -1,7 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import Course from "@/models/Course";
 import Lesson from "@/models/Lesson";
-import { ICategory } from "@/models/Category";
+import Category, { ICategory } from "@/models/Category";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import Article from "@/models/Article";
@@ -29,6 +29,7 @@ export async function GET(
   const { courseId } = params;
 
   try {
+    await Category.init();
     await Article.init();
 
     if (!courseId || !mongoose.Types.ObjectId.isValid(courseId)) {

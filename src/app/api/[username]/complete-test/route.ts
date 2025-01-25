@@ -9,13 +9,15 @@ export async function GET(
   request: Request,
   { params }: { params: { username: string } }
 ) {
-  await dbConnect(); // Ensure the DB is connected
+  await dbConnect();
 
   const { username } = params;
   const url = new URL(request.url);
   const testId = url.searchParams.get("testId");
 
   try {
+    await TestProgress.init();
+
     if (!testId) {
       return NextResponse.json(
         { errorMsg: "testId is required" },
